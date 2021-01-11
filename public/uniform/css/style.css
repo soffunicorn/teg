@@ -1,0 +1,8 @@
+.uniform-bg{
+    background-color:#F16722 !important;
+    color:#fff;
+}
+input.form-control{
+    border-radius: unset;
+    padding:10px 12px !important;
+}
