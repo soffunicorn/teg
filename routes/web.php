@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +14,24 @@ use App\Http\Controllers\MainController;
 |
 */
 
+/*Rutas para el controlador Usuario*/
+Route::get('/', [MainController::class, 'login'])->name('login.index'); //mostrar el login
+
+
+Route::post('/login', [UserController::class, 'login'])->name('login'); //procesar el login form
+
+Route::get('/login', function () {
+    return view('app');
+});
+
 Route::get('/dashboard', function () {
     return view('app');
+});
+
+
+
+Route::get('/dashboard/incidents', function () {
+    return view('panel.incidents.create');
 });
 
 Route::get('/dashboard/local-register', function () {
@@ -26,7 +43,7 @@ Route::get('/dashboard/department-register', function () {
 
 
 Route::get('/test', [MainController::class, 'test'])->name('index.test');
-Route::get('/', [MainController::class, 'login'])->name('login.index');
+
 Route::get('test/testing', function () {
     return "Esta es la vista de la ruta";;
 })->name('test.testing');
