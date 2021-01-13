@@ -13,7 +13,9 @@ class Department extends Model
         'name',
         'telephone',
         'email',
-        'schedule',
+        'schedule_to',
+        'schedule_from',
+        'status',
         'description',
     ];
 }

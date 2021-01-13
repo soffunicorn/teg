@@ -22,6 +22,12 @@ class CreateRolTable extends Migration
 
         DB::table('roles')->insert([
             [
+                'rol' => 'Super Administrador',
+                'slug' => 'super_admin',
+            ],
+        ]);
+        DB::table('roles')->insert([
+            [
                 'rol' => 'Administrador',
                 'slug' => 'admin',
             ],

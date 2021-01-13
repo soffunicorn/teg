@@ -1,8 +1,20 @@
-.uniform-bg{
+.uniform-bg, .uniform-bg:hover{
     background-color:#F16722 !important;
     color:#fff;
 }
-input.form-control{
+
+input.form-control, select.form-control{
     border-radius: unset;
     padding:10px 12px !important;
+}
+.btn-sam-blue{
+    background-color: #00ADEE;
+    color:#fff;
+}
+.btn-sam-red{
+    background-color: #E72C2E;
+    color:#fff;
+}
+i{
+    font-family: FontAwesome;
 }

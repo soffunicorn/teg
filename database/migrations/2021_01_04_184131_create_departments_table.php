@@ -18,7 +18,9 @@ class CreateDepartmentsTable extends Migration
             $table->string('name');
             $table->string('telephone');
             $table->string('email');
-            $table->string('schedule');
+            $table->time('schedule_from');
+            $table->time('schedule_to');
+            $table->string('status');
             $table->string('description', 3000);
             $table->timestamps();
         });

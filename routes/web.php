@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LocalController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DepartmentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,34 +18,42 @@ use App\Http\Controllers\UserController;
 |
 */
 
-/*Rutas para el controlador Usuario*/
+/*Rutas Pagina de inicio o home*/
 Route::get('/', [MainController::class, 'login'])->name('login.index'); //mostrar el login
+/* Locales */
+Route::resource('/locales', LocalController::class);
+/* Empresa */
+Route::resource('/company', CompanyController::class);
+/*Department*/
+Route::resource('/department', DepartmentController::class);
 
 
-Route::post('/login', [UserController::class, 'login'])->name('login'); //procesar el login form
 
-Route::get('/login', function () {
-    return view('app');
-});
 
-Route::get('/dashboard', function () {
-    return view('app');
-});
+
+
 
 
 
 Route::get('/dashboard/incidents', function () {
     return view('panel.incidents.create');
-});
+})->name('incidents.create');
 
-Route::get('/dashboard/local-register', function () {
-    return view('panel.register.localRegister');
-});
+Route::get('/dashboard/historial', function () {
+    return view('panel.incidents.history');
+})->name('incidents.historial');
+Route::get('/profile', function () {
+    return view('panel.profile.user');
+})->name('user.profile');
+
+
+
 Route::get('/dashboard/department-register', function () {
     return view('panel.register.DepartmentRegister');
 });
 
 
+/*
 Route::get('/test', [MainController::class, 'test'])->name('index.test');
 
 Route::get('test/testing', function () {
@@ -50,9 +62,9 @@ Route::get('test/testing', function () {
 Route::get('test/{testing}', function () {
     return  "Esta es la vista del parametro";
 })->name('test.index');
+*/
 
 
 
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

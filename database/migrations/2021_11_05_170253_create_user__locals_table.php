@@ -13,11 +13,11 @@ class CreateUserLocalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_locals', function (Blueprint $table) {
+        Schema::create('user_company', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             //Index
-            $table->unsignedBigInteger('id_local')->unsigned()
+            $table->unsignedBigInteger('id_company')->unsigned()
                 ->index()
                 ->nullable();
             $table->unsignedBigInteger('id_user')->unsigned()
@@ -25,9 +25,9 @@ class CreateUserLocalsTable extends Migration
                 ->nullable();
 
             //Foreign key
-            $table->foreign('id_local')
+            $table->foreign('id_company')
                 ->references('id')
-                ->on('locals');
+                ->on('companies');
 
             $table->foreign('id_user')
                 ->references('id')

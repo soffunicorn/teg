@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLocalesTable extends Migration
+class CreateCompaniesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreateLocalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('locals', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('business_reason'); //razon social
             $table->string('slug'); //
             $table->string('telephone');
             $table->string('email');
-            $table->dateTime('schedule');
-            $table->string('description', 2000);
+            $table->string('status');
+            $table->dateTime('schedule_from');
+            $table->dateTime('schedule_to');
+            $table->string('description', 2000)->nullable();
             $table->timestamps();
         });
     }
