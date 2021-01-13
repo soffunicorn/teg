@@ -41,8 +41,8 @@ class CreateRolTable extends Migration
         ]);
         DB::table('roles')->insert([
             [
-                'rol' => 'Resposable',
-                'slug' => 'responsable',
+                'rol' => 'Empleado del Sambil',
+                'slug' => 'empleado',
             ],
         ]);
     }

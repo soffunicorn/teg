@@ -11,35 +11,46 @@
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <label for="nombre">Nombre del Departamento</label>
-                    <input type="text" class="form-control" name="DepartamenName" placeholder="">
+                    <input type="text" class="form-control" name="DepartamenName" placeholder="" required>
                 </div>
                 <div class="col-md-6 mb-4">
-                    <label for="Telefone">Telefono</label>
-                    <input type="tel" class="form-control" name="DepartamenTelephone" placeholder="">
+                    <label for="nombre">Correo Electrónico</label>
+                    <input type="email" class="form-control" name="DepartamenEmail" id="DepartamenEmail" placeholder="">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-4">
-                    <label for="nombre">Correo Electronico</label>
-                    <input type="email" class="form-control" name="DepartamenEmail" id="DepartamenEmail" placeholder="">
+                    <label for="Telefone">Telefono</label>
+                    <input type="tel" class="form-control" name="DepartamenTelephone" placeholder="">
                 </div>
                 <div class="col-md-6 mb-4">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="Descripción">Horario de entrada</label>
-                            <input type="time" class="form-control" name="DepartamenTimeFrom"
-                                   id="DepartamenTimeFrom"
-                                   placeholder="">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="Descripción">Horario de salida</label>
-                            <input type="time" class="form-control" name="DepartamenTimeTo"
-                                   id="DepartamenTimeTo"
-                                   placeholder="">
-                        </div>
-                    </div>
+                    <label for="nombre">Responsable</label>
+                    <select name="status" id="status" class="form-control" required>
+                        <option value="" selected> -- Seleccionar --</option>
+                        @if(!empty($users))
+                            @foreach($users as $user)
+                                <option value="{{$user->id}}">{{$user->name}}</option>
+                            @endforeach
+                            @endif
+                    </select>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label for="Descripción">Horario de entrada</label>
+                    <input type="time" class="form-control" name="DepartamenTimeFrom"
+                           id="DepartamenTimeFrom"
+                           placeholder="">
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label for="Descripción">Horario de salida</label>
+                    <input type="time" class="form-control" name="DepartamenTimeTo"
+                           id="DepartamenTimeTo"
+                           placeholder="">
+                </div>
+
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <label for="Descripción">Descripción</label>
