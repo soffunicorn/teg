@@ -9,4 +9,5 @@ class UserDepartment extends Model
 {
     protected  $table = "user_department";
     use HasFactory;
+
 }
