@@ -9,8 +9,7 @@
                 <tr>
                     <th>Número de local</th>
                     <th>Estado del local</th>
-                    <th>Editar</th>
-                    <th>Borrar</th>
+                    <th colspan="2">Acciones</th>
                 </tr>
                 </thead>
                 @if( !empty($locals) )

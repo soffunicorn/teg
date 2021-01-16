@@ -49,8 +49,10 @@ Coded by www.creative-tim.com
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li><a href="#"> Notificaciones</a></li>
-          <li><a href="{{route('incidents.create')}}"> Crear Incidencias </a></li>
-          <li><a href="{{route('incidents.historial')}}"> Historial de Incidencias </a></li>
+          <li><a href="{{route('incidents.create')}}"> Gestionar  Incidencias </a></li>
+          <li><a href="{{route('incidents.historial')}}"> Gestionar Departamento</a></li>
+          <li><a href="{{route('incidents.historial')}}" class="active"> Gestionar Locales</a></li>
+          <li><a href="{{route('incidents.historial')}}"> Gestionar Comapañias</a></li>
           <li><a href="#"> Reportes </a></li>
         </ul>
       </div>
@@ -75,7 +77,7 @@ Coded by www.creative-tim.com
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
+           <!--  <form>
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
@@ -84,7 +86,7 @@ Coded by www.creative-tim.com
                   </div>
                 </div>
               </div>
-            </form>
+            </form> -->
             <ul class="navbar-nav">
               <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -114,14 +116,14 @@ Coded by www.creative-tim.com
           <div class="row">
             <nav class="footer-nav">
               <ul>
-                <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li>
-                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
-                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
+                <li><a href="https://www.creative-tim.com" target="_blank"></a></li>
+                <li><a href="https://www.creative-tim.com/blog" target="_blank"></a></li>
+                <li><a href="https://www.creative-tim.com/license" target="_blank"></a></li>
               </ul>
             </nav>
             <div class="credits ml-auto">
               <span class="copyright">
-                © 2020, made with <i class="fa fa-heart heart"></i> by Creative Tim
+
               </span>
             </div>
           </div>
