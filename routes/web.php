@@ -20,6 +20,11 @@ Route::get('/dashboard', function () {
 Route::get('/dashboard/local-register', function () {
     return view('panel.register.localRegister');
 });
+
+Route::get('/dashboard/empleado', function () {
+    return view('panel.register.encargadoRegister');
+});
+
 Route::get('/dashboard/department-register', function () {
     return view('panel.register.DepartmentRegister');
 });
