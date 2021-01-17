@@ -16,12 +16,11 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('lastname');
+            $table->string('lastname')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('slug');
-            $table->string('tipo');
             $table->rememberToken();
             $table->timestamps();
 
@@ -30,11 +29,21 @@ class CreateUsersTable extends Migration
                 ->index()
                 ->nullable();
 
+            $table->unsignedBigInteger('id_type')->unsigned()
+                ->index()
+                ->nullable();
+
+
             //Foreign key
             $table->foreign('id_rol')
                 ->references('id')
                 ->on('roles');
 
+
+            //Foreign key
+            $table->foreign('id_type')
+                ->references('id')
+                ->on('types');
 
         });
     }

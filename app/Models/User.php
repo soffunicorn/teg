@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Department;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'slug',
+        'tipo',
     ];
 
     /**
@@ -42,4 +44,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    //Relaciones
+    public function Departments()
+    {
+        return $this->belongsToMany(Department::class, 'users_departments', 'id_user', 'id_departament');
+    }
 }

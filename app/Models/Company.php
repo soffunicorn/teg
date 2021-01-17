@@ -1,27 +1,25 @@
 <?php
 
 namespace App\Models;
-use App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class Company extends Model
 {
-    protected $table = "departments";
+    protected  $table = 'companies';
     use HasFactory;
+
     protected $fillable = [
         'name',
+        'business_reason',
         'telephone',
+        'slug',
         'email',
+        'status',
         'schedule_from',
         'schedule_to',
-        'status',
         'description',
     ];
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'users_departments', 'id_departament','id_user');
-    }
 }

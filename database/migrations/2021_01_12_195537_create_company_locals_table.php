@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserLocalsTable extends Migration
+class CreateCompanyLocalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateUserLocalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_company', function (Blueprint $table) {
+        Schema::create('company_locals', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             //Index
             $table->unsignedBigInteger('id_company')->unsigned()
                 ->index()
                 ->nullable();
-            $table->unsignedBigInteger('id_user')->unsigned()
+            $table->unsignedBigInteger('id_local')->unsigned()
                 ->index()
                 ->nullable();
 
@@ -29,10 +29,12 @@ class CreateUserLocalsTable extends Migration
                 ->references('id')
                 ->on('companies');
 
-            $table->foreign('id_user')
+            $table->foreign('id_local')
                 ->references('id')
-                ->on('users');
+                ->on('locals');
         });
+
+
     }
 
     /**
@@ -42,6 +44,6 @@ class CreateUserLocalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user__locals');
+        Schema::dropIfExists('company_locals');
     }
 }

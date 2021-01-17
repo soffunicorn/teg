@@ -39,39 +39,21 @@ Coded by www.creative-tim.com
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <div class="logo">
-        <a href="https://www.creative-tim.com" class="simple-text logo-mini">
-          <!-- <div class="logo-image-small">
-            <img src="{{asset('panel/img/logo-small.png')}}">
-          </div> -->
-          <!-- <p>CT</p> -->
-        </a>
         <a href="https://www.creative-tim.com" class="simple-text logo-normal">
-          Your Logo
-          <!-- <div class="logo-image-big">
-            <img src=".{{asset('panel/img/logo-big.png')}}">
-          </div> -->
+
+          <div class="logo-image-big">
+              <img src="{{asset('logincss/image/logo-company.png')}}">
+          </div>
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
-            <a href="javascript:;">
-              <i class="nc-icon nc-bank"></i>
-              <p>First Item</p>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Second Item</p>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-              <i class="nc-icon nc-pin-3"></i>
-              <p>Third Item</p>
-            </a>
-          </li>
+          <li><a href="#"> Notificaciones</a></li>
+          <li><a href="{{route('incidents.create')}}"> Gestionar  Incidencias </a></li>
+          <li><a href="{{route('incidents.historial')}}"> Gestionar Departamento</a></li>
+          <li><a href="{{route('incidents.historial')}}" class="active"> Gestionar Locales</a></li>
+          <li><a href="{{route('incidents.historial')}}"> Gestionar Comapañias</a></li>
+          <li><a href="#"> Reportes </a></li>
         </ul>
       </div>
     </div>
@@ -87,7 +69,7 @@ Coded by www.creative-tim.com
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="javascript:;">Title</a>
+            <a class="navbar-brand" href="javascript:;">  @yield('panelTitle')</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -95,7 +77,7 @@ Coded by www.creative-tim.com
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
+           <!--  <form>
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
@@ -104,7 +86,7 @@ Coded by www.creative-tim.com
                   </div>
                 </div>
               </div>
-            </form>
+            </form> -->
             <ul class="navbar-nav">
               <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -124,7 +106,7 @@ Coded by www.creative-tim.com
         </div>
       </nav>
       <!-- End Navbar -->
-      <div class="content">
+      <div class="content mb-5">
 
             @yield('panelContent')
 
@@ -134,14 +116,14 @@ Coded by www.creative-tim.com
           <div class="row">
             <nav class="footer-nav">
               <ul>
-                <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li>
-                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
-                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
+                <li><a href="https://www.creative-tim.com" target="_blank"></a></li>
+                <li><a href="https://www.creative-tim.com/blog" target="_blank"></a></li>
+                <li><a href="https://www.creative-tim.com/license" target="_blank"></a></li>
               </ul>
             </nav>
             <div class="credits ml-auto">
               <span class="copyright">
-                © 2020, made with <i class="fa fa-heart heart"></i> by Creative Tim
+
               </span>
             </div>
           </div>
@@ -162,6 +144,7 @@ Coded by www.creative-tim.com
   <script src="{{asset('panel/assets/js/plugins/bootstrap-notify.js"')}}></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('panel/assets/js/paper-dashboard.min.js')}}" type="text/javascript"></script>
-</body>
+    @yield('panelScript')
 
+</body>
 </html>

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Local extends Model
 {
     use HasFactory;
+    protected $table = "locals";
+
+    protected $fillable = [
+        'n_local',
+        'status',
+    ];
+
 }
