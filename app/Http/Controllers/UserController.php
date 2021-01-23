@@ -31,7 +31,18 @@ class UserController extends Controller
 
     public function indexWorkers()
     {
+        $rolNotIn = Rol::where('slug', 'local')->first();
 
+        //Parto de la tabla principal, luego del join voy a la tabla siguiente
+        $users = User::join('users_departments', 'users_departments.id_user', '=', 'users.id')
+                    ->join('departments', 'departments.id', '=', 'users_departments.id_department')
+                    ->join('roles', 'roles.id', '=', 'users.id_rol')->where('users.id_rol', '!=', $rolNotIn)
+                    ->select('users.name AS user_name', 'users.lastname', 'users.slug AS user_slug', 'departments.name AS departments_name',
+                    'roles.rol AS roles_name, roles.slug AS roles_slug')->get();
+
+        return view('panel.admin.workerUsers')->with([
+            'users' => $users
+        ]);
     }
 
 

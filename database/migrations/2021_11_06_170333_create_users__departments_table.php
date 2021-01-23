@@ -17,7 +17,7 @@ class CreateUsersDepartmentsTable extends Migration
             $table->id();
             $table->timestamps();
             //Index
-            $table->unsignedBigInteger('id_departament')->unsigned()
+            $table->unsignedBigInteger('id_department')->unsigned()
                 ->index()
                 ->nullable();
             $table->unsignedBigInteger('id_user')->unsigned()
@@ -25,7 +25,7 @@ class CreateUsersDepartmentsTable extends Migration
                 ->nullable();
 
             //Foreign key
-            $table->foreign('id_departament')
+            $table->foreign('id_department')
                 ->references('id')
                 ->on('departments');
 
