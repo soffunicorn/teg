@@ -30,7 +30,8 @@ Route::resource('/department', DepartmentController::class);
 /*User*/
 Route::resource('/user', UserController::class);
 
-Route::get('/workers', [UserController::class, 'createWorkers']);
+Route::get('/workers', [UserController::class, 'indexWorkers']);
+Route::get('/workers/create', [UserController::class, 'createWorkers']);
 Route::post('/workers', [UserController::class, 'storeWorkers']);
 
 

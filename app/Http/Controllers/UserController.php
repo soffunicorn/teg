@@ -104,7 +104,7 @@ class UserController extends Controller
         //Búscar el rol y el tipo por slug
         $rolModel = Rol::where('slug', $rol)->first();
         $tipoModel = Type::where('slug', $tipo)->first();
-        dd($tipoModel);
+
         //registro del usuario
 
         $user = new User();
