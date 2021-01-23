@@ -4,19 +4,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row mb-3">
-                <div class="col-4">
-                    <div class="card card-user">
-                        <div class="image">
-                            <img src="../assets/img/damir-bosnjak.jpg" alt="...">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-8">
-                    <div class="card">
+                <div class="col-12">
+                    <div class="card p-5">
                         <div class="author">
                             <a href="#">
-                                <img class="avatar border-gray" src="../assets/img/mike.jpg" alt="...">
-                                <h5 class="title">Chet Faker</h5>
+                                <h3 class="title">Nombre de usuario</h3>
                             </a>
                         </div>
                     </div>
@@ -28,27 +20,22 @@
         <div class="col-md-12">
             <div class="card card-user">
                 <div class="card-header">
-                    <h5 class="card-title">Edit Profile</h5>
+                    <h5 class="card-title">Editar Perfil</h5>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form action="" method="POST">
+                        @csrf
                         <div class="row">
-                            <div class="col-md-5 pr-1">
+                            <div class="col-md-6 pr-1">
                                 <div class="form-group">
-                                    <label>Company (disabled)</label>
+                                    <label>Compañia</label>
                                     <input type="text" class="form-control" disabled="" placeholder="Company"
                                            value="Creative Code Inc.">
                                 </div>
                             </div>
-                            <div class="col-md-3 px-1">
+                            <div class="col-md-6 pl-1">
                                 <div class="form-group">
-                                    <label>Username</label>
-                                    <input type="text" class="form-control" placeholder="Username" value="michael23">
-                                </div>
-                            </div>
-                            <div class="col-md-4 pl-1">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
+                                    <label for="exampleInputEmail1">Correo Electrónico</label>
                                     <input type="email" class="form-control" placeholder="Email">
                                 </div>
                             </div>
@@ -56,57 +43,28 @@
                         <div class="row">
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" class="form-control" placeholder="Company" value="Chet">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control" placeholder="Nombre de usuario" value="Nombre de usuario">
                                 </div>
                             </div>
                             <div class="col-md-6 pl-1">
                                 <div class="form-group">
-                                    <label>Last Name</label>
+                                    <label>Apellido</label>
                                     <input type="text" class="form-control" placeholder="Last Name" value="Faker">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6 pr-1">
                                 <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" placeholder="Home Address"
-                                           value="Melbourne, Australia">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 pr-1">
-                                <div class="form-group">
-                                    <label>City</label>
-                                    <input type="text" class="form-control" placeholder="City" value="Melbourne">
-                                </div>
-                            </div>
-                            <div class="col-md-4 px-1">
-                                <div class="form-group">
-                                    <label>Country</label>
-                                    <input type="text" class="form-control" placeholder="Country" value="Australia">
-                                </div>
-                            </div>
-                            <div class="col-md-4 pl-1">
-                                <div class="form-group">
-                                    <label>Postal Code</label>
-                                    <input type="number" class="form-control" placeholder="ZIP Code">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>About Me</label>
-                                    <textarea class="form-control textarea">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
+                                    <label>Contraseña</label>
+                                    <input type="password" class="form-control" placeholder="City" value="Melbourne">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="update ml-auto mr-auto">
-                                <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
+                                <button type="submit" class="btn uniform-bg">Actualizar datos</button>
                             </div>
                         </div>
                     </form>

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocalController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\IncidentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,41 +27,33 @@ Route::resource('/locales', LocalController::class);
 Route::resource('/company', CompanyController::class);
 /*Department*/
 Route::resource('/department', DepartmentController::class);
+/*User*/
+Route::resource('/user', UserController::class);
+
+Route::get('/workers', [UserController::class, 'createWorkers']);
+Route::post('/workers', [UserController::class, 'storeWorkers']);
 
 
 
 
+Route::resource('/incidents', IncidentController::class);
 
-
-
-
-
-Route::get('/dashboard/incidents', function () {
-    return view('panel.incidents.create');
-})->name('incidents.create');
-
-Route::get('/dashboard/historial', function () {
-    return view('panel.incidents.history');
-})->name('incidents.historial');
 Route::get('/profile', function () {
     return view('panel.profile.user');
 })->name('user.profile');
 
 
-
-<<<<<<< HEAD
 Route::get('/dashboard/local-register', function () {
     return view('panel.register.localRegister');
 });
 
+
 Route::get('/dashboard/empleado', function () {
-    return view('panel.register.encargadoRegister');
+
 });
 
-=======
->>>>>>> 943c3c51c6456938af2854791763979d204c569a
 Route::get('/dashboard/department-register', function () {
-    return view('panel.register.DepartmentRegister');
+    return view('panel.register.department');
 });
 
 

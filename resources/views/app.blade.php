@@ -49,10 +49,10 @@ Coded by www.creative-tim.com
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li><a href="#"> Notificaciones</a></li>
-          <li><a href="{{route('incidents.create')}}"> Gestionar  Incidencias </a></li>
-          <li><a href="{{route('incidents.historial')}}"> Gestionar Departamento</a></li>
-          <li><a href="{{route('incidents.historial')}}" class="active"> Gestionar Locales</a></li>
-          <li><a href="{{route('incidents.historial')}}"> Gestionar Comapañias</a></li>
+          <li><a href=""> Gestionar  Incidencias </a></li>
+          <li><a href=""> Gestionar Departamento</a></li>
+          <li><a href="" class="active"> Gestionar Locales</a></li>
+          <li><a href=""> Gestionar Comapañias</a></li>
           <li><a href="#"> Reportes </a></li>
         </ul>
       </div>
