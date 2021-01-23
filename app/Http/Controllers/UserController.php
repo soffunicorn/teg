@@ -29,6 +29,13 @@ class UserController extends Controller
         //
     }
 
+    public function indexWorkers()
+    {
+
+    }
+
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -62,7 +69,7 @@ class UserController extends Controller
 
     public function storeWorkers(Request $request)
     {
-        $password = Hash::make(Str::random(8)); //password
+        $password = Str::random(10); //password
         $rules = [
             'name' => ['string', 'max:255', 'required'],
             'lastname' => ['string', 'max:255'],
@@ -97,6 +104,7 @@ class UserController extends Controller
         //Búscar el rol y el tipo por slug
         $rolModel = Rol::where('slug', $rol)->first();
         $tipoModel = Type::where('slug', $tipo)->first();
+        dd($tipoModel);
         //registro del usuario
 
         $user = new User();
@@ -114,8 +122,8 @@ class UserController extends Controller
         //llenado de la tabla user_department
         $department = Department::where('id',$request->department)->first();
         $userDepartment = new UserDepartment();
-        $userDepartment->id_department = $department->id();
-        $userDepartment->id_user = $user->id();
+        $userDepartment->id_department = $department->id;
+        $userDepartment->id_user = $user->id;
         $userDepartment->save();
     }
 
