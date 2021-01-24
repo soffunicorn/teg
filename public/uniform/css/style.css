@@ -11,8 +11,8 @@ input.form-control, select.form-control{
     background-color: #00ADEE;
     color:#fff;
 }
-.btn-sam-red{
-    background-color: #E72C2E;
+.btn-sam-red, .btn.btn-sam-red:hover{
+    background-color: #E72C2E !important;
     color:#fff;
 }
 i{
@@ -20,4 +20,7 @@ i{
 }
 .hidden{
     display: none;
+}
+footer.footer{
+    left:0 !important;
 }

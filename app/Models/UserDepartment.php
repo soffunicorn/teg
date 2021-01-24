@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserDepartment extends Model
 {
-    protected  $table = "user_department";
+    protected  $table = "users_departments";
     use HasFactory;
 
 }

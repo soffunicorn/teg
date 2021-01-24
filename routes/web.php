@@ -27,12 +27,15 @@ Route::resource('/locales', LocalController::class);
 Route::resource('/company', CompanyController::class);
 /*Department*/
 Route::resource('/department', DepartmentController::class);
+Route::get('/getdepartment/{id}', [DepartmentController::class, 'getDepartment']);
+
 /*User*/
 Route::resource('/user', UserController::class);
 
-Route::get('/workers', [UserController::class, 'indexWorkers']);
-Route::get('/workers/create', [UserController::class, 'createWorkers']);
+Route::get('/worker', [UserController::class, 'indexWorkers']);
+Route::get('/worker/create', [UserController::class, 'createWorkers']);
 Route::post('/workers', [UserController::class, 'storeWorkers']);
+
 
 
 
