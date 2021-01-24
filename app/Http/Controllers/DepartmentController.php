@@ -61,15 +61,15 @@ class DepartmentController extends Controller
            'description' => [ 'max:3000' ],
         ];
         $request->validate($rules);
-       $user_slug = $request->user_slug;
+        $user_slug = $request->user_slug;
         $department = new Department();
-        $department->name = $request->name;
-        $department->email = $request->email;
-        $department->telephone = $request->telephone;
-        $department->schedule_from = $request->schedule_from;
-        $department->schedule_to = $request->schedule_to;
-        $department->description = $request->description;
-        $department->status = "Disponible";
+        $department->name           = $request->name;
+        $department->email          = $request->email;
+        $department->telephone      = $request->telephone;
+        $department->schedule_from  = $request->schedule_from;
+        $department->schedule_to    = $request->schedule_to;
+        $department->description    = $request->description;
+        $department->status         = "Disponible";
         $department->save();
         //$departament_id = Department::findOrFail($departament->id);
         /**  Select id from users where slug like %user_slug% **/

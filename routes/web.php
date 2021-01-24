@@ -36,7 +36,7 @@ Route::post('/workers', [UserController::class, 'storeWorkers']);
 
 
 
-
+// ********************************INCICENCIAS
 Route::resource('/incidents', IncidentController::class);
 
 Route::get('/profile', function () {

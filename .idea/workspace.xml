@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef047a6c-fffa-4a04-a119-15508cd052d3" name="Default Changelist" comment="Crud de locales, vistas y registros">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/teg.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/teg.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DepartmentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DepartmentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/IncidentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/IncidentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Incident.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Incident.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/incidents/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/incidents/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,14 +151,21 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../sistema-de-arcargo-de-comida" />
+    <property name="last_opened_file_path" value="/mnt/2ACC7A76CC7A3C5F/Users/Edwin Mogollon/Desarrollos/mio/precios" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -192,6 +202,11 @@
       <workItem from="1611098796414" duration="8308000" />
       <workItem from="1611363951465" duration="12737000" />
       <workItem from="1611426122736" duration="9071000" />
+      <workItem from="1611442010018" duration="2136000" />
+      <workItem from="1611496591587" duration="8112000" />
+      <workItem from="1611516966283" duration="599000" />
+      <workItem from="1611517965467" duration="128000" />
+      <workItem from="1611522324445" duration="1227000" />
     </task>
     <task id="LOCAL-00001" summary="changes in routes">
       <created>1610463802502</created>
@@ -271,58 +286,15 @@
     <MESSAGE value="refactor en bd" />
     <option name="LAST_COMMIT_MESSAGE" value="refactor en bd" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="233" y="0" key="#Deployment" timestamp="1610835150279">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="233" y="0" key="#Deployment/0.0.1280.680@0.0.1280.680" timestamp="1610835150279" />
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1610056959734">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1610056959734" />
-    <state x="0" y="212" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1610049176582">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="0" y="212" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1610049176582" />
-    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1610457581777">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1610457581777" />
-    <state x="287" y="0" key="CommitChangelistDialog2" timestamp="1611437703452">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="287" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1611437703452" />
-    <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1611422225857">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1611422225857" />
-    <state x="496" y="264" key="NewPhpFileDialog" timestamp="1611436879471">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="496" y="264" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1611436879471" />
-    <state x="157" y="0" key="SettingsEditor" timestamp="1611425702984">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="157" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1611425702984" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1611437710336">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1611437710336" />
-    <state x="506" y="241" key="WebDeployment.AddServerDialog.v.1" timestamp="1610832740014">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="506" y="241" key="WebDeployment.AddServerDialog.v.1/0.0.1280.680@0.0.1280.680" timestamp="1610832740014" />
-    <state x="464" y="256" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610668662130">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="464" y="256" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1610668662130" />
-    <state x="349" y="80" width="582" height="520" key="find.popup" timestamp="1610662736039">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="349" y="80" width="582" height="520" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1610662736039" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1610670148352">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1610670148352" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/IncidentController.php</url>
+          <line>90</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
