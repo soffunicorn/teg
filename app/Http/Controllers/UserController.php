@@ -31,14 +31,26 @@ class UserController extends Controller
 
     public function indexWorkers()
     {
-        $rolNotIn = Rol::where('slug', 'local')->first();
+        $rolesNotIn = Rol::whereNotIn('slug',  ['local', 'super_admin'])->get();
+        $typesIn = Type::whereIn('slug',  ['boss', 'worker'])->get();
+        $roles = [];
+        $types = [];
+
+      foreach ($rolesNotIn as $rol) {
+          $roles[] = $rol->id;
+      }
+          foreach ($typesIn as $type){
+          $types[] = $type->id;
+      }
 
         //Parto de la tabla principal, luego del join voy a la tabla siguiente
-        $users = User::join('users_departments', 'users_departments.id_user', '=', 'users.id')
-                    ->join('departments', 'departments.id', '=', 'users_departments.id_department')
-                    ->join('roles', 'roles.id', '=', 'users.id_rol')->where('users.id_rol', '!=', $rolNotIn)
-                    ->select('users.name AS user_name', 'users.lastname', 'users.slug AS user_slug', 'departments.name AS departments_name',
-                    'roles.rol AS roles_name, roles.slug AS roles_slug')->get();
+        $users = User::join('types', 'types.id', '=', 'users.id_type')
+                        ->join('roles', 'roles.id', '=', 'users.id_rol')
+                        ->join('users_departments', 'users_departments.id_user', '=', 'users.id')
+                        ->join('departments', 'departments.id', '=', 'users_departments.id_department')
+                        ->whereIn('users.id_rol', $roles)
+                        ->whereIn('types.id', $types)->select('users.*', 'departments.name AS department_name',
+                    'roles.rol AS rol_name', 'roles.slug AS rol_slug', 'types.tipo')->get();
 
         return view('panel.admin.workerUsers')->with([
             'users' => $users
@@ -187,4 +199,5 @@ class UserController extends Controller
     {
         //
     }
+
 }

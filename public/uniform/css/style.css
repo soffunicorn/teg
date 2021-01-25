@@ -24,3 +24,37 @@ i{
 footer.footer{
     left:0 !important;
 }
+/*table*/
+table thead{
+    background: #5C186A;
+    color: #fff;
+    text-align: center;
+}
+#tableDepartment th:not(:last-child){
+    border-right:1px solid #fff;
+}
+table tbody{
+    background: #fff;
+    text-align: center;
+}
+table tbody form{
+    display: inline-block;
+}
+.btn.viewMore, .btn.viewMore:hover{
+    background:#FCB823 !important;
+    border:unset;
+    color:#fff;
+    text-align: center;
+}
+.rowDepartment{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.rowDepartment button{
+    margin:0 10px !important;
+}
+.rowDepartment  form{
+    margin-bottom: 0 !important;
+}

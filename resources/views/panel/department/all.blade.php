@@ -1,5 +1,5 @@
 @extends('app')
-@section('panelTitle', 'Registro de Locales')
+@section('panelTitle', 'Todos los Departamentos')
 @section('panelHead')
     <link rel="stylesheet" href="{{asset('panel/assets/css/department.css')}}">
 

@@ -10,13 +10,13 @@
             @csrf
             <div class="row">
                 <div class="col-md-6 mb-4">
-                    <label for="nombre">Nombre del local</label>
+                    <label for="nombre">Nombre de la empresa</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="" required>
                 </div>
 
                 <div class="col-md-6 mb-4">
                     <label for="Razón Social">Razón Social</label>
-                    <input type="text" class="form-control" name="business_reason" id="business_reason" placeholder="">
+                    <input type="text" class="form-control" placeholdelder="Ej: J-123545-5" name="business_reason" id="business_reason" placeholder="">
                 </div>
             </div>
             <div class="row">
@@ -29,14 +29,6 @@
                     <label for="Teléfono">Teléfono</label>
                     <input type="number" class="form-control" name="telephone" id="telephone"
                            placeholder="ej: 04145965">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <select name="status" class="form-control" id="status">
-                        <option value="disponible">Disponible</option>
-                        <option value="disponible">No Disponible</option>
-                    </select>
                 </div>
             </div>
 
