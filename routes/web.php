@@ -38,8 +38,12 @@ Route::post('/workers', [UserController::class, 'storeWorkers']);
 
 
 
+<<<<<<< HEAD
+// ********************************INCICENCIAS
+=======
 
 
+>>>>>>> 4fa37aac982f17c59c332f6e339eabcc6de8c489
 Route::resource('/incidents', IncidentController::class);
 
 Route::get('/profile', function () {

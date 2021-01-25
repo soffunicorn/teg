@@ -36,9 +36,9 @@ class DepartmentController extends Controller
 
 
         //select * from departments;
-       return view ('panel.department.all')->with([
-           'departments' => $departments,
-       ]);
+        return view ('panel.department.all')->with([
+            'departments' => $departments,
+        ]);
     }
 
     /**
@@ -49,7 +49,7 @@ class DepartmentController extends Controller
     public function create()
     {
         $users = User::join('roles', 'users.id_rol', '=', 'roles.id')->where('roles.slug', 'empleado')
-        ->select('users.*', 'roles.slug AS rol_slug')->get();
+            ->select('users.*', 'roles.slug AS rol_slug')->get();
 
         return view('panel.register.department')->with([
             'users' => $users
@@ -66,16 +66,16 @@ class DepartmentController extends Controller
     {
 
         $rules = [
-           'name' => ['required',  'max:255', 'unique:departments'],
+            'name' => ['required',  'max:255', 'unique:departments'],
             'email' => ['unique:departments,email', 'max:255', 'required'],
-         //  'telephone' => ['numeric','max:11' ],
-        //   'schedule_from' => ['date_format:H:i:s' ],
-          // 'schedule_to' => ['date_format:H:i:s' ],
-           'description' => [ 'max:3000' ],
+            //  'telephone' => ['numeric','max:11' ],
+            //   'schedule_from' => ['date_format:H:i:s' ],
+            // 'schedule_to' => ['date_format:H:i:s' ],
+            'description' => [ 'max:3000' ],
         ];
         $request->validate($rules);
-       $userSlug = $request->responsable;
-       //Creo el departamento
+        $userSlug = $request->responsable;
+        //Creo el departamento
         $department = new Department();
         $department->name = $request->name;
         $department->email = $request->email;
@@ -92,9 +92,9 @@ class DepartmentController extends Controller
         }else{
             //Crear un nuevo usuario
             $userRules  =  [
-               'responsableName' => ['string', 'required', 'max:255' ],
-               'responsableLastname' => ['string', 'max:255' ],
-               'responsableMail' => ['unique:users,email', 'max:255', 'required'],
+                'responsableName' => ['string', 'required', 'max:255' ],
+                'responsableLastname' => ['string', 'max:255' ],
+                'responsableMail' => ['unique:users,email', 'max:255', 'required'],
             ];
             $request->validate($userRules);
             //Buscamos las foreign key
@@ -131,7 +131,7 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-    //
+        //
 
 
     }
@@ -146,13 +146,13 @@ class DepartmentController extends Controller
     {
 
         $department = Department::findorFail($id);
-            //Lo que estoy buscando es la tabla principal
+        //Lo que estoy buscando es la tabla principal
         $responsable = User::join('types', 'types.id', '=', 'users.id_type')
-                            ->join('users_departments', 'users_departments.id_user', '=', 'users.id')
-                            ->join('roles', 'roles.id', '=', 'users.id_rol' )
-                            ->join('departments', 'departments.id', '=', 'users_departments.id_department')
-                            ->where('departments.id', $id)->where('types.slug', 'boss')
-                            ->where('roles.slug', 'empleado')->select('users.*')->first();
+            ->join('users_departments', 'users_departments.id_user', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'users.id_rol' )
+            ->join('departments', 'departments.id', '=', 'users_departments.id_department')
+            ->where('departments.id', $id)->where('types.slug', 'boss')
+            ->where('roles.slug', 'empleado')->select('users.*')->first();
 
         $users = User::join('roles', 'users.id_rol', '=', 'roles.id')->where('roles.slug', 'empleado')
             ->where('users.id', 'NOT IN', $responsable->id)->select('users.*', 'roles.slug AS rol_slug')->get();
@@ -174,15 +174,15 @@ class DepartmentController extends Controller
     public function update(Request $request, $id)
     {
 
-       $rules = [
-           'name' => ['required',  'max:255'],
-           'email' => ['email', 'max:255', 'required'],
-           'schedule_from' => ['date_format:H:i'],
-           'schedule_to' => ['date_format:H:i', 'after:schedule_from'],
-           'description' => [ 'max:3000' ],
-       ];
+        $rules = [
+            'name' => ['required',  'max:255'],
+            'email' => ['email', 'max:255', 'required'],
+            'schedule_from' => ['date_format:H:i'],
+            'schedule_to' => ['date_format:H:i', 'after:schedule_from'],
+            'description' => [ 'max:3000' ],
+        ];
 
-      $request->validate($rules);
+        $request->validate($rules);
         $department = Department::findOrFail($id);
         $department->name = $request->name;
         $department->telephone = $request->telephone;
@@ -192,9 +192,9 @@ class DepartmentController extends Controller
         $department->description = $request->description;
         $department->save();
         if(!empty($request->responsable)){
-           $user =  User::where('slug', $request->responsable)->first();
-           $userDepartment = UserDepartment::where('id_department', $id)->firstOrFail();
-           $userDepartment->id_user = $user->id;
+            $user =  User::where('slug', $request->responsable)->first();
+            $userDepartment = UserDepartment::where('id_department', $id)->firstOrFail();
+            $userDepartment->id_user = $user->id;
             $userDepartment->save();
         }
         return view ('panel.department.all');
@@ -221,7 +221,7 @@ class DepartmentController extends Controller
      * @param  int  $id
      */
     public function getDepartment($id){
-      $id = (int) $id;
+        $id = (int) $id;
 
         try
         {
