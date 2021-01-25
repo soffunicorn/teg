@@ -47,6 +47,6 @@ class User extends Authenticatable
     //Relaciones
     public function Departments()
     {
-        return $this->belongsToMany(Department::class, 'users_departments', 'id_user', 'id_departament');
+        return $this->belongsToMany(Department::class, 'users_departments', 'id_user', 'id_department');
     }
 }

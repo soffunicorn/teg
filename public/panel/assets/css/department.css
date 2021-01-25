@@ -1,0 +1,47 @@
+.modalDepartment{
+    padding:20px;
+    min-width: 70%;
+    max-width: 100%;
+}
+.modal-title{
+    font-weight: 800;
+}
+.modal-title .department-name{
+    color:#FCB823;
+    line-height:30px;
+    margin-bottom: 20px;
+}
+.modalClose:not(.close) ,.modalClose:hover {
+   background: #E72C2E !important;
+    color:#fff !important;
+}
+#tableDepartment thead{
+    background: #5C186A;
+    color: #fff;
+    text-align: center;
+}
+#tableDepartment th:not(:last-child){
+    border-right:1px solid #fff;
+}
+#tableDepartment  tbody{
+    background: #fff;
+    text-align: center;
+}
+.btn.viewMore, .btn.viewMore:hover{
+    background:#FCB823 !important;
+    border:unset;
+    color:#fff;
+    text-align: center;
+}
+.rowDepartment{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.rowDepartment button{
+    margin:0 10px !important;
+}
+.rowDepartment  form{
+    margin-bottom: 0 !important;
+}

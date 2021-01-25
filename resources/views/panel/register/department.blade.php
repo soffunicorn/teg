@@ -4,6 +4,7 @@
     <link href="{{asset('panel/assets/css/localregister.css')}}" rel="stylesheet"/>
     <link href="{{asset('uniform/css/style.css')}}" rel="stylesheet"/>
 @endsection
+
 @section('panelContent')
     <div class="form-registro">
         <h3>Registro de Departamentos</h3>
@@ -26,14 +27,18 @@
                 </div>
                 <div class="col-md-6 mb-4">
                     <label for="nombre">Responsable</label>
-                    <select name="user_slug" id="user_slug" class="form-control" required>
-                        <option value="" selected> -- Seleccionar --</option>
-                        @if(!empty($users))
+                    <select name="responsable" id="responsable" class="form-control" required>
+
+                        @if($users->count() > 0)
+                            <option  selected> -- Seleccionar --</option>
                             @foreach($users as $user)
                                 <option value="{{$user->slug}}">{{$user->name}}</option>
                             @endforeach
+                            <option value="createResponsable">Crear un Responsable </option>
+                            @else
+                            <option value="createResponsable" selected>Crear un Responsable </option>
+
                             @endif
-                        <option value="another">Crear un Responsable </option>
                     </select>
                 </div>
             </div>
@@ -56,8 +61,28 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="Descripción">Descripción</label>
-                    <textarea type="tel" class="form-control textarea" name="description"
+                    <textarea  class="form-control textarea" name="description"
                               id="description" placeholder=""></textarea>
+                </div>
+            </div>
+            <div class="hidden mt-4 mb-4" id="createResponsible">
+                <h3 class="sub-title mb-4">Crear Responsable para el departamento</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="Nombre">Nombre: </label>
+                        <input type="text" class="form-control" name="responsableName" id="responsableName"
+                               placeholder="">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="Apellido">Apellido: </label>
+                        <input type="text" class="form-control" name="responsableLastname" name="responsableLastname"
+                               placeholder="">
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <label for="Córreo Eléctronico">Córreo Eléctronico</label>
+                        <input type="email" class="form-control" name="responsableMail" id="responsableMail" placeholder="mail@mail.com">
+                    </div>
                 </div>
             </div>
             <div class="row mb-4">
@@ -78,4 +103,31 @@
 
 
     </div>
+@endsection
+
+@section('panelScript')
+    <script>
+        jQuery(document).ready(function ($) {
+            if(jQuery('#responsable').val() === 'createResponsable'){
+                toggleResponsable();
+            }
+
+            jQuery('#responsable').on('change', function (){
+                if(jQuery(this).val() === 'createResponsable'){
+                    toggleResponsable();
+                }
+
+            });
+        });
+        function toggleResponsable(){
+            if( jQuery('#createResponsible').hasClass('hidden')){
+                jQuery('#createResponsible').removeClass('hidden');
+            }else{
+                jQuery('#createResponsible').addClass('hidden');
+            }
+
+        }
+
+    </script>
+
 @endsection
