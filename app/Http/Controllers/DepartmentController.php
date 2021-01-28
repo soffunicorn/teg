@@ -120,7 +120,7 @@ class DepartmentController extends Controller
 
         $userObject->Departments()->attach($department);
 
-        return view ('panel.department.all');
+        redirect('department');
     }
 
     /**
@@ -197,7 +197,7 @@ class DepartmentController extends Controller
             $userDepartment->id_user = $user->id;
             $userDepartment->save();
         }
-        return view ('panel.department.all');
+        redirect('department');
 
 
     }

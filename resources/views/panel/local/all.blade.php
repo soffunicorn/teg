@@ -84,6 +84,11 @@
 @section('panelScript')
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+
+        jQuery(function () {
+            jQuery('[data-toggle="tooltip"]').tooltip()
+        });
+
         var modal = jQuery('#modalOpen');
         jQuery('.btn-edit').on('click', function () {
             let form = jQuery('#formEditLocal');

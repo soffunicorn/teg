@@ -1,6 +1,8 @@
 .uniform-bg, .uniform-bg:hover{
     background-color:#F16722 !important;
     color:#fff;
+    margin-left:0 !important;
+    margin-right:0 !important;
 }
 
 input.form-control, select.form-control{
@@ -14,6 +16,14 @@ input.form-control, select.form-control{
 .btn-sam-red, .btn.btn-sam-red:hover{
     background-color: #E72C2E !important;
     color:#fff;
+}
+textarea.form-control{
+    padding-left:15px;
+    padding-right:15px;
+    min-height: 150px;
+}
+.modal{
+    background: rgba(0,0,0,0.3);
 }
 i{
     font-family: FontAwesome;
@@ -57,4 +67,19 @@ table tbody form{
 }
 .rowDepartment  form{
     margin-bottom: 0 !important;
+}
+/*panel */
+.main-panel > .content{
+    margin-top:130px !important;
+}
+.logo-image-big{
+    text-align: center;
+}
+.main-panel .navbar{
+    min-height: 95px;
+}
+.main-panel .navbar .navbar-brand{
+    color:#000 !important;
+    font-weight: bold;
+    text-transform: uppercase;
 }

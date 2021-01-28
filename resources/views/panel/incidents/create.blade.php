@@ -8,11 +8,11 @@
             <div class="row mb-3">
                 <div class="col-12 col-md-12">
                     <label for="title"> Título de la incidencia</label>
-                    <input type="text" class="form-control" name="name" id="name"/>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Ej: Arreglo de conexión télefonica"/>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-4">
                     <label for="title"> Departamento</label>
                     <select name="id_department" id="id_department" class="form-control">
                         <option selected>--- Seleccionar ---</option>
@@ -23,7 +23,7 @@
                         @endif
                     </select>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-4">
                     <label for="title"> Prioridad</label>
                     <select name="priority" id="priority" class="form-control">
                         <option value="" selected >-- Seleccionar --</option>
@@ -31,6 +31,10 @@
                         <option value="media">Media</option>
                         <option value="alta">Alta</option>
                     </select>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="title"> Fecha limite</label>
+                    <input type="date" name="deathline" id="deathline" class="form-control" min="{{date('d-m-Y')}}" />
                 </div>
             </div>
             <div class="row mb-3">

@@ -17,9 +17,9 @@ class CreateIncidentsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description', 3000);
-            $table->string('status');
             $table->string('slug');
             $table->string('priority');
+            $table->dateTime('deathline');
             $table->timestamps();
             //Index
             $table->unsignedBigInteger('id_departament')->unsigned()

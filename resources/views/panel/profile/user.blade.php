@@ -7,9 +7,9 @@
                 <div class="col-12">
                     <div class="card p-5">
                         <div class="author">
-                            <a href="#">
+                            <div class="circle"><img src="{{asset('panel/assets/img/default-avatar.png')}}" alt="persona" class="img-user"></div>
                                 <h3 class="title">Nombre de usuario</h3>
-                            </a>
+
                         </div>
                     </div>
 

@@ -6,7 +6,7 @@
 @endsection
 @section('panelContent')
     <div class="edit-department">
-        <h4>Editar departamento {{$department->name}}</h4>
+
         <form method="POST" action="{{url('department/'. $department->id)}}">
             @method('PUT')
             @csrf
