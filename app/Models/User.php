@@ -20,6 +20,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected  $currentCompany = null;
+    protected  $currentDepartment = null;
+
     protected $fillable = [
         'name',
         'lastname',
@@ -52,10 +55,28 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Department::class, 'users_departments', 'id_user', 'id_department');
     }
+
     public function Companies()
     {
         return $this->belongsToMany(Company::class, 'user_company', 'id_user', 'id_company');
     }
+
+
+    public function setCurrentCompany($currentCompany){
+         $this->currentCompany = $currentCompany;
+    }
+
+    public function getCurrentCompany(){
+      return $this->currentCompany;
+    }
+    public function setCurrentDepartment($currentDepartment){
+         $this->currentDepartment = $currentDepartment;
+    }
+
+    public function getCurrentDepartment(){
+      return $this->currentDepartment;
+    }
+
 
 
 }

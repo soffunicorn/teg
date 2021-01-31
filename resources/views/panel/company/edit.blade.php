@@ -24,14 +24,28 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-4">
                     <label for="nombre">Nombre Comercial</label>
                     <input type="text" class="form-control" name="name" id="name" value="{{$company->name}}" placeholder="">
                 </div>
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-4">
                     <label for="Córreo Eléctronico">Córreo Eléctronico </label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="mail@mail.com" value="{{$company->email}}" >
                 </div>
+
+                <div class="col-md-4 mb-4">
+                    <label for="Estados">Estado de la empresa </label>
+                    <select name="statusCompany" id="statusCompany" class="form-control">
+                        <option value="{{$company->status_id}}"> {{$company->status}}</option>
+                        @if($states->count() !== 0)
+                            @foreach($states as $state)
+                                <option value="{{$state->id}}"> {{$state->state}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+
+                </div>
+
             </div>
 
             <div class="row" id="changeDiv">
@@ -43,13 +57,15 @@
                 </div>
 
                     <div class="col-md-4 mb-4">
-                        <label for="local">Seleccione el local</label>
+                        <label for="local">Seleccione local</label>
                         <select name="local" id="local" class="form-control">
                             <option value="{{$company->local_id}}" selected> {{$company->n_local}}</option>
                             @if($locals->count() !== 0)
                             @foreach($locals as $local)
                                 <option value="{{$local->id}}"> {{$local->n_local}}</option>
                             @endforeach
+                            @else
+                             <!--   <option value="otherLocal"> Crear otro local </option> -->
                             @endif
                         </select>
                     </div>
@@ -58,8 +74,8 @@
                 <div class="col-md-4 mb-4">
                     <label for="flexCheckDefault">Dueño del local</label>
                     <select class="form-control" name="currentOwner" id="currentOwner">
-                        <option value="{{$company->slug}}" selected>{{$company->user_name . " " . !empty($company->user_lastname) ? $company->user_lastname : " " }}</option>
-                        <option value="other">Seleccionar otro dueño</option>
+                        <option value="{{$company->user_slug}}" selected>{{$company->user_name . " " . !empty($company->user_lastname) ? $company->user_lastname : " " }}</option>
+                        <option value="otherOwner">Seleccionar otro dueño</option>
                     </select>
 
                 </div>
@@ -76,35 +92,30 @@
                             @endforeach
                         </select>
                     @else
-                        <div class="alert alert-warning hidden">
-                            <p>No hay usuarios disponibles </p>
+                        <div class="mb-4" id="createOwner">
+                            <h4 class="sub-title">Datos para crear el usuario</h4>
+                            <div class="row">
+
+                                <div class="col-md-4 mb-4">
+                                    <label for="">Nombre del dueño</label>
+                                    <input type="text" name="nameOwner" id="nameOwner" class="form-control" />
+                                </div>
+
+                                <div class="col-md-4 mb-4">
+                                    <label for="">Apellido del dueño</label>
+                                    <input type="text" name="lastnameOwner" id="lastnameOwner" class="form-control" />
+                                </div>
+
+                                <div class="col-md-4 mb-4">
+                                    <label for="">Correo electrónico del dueño</label>
+                                    <input type="email" name="emailOwner" id="emailOwner" class="form-control" />
+                                </div>
+
+                            </div>
+                            <hr class="divider">
                         </div>
                     @endif
                 </div>
-            </div>
-
-
-            <div class="hidden mb-4" id="createOwner">
-                <h4 class="sub-title">Datos para crear el usuario</h4>
-                <div class="row">
-
-                    <div class="col-md-4 mb-4">
-                        <label for="">Nombre del dueño</label>
-                        <input type="text" name="nameOwner" id="nameOwner" class="form-control" required/>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <label for="">Apellido del dueño</label>
-                        <input type="text" name="lastnameOwner" id="lastnameOwner" class="form-control" required/>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <label for="">Correo electrónico del dueño</label>
-                        <input type="email" name="emailOwner" id="emailOwner" class="form-control" required/>
-                    </div>
-
-                </div>
-                <hr class="divider">
             </div>
 
 
@@ -152,7 +163,7 @@
     <script>
         jQuery(document).ready(function ($) {
             jQuery('#currentOwner').on('change', function () {
-                if($(this).val() === 'other'){
+                if($(this).val() === 'otherOwner'){
                     $('#selectOwner').removeClass('hidden');
                 }else{
                     if(! $('#selectOwner').hasClass('hidden') ){

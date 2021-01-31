@@ -26,7 +26,7 @@ Route::resource('/locales', LocalController::class);
 /* Empresa */
 Route::resource('/company', CompanyController::class);
 Route::get('/companyEdit/{slug}', [CompanyController::class, 'companyEdit']);
-
+Route::get('/getCompany/{slug}', [CompanyController::class, 'get_company']);
 
 /*Department*/
 Route::resource('/department', DepartmentController::class);

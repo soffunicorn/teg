@@ -161,3 +161,6 @@ form#formDelete{
     height: auto;
 
 }
+ .modal-dialog{
+    max-width: 70% !important;
+}
