@@ -17,15 +17,29 @@ class CreateCompaniesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('business_reason'); //razon social
+            $table->string('rif');
             $table->string('slug'); //
             $table->string('telephone');
             $table->string('email');
-            $table->string('status');
-            $table->dateTime('schedule_from');
-            $table->dateTime('schedule_to');
-            $table->string('description', 2000)->nullable();
+
+            $table->time('schedule_from');
+            $table->time('schedule_to');
+            $table->string('description', 3000)->nullable();
             $table->timestamps();
+
+            //Index
+            $table->unsignedBigInteger('id_state')->unsigned()
+                ->index()
+                ->nullable();
+
+            //Foreign key
+            $table->foreign('id_state')
+                ->references('id')
+                ->on('states');
+
+
         });
+
     }
 
     /**
@@ -35,6 +49,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('locales');
+        Schema::dropIfExists('companies');
     }
 }

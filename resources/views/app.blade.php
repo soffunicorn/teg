@@ -39,7 +39,7 @@ Coded by www.creative-tim.com
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <div class="logo">
-        <a href="https://www.creative-tim.com" class="simple-text logo-normal">
+        <a href="" class="simple-text logo-normal">
 
           <div class="logo-image-big">
               <img src="{{asset('logincss/image/logo-company.png')}}">
@@ -101,6 +101,7 @@ Coded by www.creative-tim.com
                   <a class="dropdown-item" href="#">Something else here</a>
                 </div>
               </li>
+                <li class="nav-item"><a  class="nav-link" href="{{url('profile')}}"><i class="nc-icon nc-single-02"></i></a></li>
             </ul>
           </div>
         </div>
@@ -136,8 +137,7 @@ Coded by www.creative-tim.com
   <script src="{{asset('panel/assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('panel/assets/js/core/bootstrap.min.js')}}"></script>
 {{--  <script src="{{asset('panel/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>--}}
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
   <!-- Chart JS -->
   <script src="{{asset('panel/assets/js/plugins/chartjs.min.js"')}}></script>
   <!--  Notifications Plugin    -->

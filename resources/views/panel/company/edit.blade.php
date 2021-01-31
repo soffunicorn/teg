@@ -5,32 +5,32 @@
     <link href="{{asset('uniform/css/style.css')}}" rel="stylesheet"/>
 @endsection
 @section('panelContent')
-    <div class="form-registro">
-        <form method="POST" action="{{url('/company')}}" id="registroLocales" name="registroLocales">
+    <div class="formEdit">
+        <form method="POST" action="{{url('/company/' . $company->id )}}" id="registroLocales" name="registroLocales">
+            @method('PUT')
             @csrf
-
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <label for="nombre">Razón Social</label>
                     <input type="text" class="form-control" name="business_reason" id="business_reason" placeholder=""
-                           required>
+                           required value="{{$company->business_reason}}">
                 </div>
 
                 <div class="col-md-6 mb-4">
                     <label for="Razón Social">R.I.F</label>
                     <input type="text" class="form-control" placeholder="Ej: J-123545-5" name="rif"
-                           id="rif" required>
+                           id="rif" value="{{$company->rif}}" required>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <label for="nombre">Nombre Comercial</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="">
+                    <input type="text" class="form-control" name="name" id="name" value="{{$company->name}}" placeholder="">
                 </div>
                 <div class="col-md-6 mb-4">
                     <label for="Córreo Eléctronico">Córreo Eléctronico </label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="mail@mail.com">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="mail@mail.com" value="{{$company->email}}" >
                 </div>
             </div>
 
@@ -39,29 +39,31 @@
                 <div class="col-md-4 mb-4">
                     <label for="Teléfono">Teléfono</label>
                     <input type="number" class="form-control" name="telephone" id="telephone"
-                           placeholder="ej: 04145965">
+                           placeholder="ej: 04145965" value="{{$company->telephone}}">
                 </div>
-                @if($locals->count() !== 0)
-                <div class="col-md-4 mb-4">
-                    <label for="local">Seleccione el local</label>
-                    <select name="local" id="local" class="form-control">
-                        <option value="" selected> --seleccionar --</option>
-                        @foreach($locals as $local)
-                        <option value="{{$local->id_state}}"> {{$local->n_local}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                 @endif
+
+                    <div class="col-md-4 mb-4">
+                        <label for="local">Seleccione el local</label>
+                        <select name="local" id="local" class="form-control">
+                            <option value="{{$company->local_id}}" selected> {{$company->n_local}}</option>
+                            @if($locals->count() !== 0)
+                            @foreach($locals as $local)
+                                <option value="{{$local->id}}"> {{$local->n_local}}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                    </div>
+
 
                 <div class="col-md-4 mb-4">
-                    <label for="flexCheckDefault">El dueño esta registrado</label>
-                    <select class="form-control" name="registOwner" id="registOwner">
-                        <option value="" selected>-- Seleccionar --</option>
-                        <option value="SI">Si</option>
-                        <option value="NO"> No</option>
+                    <label for="flexCheckDefault">Dueño del local</label>
+                    <select class="form-control" name="currentOwner" id="currentOwner">
+                        <option value="{{$company->slug}}" selected>{{$company->user_name . " " . !empty($company->user_lastname) ? $company->user_lastname : " " }}</option>
+                        <option value="other">Seleccionar otro dueño</option>
                     </select>
 
                 </div>
+
                 <div class="col-md-12 mb-4 hidden" id="selectOwner">
                     @if($users->count() !== 0)
 
@@ -70,7 +72,7 @@
                             <option value="" selected>-- Seleccionar --</option>
                             @foreach($users as $user)
                                 <option
-                                    value="{{$user->user_slug}}"> {{ $user->user_name . " " . !empty($user->user_lastname) ?  $user->user_lastname : "" }}   </option>
+                                    value="{{$user->user_slug}}"> {{ $user->user_name . " " }} {{ $user->user_lastname}}   </option>
                             @endforeach
                         </select>
                     @else
@@ -111,12 +113,12 @@
                 <div class="col-md-6 col-6 mb-4">
                     <label for="Horario">Horario de Apertura: </label>
                     <input type="time" class="form-control" name="schedule_from" id="schedule_from"
-                           placeholder="">
+                           placeholder="" value="{{$company->schedule_from}}">
                 </div>
                 <div class="col-md-6 col-6 mb-4">
                     <label for="Horario">Horario de Cierra: </label>
                     <input type="time" class="form-control" name="schedule_to" id="schedule_to"
-                           placeholder="">
+                           placeholder="" value="{{$company->schedule_to}}">
                 </div>
 
             </div>
@@ -126,7 +128,7 @@
                 <div class="col-md-12 mb-4">
                     <label for="Descripción">Descripción del local </label>
                     <textarea name="description" class="form-control textarea" id="description" cols="30"
-                              rows="10"></textarea>
+                              rows="10">{{$company->description}} </textarea>
                 </div>
             </div>
 
@@ -149,31 +151,18 @@
 @section('panelScript')
     <script>
         jQuery(document).ready(function ($) {
+            jQuery('#currentOwner').on('change', function () {
+                if($(this).val() === 'other'){
+                    $('#selectOwner').removeClass('hidden');
+                }else{
+                    if(! $('#selectOwner').hasClass('hidden') ){
+                        $('#selectOwner').addClass('hidden');
 
-            $('#registOwner').on('click', function () {
-                let selectOwner = $('#selectOwner');
-                let createOwner = $('#createOwner');
-
-                if ($(this).val() === 'SI') {
-                    toggleHidden(selectOwner);
-
-                } else if ($(this).val() === 'NO') {
-                    toggleHidden(createOwner);
+                    }
                 }
-
             });
-
         });
-
-        function toggleHidden(element) {
-            if ($(element).hasClass('hidden')) {
-                $(element).removeClass('hidden');
-            } else {
-                $(element).addClass('hidden');
-            }
-
-        }
-    </script>
+        </script>
 
 
 @endsection

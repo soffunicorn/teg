@@ -25,6 +25,9 @@ Route::get('/', [MainController::class, 'login'])->name('login.index'); //mostra
 Route::resource('/locales', LocalController::class);
 /* Empresa */
 Route::resource('/company', CompanyController::class);
+Route::get('/companyEdit/{slug}', [CompanyController::class, 'companyEdit']);
+
+
 /*Department*/
 Route::resource('/department', DepartmentController::class);
 Route::get('/getdepartment/{id}', [DepartmentController::class, 'getDepartment']);
@@ -47,6 +50,9 @@ Route::resource('/incidents', IncidentController::class);
 Route::get('/profile', function () {
     return view('panel.profile.user');
 })->name('user.profile');
+Route::get('/incidents/details', function () {
+    return view('panel.incidents.details');
+})->name('incidents.details');
 
 
 Route::get('/dashboard/local-register', function () {

@@ -17,7 +17,7 @@
                     @foreach($locals as $local)
                         <tr>
                             <td><span class="n_local" data-local="{{$local->n_local}}">{{$local->n_local}}</span></td>
-                            <td><span class="status" data-status="{{$local->status}}">{{$local->status}}</span></td>
+                            <td><span class="status" data-status="{{$local->state_name}}">{{$local->state_name}}</span></td>
                             <td>
                                 <button  data-id="{{$local->id}}" class="btn btn-sam-blue btn-edit"><i
                                         class="fas fa-edit"></i></button>
@@ -47,14 +47,15 @@
 
                 <input type="text" name="n_local" id="n_local" required class="form-control mb-3"
                        placeholder="EJ: L-149">
-
+                @if($states->count() !== 0)
+                <label for="Número de Local">Estado del local</label>
                 <select name="status" id="status" class="form-control">
-                    <label for="Número de Local">Estado del local</label>
                     <option selected> --Seleccionar --</option>
-                    <option value="disponible">Disponible</option>
-                    <option value="ocupado">Ocupado</option>
-                    <option value="deshabilitado">Deshabilitado</option>
+                    @foreach($states as $state)
+                    <option value="{{$state->slug}}">{{$state->state}}</option>
+                    @endforeach
                 </select>
+                @endif
                 <button type="submit" class="btn uniform-bg"> Crear</button>
             </form>
         </div>

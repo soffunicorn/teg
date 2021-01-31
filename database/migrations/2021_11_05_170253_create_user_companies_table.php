@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserLocalsTable extends Migration
+class CreateUserCompaniesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -42,6 +42,6 @@ class CreateUserLocalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user__locals');
+        Schema::dropIfExists('user_company');
     }
 }

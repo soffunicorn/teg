@@ -16,8 +16,20 @@ class CreateLocalsTable extends Migration
         Schema::create('locals', function (Blueprint $table) {
             $table->id();
             $table->string('n_local');
-            $table->string('status');
             $table->timestamps();
+
+
+            //Index
+            $table->unsignedBigInteger('id_state')->unsigned()
+                ->index()
+                ->nullable();
+
+            //Foreign key
+            $table->foreign('id_state')
+                ->references('id')
+                ->on('states');
+
+
         });
     }
 
