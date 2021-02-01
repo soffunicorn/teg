@@ -107,7 +107,7 @@ class IncidentController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('panel.incidents.details');
     }
 
 

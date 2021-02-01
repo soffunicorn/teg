@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Local;
+use App\Models\State;
 use Illuminate\Http\Request;
 
 class LocalController extends Controller
@@ -13,8 +14,13 @@ class LocalController extends Controller
      */
     public function index()
     {
+        $states = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable'])->get();
+        $locales = local::join('states', 'states.id', '=', 'locals.id_state')->
+                          whereIn('slug', ['available', 'busy', 'disabled'])->
+                          select('locals.*', 'states.slug AS state_slug', 'states.state AS state_name')->get();
       return view('panel.local.all')->with([
-                 'locals' => local::all(),
+                 'locals' => $locales,
+                 'states' => $states
       ]);
 
     }
@@ -26,6 +32,8 @@ class LocalController extends Controller
      */
     public function create()
     {
+
+
         return view('panel.register.local');
     }
 
@@ -40,12 +48,14 @@ class LocalController extends Controller
        // dd($request->all());
         $rules = [
             'n_local' => ['required', 'max:255'],
-            'status' => ['required', 'in:disponible,ocupado,deshabilitado'],
+            'status' => ['required'],
         ];
         $request->validate($rules);
+        $status = State::where('slug', $request->status)->first();
+
         $local = new Local();
         $local->n_local = $request->input('n_local', null);
-        $local->status = $request->input('status', null);
+        $local->id_state = $status->id;
         $local->save();
 
 

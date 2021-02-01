@@ -198,8 +198,6 @@ class DepartmentController extends Controller
             $userDepartment->save();
         }
         redirect('department');
-
-
     }
 
 
