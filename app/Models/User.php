@@ -20,8 +20,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected  $currentCompany = null;
-    protected  $currentDepartment = null;
+    protected  $currentCompany = null; //Este dato es el id
+    protected  $currentDepartment = null; //Este dato es el id
 
     protected $fillable = [
         'name',
