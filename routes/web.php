@@ -48,6 +48,10 @@ Route::get('/profile', function () {
     return view('panel.profile.user');
 })->name('user.profile');
 
+Route::get('/detalle', function () {
+    return view('panel.incidents.detalle');
+});
+
 
 Route::get('/dashboard/local-register', function () {
     return view('panel.register.localRegister');
