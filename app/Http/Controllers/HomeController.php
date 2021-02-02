@@ -35,9 +35,9 @@ class HomeController extends Controller
     public function index()
     {
         $userRol = Rol::join('users', 'users.id_rol', '=', 'roles.id')->
-                        where('users.id', auth()->user()->id);
+                        where('users.id', auth()->user()->id)->select('roles.*')->first();
         $userType = Type::join('users', 'users.id_type', '=', 'types.id')->
-                        where('users.id', auth()->user()->id);
+                        where('users.id', auth()->user()->id)->select('types.*')->first();
 
         //Preguntar que tipo y rol es
 
@@ -52,7 +52,7 @@ class HomeController extends Controller
                                       where('types.slug', $userType->slug )->select('departments.*')->get();
 
             if($department->count() > 1){
-                return view('vista_para_escoger_department')->with(['departments' => $department]);
+                return view('misc.chooseDepartment')->with(['departments' => $department]);
             }else if($department->count() === 1){
                 //setear Dpto
                 User::setCurrentDepartment($department[0]->id);
@@ -76,15 +76,17 @@ class HomeController extends Controller
             }
         } else if($userRol->slug === 'local' && $userType->slug === 'owner' ){ /*Arrendatario de un local  */
             //preguntar si es tiene mas de una empresa
-            $company = Company::join('user_company', 'user_company.id_user', '=', 'users.id' )->
-                                join('companies', 'companies.id', '=', 'user_company.id_company')->
+            //select from companies
+            $company = Company::
+                                join('user_company', 'user_company.id_company', '=', 'companies.id' )->
+                                join('users', 'users.id', '=', 'user_company.id_user')->
                                 join('roles', 'roles.id', '=', 'users.id_rol')->
                                 join('types', 'types.id', '=', 'users.id_type')->
                                 where('roles.slug',$userRol->slug)-> where('types.slug', $userType->slug )->
                                 where('users.id', auth()->user()->id)->select('companies.*')->get();
 
             if($company->count() > 1){
-                return view('vista_para_escoger_company')->with(['companies' => $company]);
+                return view('misc.chooseCompany')->with(['companies' => $company]);
             }else if($company->count() === 1){
                 User::setCurrentDepartment($company[0]->id); //setear el company
                 return view('vista_panel');
@@ -130,4 +132,11 @@ class HomeController extends Controller
 
         return view('home');
     }
+
+    public function setCompany($id){
+        User::setCurrentCompany($id); //setear el company
+        return redirect('incidents');
+    }
+
+
 }

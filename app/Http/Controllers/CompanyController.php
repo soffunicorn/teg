@@ -12,6 +12,7 @@ use App\Models\companyLocal;
 use App\Models\local;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
 {
@@ -95,7 +96,7 @@ class CompanyController extends Controller
         if (!$request->has('local')) {
             return false;
         }
-        $local = local::where('id_state', $request->local)->first();
+        $local = local::find($request->local);
         $local->companies()->attach($company);
         //updtear el status del local
         $state = State::where('slug', 'busy')->first(); //busco el estado ocupado
@@ -114,7 +115,8 @@ class CompanyController extends Controller
             ];
 
             $request->validate($userRoles);
-            $password = Str::random(10);
+            //$password = Str::random(10);
+            $password = "1233445";
             $type = Type::where('slug', 'owner')->first();
             $rol = Rol::where('slug', 'local')->first();
             //TODO enviar mail con password al usuario
@@ -124,7 +126,7 @@ class CompanyController extends Controller
             $user->lastname = $request->lastnameOwner;
             $user->email = $request->emailOwner;
             $user->slug = $slug;
-            $user->password = $password;
+            $user->password = bcrypt($password);
             $user->id_rol = $rol->id;
             $user->id_type = $type->id;
             $user->save();
@@ -134,6 +136,7 @@ class CompanyController extends Controller
         }
         //lenar la tabla relacional user_company
         $user->Companies()->attach($company);
+        return redirect('company');
 
     }
 
@@ -175,6 +178,7 @@ class CompanyController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json(array('status' => 'error', 'content' => $e), 404);
         }
+
 
     }
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\LocalController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\IncidentController;
+use \App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,8 @@ Route::post('/workers', [UserController::class, 'storeWorkers']);
 
 
 Route::resource('/incidents', IncidentController::class);
+
+//Route::resource('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
 
 Route::get('/profile', function () {
     return view('panel.profile.user');

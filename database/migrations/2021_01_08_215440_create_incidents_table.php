@@ -19,13 +19,19 @@ class CreateIncidentsTable extends Migration
             $table->string('description', 3000);
             $table->string('slug');
             $table->string('priority');
-            $table->dateTime('deathline');
+            $table->dateTime('deathline')->nullable();
             $table->timestamps();
             //Index
             $table->unsignedBigInteger('id_departament')->unsigned()
                 ->index()
                 ->nullable();
             $table->unsignedBigInteger('id_local')->unsigned()
+                ->index()
+                ->nullable();
+            $table->unsignedBigInteger('id_responsable')->unsigned()
+                ->index()
+                ->nullable();
+ $table->unsignedBigInteger('id_state')->unsigned()
                 ->index()
                 ->nullable();
 
@@ -37,6 +43,14 @@ class CreateIncidentsTable extends Migration
             $table->foreign('id_local')
                 ->references('id')
                 ->on('locals');
+
+
+        $table->foreign('id_responsable')
+                ->references('id')
+                ->on('users');
+        $table->foreign('id_state')
+                ->references('id')
+                ->on('states');
 
         });
     }
