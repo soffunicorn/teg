@@ -61,6 +61,9 @@ Route::get('/incidents/details', function () {
 Route::get('/dashboard/local-register', function () {
     return view('panel.register.localRegister');
 });
+Route::get('/archy', function () {
+    return view('misc.archy');
+});
 
 
 Route::get('/dashboard/empleado', function () {
