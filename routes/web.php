@@ -57,6 +57,10 @@ Route::get('/incidents/details', function () {
     return view('panel.incidents.details');
 })->name('incidents.details');
 
+Route::get('/detalle', function () {
+    return view('panel.incidents.detalle');
+});
+
 
 Route::get('/dashboard/local-register', function () {
     return view('panel.register.localRegister');
