@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef047a6c-fffa-4a04-a119-15508cd052d3" name="Default Changelist" comment="Crud de locales, vistas y registros">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CompanyController.php" afterDir="false" />
@@ -13,6 +14,11 @@
       <change beforePath="$PROJECT_DIR$/resources/views/panel/company/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/company/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/incidents/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/incidents/create.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/incidents/history.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/incidents/history.blade.php" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/resources/views/panel/incidents/detalle.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+>>>>>>> 67df024520f2857f898fbc38eb15d067e2950221
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -169,7 +175,11 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+=======
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/panel/incidents" />
+>>>>>>> 67df024520f2857f898fbc38eb15d067e2950221
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -182,14 +192,15 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Edwin Mogollon\Desktop\teg\resources\views\panel\incidents" />
+      <recent name="C:\Webserver\nginx\html\teg\routes" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Webserver\nginx\html\teg\resources\views\panel\admin" />
       <recent name="C:\Webserver\nginx\html\teg\resources\views\panel" />
       <recent name="C:\Webserver\nginx\html\teg\app\Models" />
       <recent name="C:\Webserver\nginx\html\teg\app" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Webserver\nginx\html\teg\routes" />
     </key>
   </component>
   <component name="RunManager">
@@ -220,12 +231,19 @@
       <workItem from="1611517965467" duration="128000" />
       <workItem from="1611522324445" duration="1923000" />
       <workItem from="1611532178304" duration="76000" />
+<<<<<<< HEAD
       <workItem from="1611616069805" duration="59000" />
       <workItem from="1611793143216" duration="7952000" />
       <workItem from="1611868394497" duration="13709000" />
       <workItem from="1612026582647" duration="25958000" />
       <workItem from="1612056188897" duration="12715000" />
       <workItem from="1612396777387" duration="1011000" />
+=======
+      <workItem from="1611616069805" duration="127000" />
+      <workItem from="1611618108963" duration="50000" />
+      <workItem from="1611875772833" duration="3285000" />
+      <workItem from="1612218586775" duration="877000" />
+>>>>>>> 67df024520f2857f898fbc38eb15d067e2950221
     </task>
     <task id="LOCAL-00001" summary="changes in routes">
       <created>1610463802502</created>
@@ -315,6 +333,7 @@
       <map>
         <entry key="MAIN">
           <value>
+<<<<<<< HEAD
             <State>
               <option name="CUSTOM_BOOLEAN_PROPERTIES">
                 <map>
@@ -333,10 +352,17 @@
                 </map>
               </option>
             </State>
+=======
+            <State />
+>>>>>>> 67df024520f2857f898fbc38eb15d067e2950221
           </value>
         </entry>
       </map>
     </option>
+<<<<<<< HEAD
+=======
+    <option name="oldMeFiltersMigrated" value="true" />
+>>>>>>> 67df024520f2857f898fbc38eb15d067e2950221
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="changes in routes" />

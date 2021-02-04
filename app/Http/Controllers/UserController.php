@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Rol;
 use App\Models\User;
 use App\Models\Type;
 use App\Models\Department;
 use App\Models\UserDepartment;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -79,6 +81,22 @@ class UserController extends Controller
         //
     }
 
+    //Form para locatarios tipo Supervisor y Trabajador i88
+    public function createLocatorio(){
+
+        //cuando tiene más de un local preguntar antes de iniciar sesión
+        //cual nombre comercial para setearla
+
+
+
+
+        return view('panel.register.encargadoRegister')->with([
+            'companies' => Company::all(),
+        ]);
+
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -90,6 +108,7 @@ class UserController extends Controller
 
     }
 
+    //worker
     public function storeWorkers(Request $request)
     {
         $password = Str::random(10); //password
@@ -150,10 +169,13 @@ class UserController extends Controller
         $userDepartment->save();
     }
 
+
     public function storeLocatarios(Request $request)
     {
         //
     }
+
+
 
     /**
      * Display the specified resource.

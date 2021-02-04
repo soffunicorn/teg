@@ -47,7 +47,7 @@
                     <select name="local" id="local" class="form-control">
                         <option value="" selected> --seleccionar --</option>
                         @foreach($locals as $local)
-                        <option value="{{$local->id_state}}"> {{$local->n_local}}</option>
+                        <option value="{{$local->id}}"> {{$local->n_local}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -88,17 +88,17 @@
 
                     <div class="col-md-4 mb-4">
                         <label for="">Nombre del dueño</label>
-                        <input type="text" name="nameOwner" id="nameOwner" class="form-control" required/>
+                        <input type="text" name="nameOwner" id="nameOwner" class="form-control" />
                     </div>
 
                     <div class="col-md-4 mb-4">
                         <label for="">Apellido del dueño</label>
-                        <input type="text" name="lastnameOwner" id="lastnameOwner" class="form-control" required/>
+                        <input type="text" name="lastnameOwner" id="lastnameOwner" class="form-control" />
                     </div>
 
                     <div class="col-md-4 mb-4">
                         <label for="">Correo electrónico del dueño</label>
-                        <input type="email" name="emailOwner" id="emailOwner" class="form-control" required/>
+                        <input type="email" name="emailOwner" id="emailOwner" class="form-control" />
                     </div>
 
                 </div>
@@ -124,7 +124,7 @@
 
             <div class="row">
                 <div class="col-md-12 mb-4">
-                    <label for="Descripción">Descripción del local </label>
+                    <label for="Descripción">Descripción de la empresa </label>
                     <textarea name="description" class="form-control textarea" id="description" cols="30"
                               rows="10"></textarea>
                 </div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Incident;
 use App\Models\Department;
 use App\Models\Local;
+use App\Models\Comment;
 
 
 class IncidentController extends Controller
@@ -30,7 +31,7 @@ class IncidentController extends Controller
      */
     public function create()
     {
-       
+
         $locals = Local::
         join('company_locals','company_locals.id_local','=','locals.id')->
         join('companies','company_locals.id_company','=','companies.id')->
@@ -38,8 +39,8 @@ class IncidentController extends Controller
         join('users', 'users.id', '=', 'user_company.id_user')->
         Where('users.id',auth()->user()->id)->
         //Where('companies.id',)->
-        get();    
-        
+        get();
+
         $departments = Department::get();
         return view('panel.incidents.create')->with([
             'departments' => $departments, 'locals' => $locals
@@ -65,7 +66,7 @@ class IncidentController extends Controller
     }
     public function store(Request $request)
     {
-    
+
      //******* ARRAY
     $params_array   = $request->toArray();
 
@@ -124,7 +125,32 @@ class IncidentController extends Controller
      */
     public function show($id)
     {
-        return view('panel.incidents.details');
+        $Incidents = Incident::select(
+        'incidents.*',
+        'companies.id AS companiesId',
+        'companies.name AS companiesName',
+        'n_local',
+        'responsable AS responsable.name',
+        'departments.name AS departmentsName',
+        'departments.id AS departmentsId',
+        )->
+        join('locals','incidents.id_local','=','locals.id')->
+        join('company_locals','company_locals.id_local','=','locals.id')->
+        join('companies','company_locals.id_company','=','companies.id')->
+        //join('user_company', 'user_company.id_company', '=', 'companies.id')->
+        //join('users', 'users.id', '=', 'user_company.id_user')->
+        join('users AS responsable', 'incidents.id_responsable', '=', 'responsable.id')->
+        join('departments', 'incidents.id_departament', '=', 'departments.id')->
+        where('incidents.id',$id)->
+        first();
+
+        $comment = Comment::select('comments.*','usars.name AS nombre')->
+        join('incidents', 'incidents.id', '=', 'comments.id_incident')->
+        join('users', 'users.id', '=', 'comments.id_user')->
+        where('incidents.id',$id)->
+        get();
+
+        return view('panel.incidents.details')->with(['Incidents'=> $Incidents,'comment'=>$comment]);
     }
 
 
