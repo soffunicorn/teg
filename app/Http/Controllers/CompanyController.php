@@ -179,16 +179,19 @@ class CompanyController extends Controller
 
         $users = User::join('roles', 'roles.id', '=', 'users.id_rol')->
         join('types', 'types.id', '=', 'users.id_type')->
-        where('types.slug', 'owner')->where('roles.slug', 'local')->
+        where('types.slug', 'owner')->where('roles.slug', 'local')->where( 'users.slug', '=', $company->user_slug)->
         select('users.name AS user_name', 'users.lastname AS user_lastname', 'users.slug AS user_slug')->get();
 
         $locals = local::join('states', 'states.id', '=', 'locals.id_state')->
         where('states.slug', 'available')->select('locals.*')->get();
 
+        $status = States::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable'])->get();
+
         return view('panel.company.edit')->with([
             'company' => $company,
             'users' => $users,
             'locals' => $locals,
+            'states' => $status
         ]);
     }
 
@@ -201,7 +204,19 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $company = Company::where('id', $id)->firstOrFail();
+        $rules = [
+            'name' => ['max:255'],
+            'business_reason' => ['required',  'max:255', 'unique:companies'],
+            'rif' => ['required',  'max:255', 'unique:companies'],
+            'email' => ['unique:companies,email', 'max:255', 'required'],
+            'description' => [ 'max:3000'],
+            'telephone' => ['numeric'],
+        ];
+        $request->validate($rules);
+
+
+
     }
 
     /**
@@ -214,4 +229,6 @@ class CompanyController extends Controller
     {
         //
     }
+
+
 }

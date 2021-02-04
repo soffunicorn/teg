@@ -17,20 +17,23 @@
             </tr>
             </thead>
             <tbody>
+            @if( !empty($Incidents) )
+                            @foreach($Incidents as $Incident)
+                               
+                        
             <tr>
-                <td>Otorgamiento de permisos para remodelación</td>
+                <td>{{$Incident->name}}</td>
                 <td>Jhon Snow</td>
                 <td>Obras Civiles</td>
                 <td>En Progreso</td>
                 <td>
-                    <div class="rowDepartment">
-                        <form action="" method="">
-                            <button class="viewMore btn " id="viewMore" data-id=""
-                                    data-toggle="tooltip" data-placement="bottom" title="Ver más"><i
-                                    class="fas fa-plus"></i></button>
-                        </form>
+                    <div class="rowIncident">
+                       
+                            <a href="{{url('incidents/'.$Incident->id)}}" class="viewMore btn " id="viewMore"  title="Ver más"><i
+                                    class="fas fa-plus"></i></a>
+                       
 
-                        <a href=""
+                        <a href="{{url('incidents/'.$Incident->id.'/edit')}}"
                            class="btn btn-sam-blue btn-edit"><i
                                 class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
                                 title="Editar"></i></a>
@@ -51,40 +54,9 @@
                 </td>
             </tr>
 
-            <tr>
-                <td>Inspección de local de feria de comida</td>
-                <td>Federico Ricón</td>
-                <td>Higiene y seguridad</td>
-                <td>En progreso</td>
-                <td>
-                    <div class="rowDepartment">
-                        <form action="" method="">
-                            <button class="viewMore btn " id="viewMore" data-id=""
-                                    data-toggle="tooltip" data-placement="bottom" title="Ver más"><i
-                                    class="fas fa-plus"></i></button>
-                        </form>
-
-                        <a href=""
-                           class="btn btn-sam-blue btn-edit"><i
-                                class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
-                                title="Editar"></i></a>
-
-                        <form method="POST" action=""
-                              id="formDelete" name="formDelete">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" class="btn btn-sam-red btn-delete" data-name=""><i
-                                    class="fas fa-trash"></i></button>
-                            <button type="submit" class="btn-real-submit" data-toggle="tooltip"
-                                    data-placement="bottom" title="Borrar" style="opacity: 0;"></button>
-                        </form>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
+        
+            @endforeach
+                        @endif
             </tbody>
         </table>
     </div>

@@ -17,21 +17,27 @@
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <label for="Razón Social">R.I.F</label>
+                    <label for="Razón Social">R.I.F</label>e'{
                     <input type="text" class="form-control" placeholder="Ej: J-123545-5" name="rif"
                            id="rif" value="{{$company->rif}}" required>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-4">
                     <label for="nombre">Nombre Comercial</label>
                     <input type="text" class="form-control" name="name" id="name" value="{{$company->name}}" placeholder="">
                 </div>
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-4">
                     <label for="Córreo Eléctronico">Córreo Eléctronico </label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="mail@mail.com" value="{{$company->email}}" >
                 </div>
+
+                <div class="col-md-4 mb-4">
+                    <label for="Córreo Eléctronico">Estado de la empresa </label>
+
+                </div>
+
             </div>
 
             <div class="row" id="changeDiv">

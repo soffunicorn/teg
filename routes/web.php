@@ -50,10 +50,10 @@ Route::resource('/incidents', IncidentController::class);
 Route::get('/profile', function () {
     return view('panel.profile.user');
 })->name('user.profile');
+
 Route::get('/incidents/details', function () {
     return view('panel.incidents.details');
 })->name('incidents.details');
-
 
 Route::get('/dashboard/local-register', function () {
     return view('panel.register.localRegister');
