@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <label for="Razón Social">R.I.F</label>
+                    <label for="Razón Social">R.I.F</label>e
                     <input type="text" class="form-control" placeholder="Ej: J-123545-5" name="rif"
                            id="rif" value="{{$company->rif}}" required>
                 </div>
@@ -34,15 +34,7 @@
                 </div>
 
                 <div class="col-md-4 mb-4">
-                    <label for="Estados">Estado de la empresa </label>
-                    <select name="statusCompany" id="statusCompany" class="form-control">
-                        <option value="{{$company->status_id}}"> {{$company->status}}</option>
-                        @if($states->count() !== 0)
-                            @foreach($states as $state)
-                                <option value="{{$state->id}}"> {{$state->state}}</option>
-                            @endforeach
-                        @endif
-                    </select>
+                    <label for="Córreo Eléctronico">Estado de la empresa </label>
 
                 </div>
 

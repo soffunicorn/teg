@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Incident;
 use App\Models\Department;
+use App\Models\Local;
+use App\Models\Comment;
+
 
 class IncidentController extends Controller
 {
@@ -15,8 +18,11 @@ class IncidentController extends Controller
      */
     public function index()
     {
-        return view('panel.incidents.history');
-    }
+        $Incidents = Incident::get();
+        return view('panel.incidents.history')->with([
+            'Incidents' =>  $Incidents
+        ]);
+        }
 
     /**
      * Show the form for creating a new resource.
@@ -25,12 +31,19 @@ class IncidentController extends Controller
      */
     public function create()
     {
-         //Necesito el id del local
-        // consulta el user logeado de cual es su local
-        $local = 1;
+
+        $locals = Local::
+        join('company_locals','company_locals.id_local','=','locals.id')->
+        join('companies','company_locals.id_company','=','companies.id')->
+        join('user_company', 'user_company.id_company', '=', 'companies.id')->
+        join('users', 'users.id', '=', 'user_company.id_user')->
+        Where('users.id',auth()->user()->id)->
+        //Where('companies.id',)->
+        get();
+
         $departments = Department::get();
         return view('panel.incidents.create')->with([
-            'departments' => $departments, 'local' => $local
+            'departments' => $departments, 'locals' => $locals
         ]);
     }
 
@@ -53,7 +66,10 @@ class IncidentController extends Controller
     }
     public function store(Request $request)
     {
-        $params_array        = $request->toArray();
+
+     //******* ARRAY
+    $params_array   = $request->toArray();
+
         // Validamos datos correctos
         if (empty($params_array))
         {
@@ -69,9 +85,11 @@ class IncidentController extends Controller
 
         $validador = \Validator::make($params_array,
             [
-                'name'          => '|unique:incidents',
+               // 'name'          => '|unique:incidents',
                 'description'   => 'required|alpha',
                 'priority'      => 'required|alpha',
+                'id_departament'=> 'required',
+                'id_local'      => 'required',
             ]
         );
         //Segun la respuesta continuo o no
@@ -92,11 +110,11 @@ class IncidentController extends Controller
         $Incident->priority         = $request->input('priority');
         $Incident->id_departament   = $request->input('id_departament'); //
         $Incident->id_local         = $request->input('id_local'); //
-        $Incident->status           = 1;
+        //$Incident->status           = 1;
+        $Incident->deathline        = '2021-02-01 00:15:58';
         $Incident->slug             =  str_shuffle($Incident->name.date("Ymd").uniqid());
         $Incident->save();
-        dd($Incident);
-
+        return redirect('/incidents');
     }
 
     /**
@@ -107,7 +125,32 @@ class IncidentController extends Controller
      */
     public function show($id)
     {
-        return view('panel.incidents.details');
+        $Incidents = Incident::select(
+        'incidents.*',
+        'companies.id AS companiesId',
+        'companies.name AS companiesName',
+        'n_local',
+        'responsable AS responsable.name',
+        'departments.name AS departmentsName',
+        'departments.id AS departmentsId',
+        )->
+        join('locals','incidents.id_local','=','locals.id')->
+        join('company_locals','company_locals.id_local','=','locals.id')->
+        join('companies','company_locals.id_company','=','companies.id')->
+        //join('user_company', 'user_company.id_company', '=', 'companies.id')->
+        //join('users', 'users.id', '=', 'user_company.id_user')->
+        join('users AS responsable', 'incidents.id_responsable', '=', 'responsable.id')->
+        join('departments', 'incidents.id_departament', '=', 'departments.id')->
+        where('incidents.id',$id)->
+        first();
+
+        $comment = Comment::select('comments.*','usars.name AS nombre')->
+        join('incidents', 'incidents.id', '=', 'comments.id_incident')->
+        join('users', 'users.id', '=', 'comments.id_user')->
+        where('incidents.id',$id)->
+        get();
+
+        return view('panel.incidents.details')->with(['Incidents'=> $Incidents,'comment'=>$comment]);
     }
 
 
@@ -121,7 +164,7 @@ class IncidentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request);
     }
 
     /**

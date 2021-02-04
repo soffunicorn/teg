@@ -1,4 +1,4 @@
-<?php
+ph<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
@@ -53,6 +53,7 @@ Route::resource('/incidents', IncidentController::class);
 Route::get('/profile', function () {
     return view('panel.profile.user');
 })->name('user.profile');
+
 Route::get('/incidents/details', function () {
     return view('panel.incidents.details');
 })->name('incidents.details');

@@ -218,13 +218,15 @@ class CompanyController extends Controller
 
         $users = User::join('roles', 'roles.id', '=', 'users.id_rol')->
         join('types', 'types.id', '=', 'users.id_type')->
-        where('types.slug', 'owner')->where('roles.slug', 'local')->where('users.slug', '!=', $company->user_slug)->
+        where('types.slug', 'owner')->where('roles.slug', 'local')->where( 'users.slug', '=', $company->user_slug)->
         select('users.name AS user_name', 'users.lastname AS user_lastname', 'users.slug AS user_slug')->get();
 
         $locals = local::join('states', 'states.id', '=', 'locals.id_state')->
         where('states.slug', 'available')->where('locals.id', '!=', $company->local_id)->select('locals.*')->get();
 
         $status = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable', $company->status_slug])->get();
+
+        $status = States::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable'])->get();
 
         return view('panel.company.edit')->with([
             'company' => $company,
@@ -243,77 +245,18 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $company = Company::where('id', $id)->firstOrFail();
         $rules = [
             'name' => ['max:255'],
-            'business_reason' => ['required', 'max:255', Rule::unique('companies')->ignore($company->id)],
-            'rif' => ['required', 'max:255', Rule::unique('companies')->ignore($company->id)],
-            'email' => ['max:255', 'required', Rule::unique('companies')->ignore($company->id)],
-            'description' => ['max:3000'],
+            'business_reason' => ['required',  'max:255', 'unique:companies'],
+            'rif' => ['required',  'max:255', 'unique:companies'],
+            'email' => ['unique:companies,email', 'max:255', 'required'],
+            'description' => [ 'max:3000'],
             'telephone' => ['numeric'],
         ];
-        //para compañia
         $request->validate($rules);
-        //buscar el estado
-        if (!$request->has('statusCompany')) {
-            return false;
-        }
-
-        $status = State::where('id', $request->statusCompany)->firstOrFail();
-        $company->name = $request->name;
-        $company->business_reason = $request->business_reason;
-        $company->slug = str_shuffle("comp" . $request->name . date("Ymd") . uniqid());
-        $company->rif = $request->rif;
-        $company->id_state = $status->id;
-        $company->email = $request->email;
-        $company->description = $request->description;
-        $company->telephone = $request->telephone;
-        $company->schedule_to = !empty($request->schedule_to) ? $request->schedule_to : "";
-        $company->schedule_from = !empty($request->schedule_from) ? $request->schedule_from : "";
-        $company->save();
-
-        //updetear el local
-        if ($request->has('local')) {
-            $local = local::where('id', $request->local)->firstOrFail();
-            $local_exist = local::join('company_locals', 'company_locals.id_local', '=', 'locals.id')->
-            where('locals.id', $local->id)->select('locals.*')->first();
-            // si el local es diferente al anterior
-
-            if ($local_exist->count() === 0) {
-                $local->companies()->attach($company);
-            }
-
-        }
 
 
-        //Crear usuario pq el owner solo deberia ser creado en el mismo
-        if ($request->has('currentOwner') && $request->currentOwner === 'otherOwner') {
-            $user = new User();
-            $userRules = [
-                'nameOwner' => ['required', 'max:255', 'required'],
-                'lastnameOwner' => ['max:255'],
-                'emailOwner' => ['unique:users,email', 'max:255', 'required'],
-            ];
-            $request->validate($userRules);
-            $password = Str::random(10);
-            $type = Type::where('slug', 'owner')->first();
-            $rol = Rol::where('slug', 'local')->first();
-            $slug = str_shuffle("user" . $request->nameOwner . date("Ymd") . uniqid());
-            $user->name = $request->nameOwner;
-            $user->lastname = $request->lastnameOwner;
-            $user->password = $password;
-            $user->email = $request->emailOwner;
-            $user->slug = $slug;
-            $user->id_rol = $rol->id;
-            $user->id_type = $type->id;
-            $user->save();
-            $user->Companies()->attach($company);
-        }
-
-        //lenar la tabla relacional user_company
-
-        return redirect('company');
 
     }
 

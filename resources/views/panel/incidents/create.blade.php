@@ -14,11 +14,22 @@
             <div class="row mb-3">
                 <div class="col-12 col-md-4">
                     <label for="title"> Departamento</label>
-                    <select name="id_department" id="id_department" class="form-control">
+                    <select name="id_departament" id="id_departament" class="form-control">
                         <option selected>--- Seleccionar ---</option>
                         @if( !empty($departments) )
                             @foreach($departments as $department)
                                 <option value="{{$department->id}}">{{$department->name}} </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="title"> Local</label>
+                    <select name="id_local" id="id_local" class="form-control">
+                        <option selected>--- Seleccionar ---</option>
+                        @if( !empty($locals) )
+                            @foreach($locals as $local)
+                                <option value="{{$local->id}}">{{$local->n_local}} </option>
                             @endforeach
                         @endif
                     </select>
@@ -32,10 +43,7 @@
                         <option value="alta">Alta</option>
                     </select>
                 </div>
-                <div class="col-12 col-md-4">
-                    <label for="title"> Fecha limite</label>
-                    <input type="date" name="deathline" id="deathline" class="form-control" min="{{date('d-m-Y')}}" />
-                </div>
+              
             </div>
             <div class="row mb-3">
                 <div class="col-12 col-md-12">
@@ -43,9 +51,10 @@
                     <textarea name="description" id="description" class="textarea form-control" ></textarea>
                 </div>
             </div>
-            <input type="hidden" value="{{$local}}" name="id_local">
+       
+          
 
-            <button type="submit" class="btn btn-submit uniform-bg" id="btn-sumit">Reportar incidencias</button>
+            <button type="submit" class="btn btn-submit uniform-bg btn-block" id="btn-sumit">Reportar incidencias</button>
         </form>
     </div>
 @endsection
