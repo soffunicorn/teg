@@ -32,9 +32,11 @@
                         <a href="{{url('incidents/'.$Incident->slug)}}" class="viewMore btn" id="viewMore"  title="Ver más">
                             <i class="fas fa-plus"> </i></a>
 
+                    <?php if(session()->get('rol') == 'empleado' or session()->get('rol') == 'admin'){ ?>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{$Incident->id}}">
                         Elegir responsable
                     </button>
+                    <?php } ?>
 
                     <div class="modal" id="myModal{{$Incident->id}}">
                         <div class="modal-dialog">
@@ -43,7 +45,7 @@
                                 @csrf
                                 <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Comentario</h4>
+                                        <h4 class="modal-title">Responsable</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
 

@@ -64,6 +64,9 @@ Coded by www.creative-tim.com
                   <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
                   <li><a href="{{url('department/create')}}">Crear Departamentos </a></li>
                   <?php } ?>
+                  <?php if(session()->get('rol') == 'empleado' or session()->get('rol') == 'admin'){ ?>
+                  <li><a href="{{url('midepa')}}">Mi departamento </a></li>
+                  <?php } ?>
               </ul>
           </li>
             <li>

@@ -32,15 +32,22 @@ Route::get('/getCompany/{slug}', [CompanyController::class, 'get_company'])->mid
 /*Department*/
 Route::resource('/department', DepartmentController::class)->middleware('auth');
 Route::get('/getdepartment/{id}', [DepartmentController::class, 'getDepartment'])->middleware('auth');
+Route::get('/midepa', [DepartmentController::class, 'midepa'])->middleware('auth');
 
 /*User*/
 Route::resource('/user', UserController::class)->middleware('auth');
 
 Route::put('/password-edit/{slug}', [UserController::class, 'password_edit'])->middleware('auth'); //reset password
 
-Route::get('/worker', [UserController::class, 'indexWorkers'])->middleware('auth');
-Route::get('/worker/create', [UserController::class, 'createWorkers'])->middleware('auth');
-Route::post('/workers', [UserController::class, 'storeWorkers'])->middleware('auth');
+
+
+Route::get('/worker', [UserController::class, 'indexWorkers']);
+Route::get('/worker/create', [UserController::class, 'createWorkers']);
+
+Route::get('/worker/create/current-department/{id}', [UserController::class, 'createWorkerCurrentDepartment']);
+Route::post('/workers/store/CurrentD', [UserController::class, 'storeWorkersCurrentD']);
+Route::post('/workers', [UserController::class, 'storeWorkers']);
+
 
 // ********************************* Al iniciar sesión
 

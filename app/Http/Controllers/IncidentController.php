@@ -207,14 +207,15 @@ class IncidentController extends Controller
         $comment = Comment::select('comments.*','users.name AS nombre')->
         join('incidents', 'incidents.id', '=', 'comments.id_incident')->
         join('users', 'users.id', '=', 'comments.id_user')->
-        where('incidents.slug',$slug)->
-        get();
+        where('incidents.slug',$slug)->get();
 
 
         return view('panel.incidents.details')->with([
             'Incidents'=> $incidents,
             'comments'=> $comment,
         ]);
+
+
 
     }
 

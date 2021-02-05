@@ -8,6 +8,7 @@ use App\Models\Type;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\UserDepartment;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use phpDocumentor\Reflection\Types\False_;
 use Illuminate\Support\Str;
@@ -142,11 +143,13 @@ class DepartmentController extends Controller
 
         $users = User::join('users_departments', 'users_departments.id_user', '=', 'users.id')
         ->join('departments', 'users_departments.id_department', '=', 'departments.id')
-            ->where('departments.id',$id)->get();
+            ->where('departments.id',$id)->select('users.*')->get();
 
         //select * from departments;
         return view ('panel.department.detalle')->with([
-            'department' => $department,'users' => $users,
+            'department' => $department,
+            'users' => $users,
+            'id' => $id,
         ]);
 
 
@@ -188,6 +191,17 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function midepa()
+    {
+        $depa = Department::join('users_departments', 'users_departments.id_department', '=', 'departments.id')
+            ->join('users', 'users.id', '=', 'users_departments.id_user')
+            ->where('users_departments.id_user', Auth::user()->id)->
+            select('departments.*')
+            ->first();
+       return  redirect('department/'.$depa->id);
+    }
+
     public function update(Request $request, $id)
     {
 

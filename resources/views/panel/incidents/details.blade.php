@@ -7,6 +7,7 @@
 @endsection
 @section('panelContent')
     <div class="bg-white details-wrapper">
+
         <div class="row">
             <div class="col-md-12">
                 <h2>{{$Incidents->name}}</h2>
@@ -59,12 +60,12 @@
                                      alt="avatar">
                             </div>
                             <div class="comments-description">
-                                <p class="date"><b>Fecha:</b> 15/01/2021 </p>
-                                <p class="user-comment"><b>Sofia Singer dijo:</b></p>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    when an unknown printer took a galley of type and scrambled it to make a type
-                                    specimen book. It has survived not only five centuries</p>
+                                <p class="date"><b>Fecha:</b>
+                                    {{ $comment->created_at  }}
+
+                                </p>
+                                <p class="user-comment"><b>{{$comment->nombre}} dijo:</b></p>
+                                <p>{{$comment->content}}</p>
                             </div>
 
                         </div>

@@ -25,7 +25,7 @@
                             <td>
                                 <div class="rowDepartment">
 
-                                    <?php if(session()->get('rol') == 'local'){ ?>
+                                    <?php if(session()->get('rol') == 'local' or session()->get('rol') == 'empleado'){ ?>
                                   <button class="viewMore btn " id="viewMore" data-id="{{$department->id}}"
                                                       data-toggle="tooltip" data-placement="bottom" title="Ver más"> <i
                                                     class="fas fa-plus"></i> </button>
