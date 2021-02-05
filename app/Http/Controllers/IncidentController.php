@@ -19,7 +19,42 @@ class IncidentController extends Controller
      */
     public function index()
     {
-        session()->get('rol');
+
+        if(session()->get('rol')=='local'){
+            $compa =  Department::
+            join('locals', 'locals.id',  '=', 'incidents.id_local')->
+            join('company_locals','company_locals.id_local','=','locals.id')->
+            join('companies', 'companies.id', '=', 'company_locals.id_company')->
+            join('user_company', 'user_company.id_company', '=', 'companies.id')->
+            join('users', 'users.id', '=', 'user_company.id_user')
+                ->where('users.id',Auth::user()->id)
+                ->first();
+
+            $Incidents = Incident::
+            join('departments', 'incidents.id_departament', '=', 'departments.id')->
+            where('departments',$compa->id)->get();
+
+            return view('panel.incidents.history')->with([
+                'Incidents' =>  $Incidents
+            ]);
+        }
+
+        if(session()->get('rol')=='empleado'){
+           $depa =  Department::join('users_departments', 'users_departments.id_department', '=', 'departments.id')
+                ->join('users', 'users.id', '=', 'users_departments.id_user')
+                ->where('users_departments.id_user',Auth::user()->id)
+                ->first();
+
+            $Incidents = Incident::
+            join('departments', 'incidents.id_departament', '=', 'departments.id')->
+            where('departments',$depa->id)->get();
+
+            return view('panel.incidents.history')->with([
+                'Incidents' =>  $Incidents
+            ]);
+        }
+
+
         $Incidents = Incident::get();
         return view('panel.incidents.history')->with([
             'Incidents' =>  $Incidents

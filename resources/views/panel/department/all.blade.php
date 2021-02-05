@@ -25,10 +25,13 @@
                             <td>
                                 <div class="rowDepartment">
 
-
-                                 <!-- <button class="viewMore btn " id="viewMore" data-id="{{$department->id}}"
+                                    <?php if(session()->get('rol') == 'local'){ ?>
+                                  <button class="viewMore btn " id="viewMore" data-id="{{$department->id}}"
                                                       data-toggle="tooltip" data-placement="bottom" title="Ver más"> <i
-                                                    class="fas fa-plus"></i> </button>-->
+                                                    class="fas fa-plus"></i> </button>
+                                        <?php }?>
+
+                                     <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
                                      <a href="{{ url('/department/' .$department->id)  }}"
                                         class="viewMore btn "><i
                                              class="fas fa-plus" data-toggle="tooltip" data-placement="bottom"
@@ -38,6 +41,7 @@
                                            class="btn btn-sam-blue btn-edit"><i
                                                 class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
                                                 title="Editar"></i></a>
+
 
                                         <form method="POST" action="{{url('/department/' .$department->id)}}"
                                               id="formDelete" name="formDelete">
@@ -50,6 +54,7 @@
                                         </form>
 
                                 </div>
+                                <?php } ?>
                             </td>
                         </tr>
 
