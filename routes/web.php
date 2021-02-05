@@ -36,6 +36,8 @@ Route::get('/getdepartment/{id}', [DepartmentController::class, 'getDepartment']
 /*User*/
 Route::resource('/user', UserController::class);
 
+Route::put('/password-edit/{slug}', [UserController::class, 'password_edit']); //reset password
+
 Route::get('/worker', [UserController::class, 'indexWorkers']);
 Route::get('/worker/create', [UserController::class, 'createWorkers']);
 Route::post('/workers', [UserController::class, 'storeWorkers']);

@@ -63,19 +63,24 @@
                     </form>
                     <hr class="mb-4 mt-4">
                     <h4>Editar la contraseña</h4>
-                    <form action="{{url('reset-password') . auth()->user()->slug}} " method="POST">
+                    <form action="{{url('password-edit' ) . "/" . auth()->user()->slug}} " method="POST">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="col-md-6 pr-1 ">
                                 <div class="form-group">
                                     <label>Contraseña</label>
-                                    <input type="password" class="form-control" placeholder="City" value="{{auth()->user()->getAuthPassword()}}">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="City" value="{{auth()->user()->getAuthPassword()}}">
                                 </div>
                             </div>
                             <div class="col-md-6 d-flex align-items-center">
                                 <button type="submit" class="btn uniform-bg" style="height: fit-content;">Actualizar Contraseña</button>
                             </div>
+                            @if(session()->has('message'))
+                                <div class="alert alert-success mx-auto d-block">
+                                    {{ session()->get('message') }}
+                                </div>
+                            @endif
                         </div>
                     </form>
 
