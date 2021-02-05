@@ -79,7 +79,7 @@
 
                     <div class="modal" id="estado{{$Incident->id}}">
                         <div class="modal-dialog">
-                            <form action="{{url('/estados')}}" METHOD="POST">
+                            <form action="{{url('estados')}}" METHOD="POST">
                                 <div class="modal-content">
                                 @csrf
                                 <!-- Modal Header -->
