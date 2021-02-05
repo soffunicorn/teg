@@ -335,4 +335,18 @@ class UserController extends Controller
         //
     }
 
+    function password_edit(Request $request, $slug){
+        if(empty($slug)){
+            return false;
+        }
+        $user = User::where('slug', $slug)->first();
+        if( ! $request->has('password')){
+            return  back()->with('status','Hubo un problema en el envio de su contraseña');
+        }
+            $user->password = bcrypt($request->password);
+            $user->save();
+         return   redirect()->back()->with('message', 'Contraseña cambiada exitosamente');
+
+    }
+
 }

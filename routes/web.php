@@ -36,6 +36,8 @@ Route::get('/getdepartment/{id}', [DepartmentController::class, 'getDepartment']
 /*User*/
 Route::resource('/user', UserController::class);
 
+Route::put('/password-edit/{slug}', [UserController::class, 'password_edit']); //reset password
+
 Route::get('/worker', [UserController::class, 'indexWorkers']);
 Route::get('/worker/create', [UserController::class, 'createWorkers']);
 
@@ -55,7 +57,7 @@ Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'set
 
 
 Route::resource('/incidents', IncidentController::class)->middleware('auth');;
-
+Route::post('/comentar', [IncidentController::class,'comentario'])->middleware('auth');;
 //Route::resource('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
 
 Route::get('/profile', function () {
