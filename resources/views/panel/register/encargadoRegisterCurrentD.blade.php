@@ -64,9 +64,9 @@
             <button type="submit" id="localSubmit" class="btn btn-submit uniform-bg mx-auto d-block">Registrar
             </button>
         </div>
-            @if( session->has('fallo') )
+            @if( session()->has('fallo') )
                 <div class="alert alert-warning">
-                    {{session->get('fallo')}}
+                    {{session()->get('fallo')}}
                 </div>
             @endif
 
