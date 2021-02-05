@@ -107,7 +107,7 @@ class DepartmentController extends Controller
             $userObject->lastname = !empty($request->responsableLastName) ? $request->responsableLastName : "";
             $userObject->email = $request->responsableMail;
             //llenado automatico de campos
-         //   $password = Str::random(10);
+            //   $password = Str::random(10);
             $password = "1233445";
             $userObject->password =  bcrypt($password);
             $userObject->slug = str_shuffle("user" . $request->name . date("Ymd") . uniqid());
@@ -133,7 +133,21 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        //
+        $department = Department::join('users_departments', 'users_departments.id_department', '=', 'departments.id')
+            ->join('users', 'users.id', '=', 'users_departments.id_user')
+            ->join('roles', 'roles.id', '=', 'users.id_rol')->join('types', 'types.id', '=', 'users.id_type')->
+            where('roles.slug', 'empleado')->
+            where('departments.id',$id)->where('types.slug', 'boss')
+            ->select('departments.*', 'users.name AS user_name', 'users.id AS user_id' )->first();
+
+        $users = User::join('users_departments', 'users_departments.id_user', '=', 'users.id')
+        ->join('departments', 'users_departments.id_department', '=', 'departments.id')
+            ->where('departments.id',$id)->get();
+
+        //select * from departments;
+        return view ('panel.department.detalle')->with([
+            'department' => $department,'users' => $users,
+        ]);
 
 
     }
@@ -156,7 +170,7 @@ class DepartmentController extends Controller
             ->where('departments.id', $id)->where('types.slug', 'boss')
             ->where('roles.slug', 'empleado')->select('users.*')->first();
 
-        $users = User::join('roles', 'roles.id', '=', 'users.id_rol')
+              $users = User::join('roles', 'roles.id', '=', 'users.id_rol')
                        ->where('roles.slug', 'empleado')
                         ->whereNotIn('users.id', [ $responsable->id ])->select('users.*', 'roles.slug AS rol_slug')->get();
 
