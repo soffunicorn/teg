@@ -7,6 +7,7 @@
 @endsection
 @section('panelContent')
     <div class="bg-white details-wrapper">
+
         <div class="row">
             <div class="col-md-12">
                 <h2>{{$Incidents->name}}</h2>

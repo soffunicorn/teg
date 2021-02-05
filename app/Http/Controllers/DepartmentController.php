@@ -146,7 +146,9 @@ class DepartmentController extends Controller
 
         //select * from departments;
         return view ('panel.department.detalle')->with([
-            'department' => $department,'users' => $users,
+            'department' => $department,
+            'users' => $users,
+            'id' => $id,
         ]);
 
 

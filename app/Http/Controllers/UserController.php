@@ -76,6 +76,15 @@ class UserController extends Controller
     }
 
 
+    public function createWorkerCurrentDepartment($id){
+        //formulario para usaurios del centrocomercial
+        $department = Department::findOrFail($id);
+        return view('panel.register.encargadoRegisterCurrentD')->with([
+            'department' => $department,
+        ]);
+    }
+
+
     public function create()
     {
         //
@@ -168,6 +177,76 @@ class UserController extends Controller
         $userDepartment->id_user = $user->id;
         $userDepartment->save();
     }
+
+
+    //worker
+    public function storeWorkersCurrentD(Request $request)
+    {
+
+        //$password = Str::random(10); //password
+        $rules = [
+            'name' => ['string', 'max:255', 'required'],
+            'lastname' => ['string', 'max:255'],
+            'mail' => ['unique:users,email', 'max:255', 'required'],
+        ];
+        $request->validate($rules);
+        $password = "1234" . $request->name;
+        $rol = $tipo = "";
+        if ($request->has('rol')) {
+            switch ($request->rol) {
+                case "admin" :
+                    $rol = "admin";
+                    $tipo = "boss";
+                    break;
+                case  "bossArea"  :
+                    $rol = "empleado";
+                    $tipo = "boss";
+                    break;
+                case "employee"   :
+                    $rol = "empleado";
+                    $tipo = "worker";
+            }
+        }
+
+        //Validaciones
+        if (empty($rol) && empty($tipo)) {
+            return redirect()->back()->withErrors('fallo', 'Hubo un error con sus datos');
+        }
+        if (empty($request->department)) {
+            return redirect()->back()->withErrors('fallo', 'Hubo un error con sus datos');
+        }
+        //Búscar el rol y el tipo por slug
+        $rolModel = Rol::where('slug', $rol)->first();
+        $tipoModel = Type::where('slug', $tipo)->first();
+
+        //registro del usuario
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->lastname = !empty($request->lastname) ? $request->lastname : "";
+        $user->email = $request->mail;
+        $user->password = bcrypt($password);
+
+        $user->slug = str_shuffle("user" . $request->name . date("Ymd") . uniqid());
+        $user->id_rol = $rolModel->id;
+        $user->id_type = $tipoModel->id;
+        $user->save();
+
+
+        //llenado de la tabla user_department
+        $department = Department::where('slug',$request->department)->first();
+
+        $userDepartment = new UserDepartment();
+        $userDepartment->id_department = $department->id;
+        $userDepartment->id_user = $user->id;
+        $userDepartment->save();
+        return redirect('department');
+
+    }
+
+
+
+
 
 
     public function storeLocatarios(Request $request)

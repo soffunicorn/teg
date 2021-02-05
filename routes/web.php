@@ -38,6 +38,9 @@ Route::resource('/user', UserController::class);
 
 Route::get('/worker', [UserController::class, 'indexWorkers']);
 Route::get('/worker/create', [UserController::class, 'createWorkers']);
+
+Route::get('/worker/create/current-department/{id}', [UserController::class, 'createWorkerCurrentDepartment']);
+Route::post('/workers/store/CurrentD', [UserController::class, 'storeWorkersCurrentD']);
 Route::post('/workers', [UserController::class, 'storeWorkers']);
 
 // ********************************* Al iniciar sesión
