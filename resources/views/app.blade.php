@@ -51,7 +51,9 @@ Coded by www.creative-tim.com
           <li>        <h5>Incidencias</h5>
               <ul>
                   <li><a href="{{url('incidents')}}">Ver incidencias </a></li>
+                  <?php if(session()->get('rol') == 'local'){ ?>
                   <li><a href="{{url('incidents/create')}}">Crear incidencias </a></li>
+                  <?php } ?>
               </ul>
           </li>
 
@@ -59,21 +61,31 @@ Coded by www.creative-tim.com
               <h5>Departmentos</h5>
               <ul>
                   <li><a href="{{url('department')}}"> Ver  Departamentos </a></li>
+                  <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
                   <li><a href="{{url('department/create')}}">Crear Departamentos </a></li>
+                  <?php } ?>
               </ul>
           </li>
             <li>
               <h5>Empresas</h5>
               <ul>
+                  <?php if(session()->get('rol') != 'local'){ ?>
                   <li><a href="{{url('company')}}"> Ver Empresas   </a></li>
+                      <?php } ?>
+                  <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
                   <li><a href="{{url('company/create')}}">Crear Empresas </a></li>
+                  <?php } ?>
               </ul>
           </li>
             <li>
               <h5>Locales</h5>
               <ul>
+                  <?php if(session()->get('rol') != 'local'){ ?>
                   <li><a href="{{url('locales')}}"> Ver  Locales </a></li>
+                      <?php } ?>
+                      <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
                   <li><a href="{{url('locales/create')}}">Crear Locakes </a></li>
+                  <?php } ?>
               </ul>
           </li>
 
@@ -113,15 +125,25 @@ Coded by www.creative-tim.com
             <ul class="navbar-nav">
               <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="nc-icon nc-bell-55"></i>
+                    <i class="nc-icon nc-single-02"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a  class="nav-link" href="{{url('profile')}}">Mi perfil</a>
                   <a class="dropdown-item" href="#">{{session()->get('tipo')}}</a>
                   <a class="dropdown-item" href="#">   {{session()->get('rol')}} </a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                       document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
               </li>
-                <li class="nav-item"><a  class="nav-link" href="{{url('profile')}}"><i class="nc-icon nc-single-02"></i></a></li>
+
+
             </ul>
           </div>
         </div>

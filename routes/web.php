@@ -42,7 +42,7 @@ Route::post('/workers', [UserController::class, 'storeWorkers']);
 
 // ********************************* Al iniciar sesión
 
-Route::get('/setDepartment/{id}', [App\Http\Controllers\HomeController::class, 'setDepartment']);
+Route::get('/setDepartment/{id}', [App\Http\Controllers\HomeController::class, 'setDepartment'])->middleware('auth');
 Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
 
 
@@ -51,7 +51,7 @@ Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'set
 
 
 
-Route::resource('/incidents', IncidentController::class);
+Route::resource('/incidents', IncidentController::class)->middleware('auth');;
 
 //Route::resource('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
 
