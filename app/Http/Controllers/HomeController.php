@@ -130,7 +130,7 @@ class HomeController extends Controller
         }
 
 
-        return view('home');
+        return redirect('incidents');
     }
 
     public function setCompany($id){
@@ -140,7 +140,6 @@ class HomeController extends Controller
 
     public function setDepartment($id){
         Auth::user()->setCurrentDepartment($id);  //setear el department
-
         return redirect('incidents');
     }
 
