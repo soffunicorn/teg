@@ -123,11 +123,10 @@ class HomeController extends Controller
 
         }else if($userRol->slug === 'admin' && $userType->slug === 'boss' ){
 
-            return view('vista_admin');
+            redirect('incidents');
         }else{
             // super_admin
-            return view('super_admin');
-
+            redirect('incidents');
         }
 
 
