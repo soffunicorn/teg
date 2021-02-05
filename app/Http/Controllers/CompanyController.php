@@ -236,6 +236,7 @@ class CompanyController extends Controller
             'locals' => $locals,
             'states' => $status
         ]);
+
     }
 
     /**

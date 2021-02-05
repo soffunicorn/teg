@@ -138,5 +138,10 @@ class HomeController extends Controller
         return redirect('incidents');
     }
 
+    public function setDepartment($id){
+        User::setCurrentDepartment($id); //setear el company
+        return redirect('incidents');
+    }
+
 
 }
