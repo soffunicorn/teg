@@ -88,8 +88,8 @@ class IncidentController extends Controller
         $validador = \Validator::make($params_array,
             [
                // 'name'          => '|unique:incidents',
-                'description'   => 'required|alpha',
-                'priority'      => 'required|alpha',
+                'description'   => 'required|string',
+                'priority'      => 'required|string',
                 'id_departament'=> 'required',
                 'id_local'      => 'required',
             ]
@@ -126,34 +126,41 @@ class IncidentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
+
+
         $Incidents = Incident::select(
         'incidents.*',
         'companies.id AS companiesId',
         'companies.name AS companiesName',
         'n_local',
-        'responsable AS responsable.name',
+        'users.name AS responsable',
         'departments.name AS departmentsName',
         'departments.id AS departmentsId',
         )->
-        join('locals','incidents.id_local','=','locals.id')->
+        join('locals', 'locals.id',  '=', 'incidents.id_local')->
         join('company_locals','company_locals.id_local','=','locals.id')->
-        join('companies','company_locals.id_company','=','companies.id')->
+        join('companies', 'companies.id', '=', 'company_locals.id_company')->
         //join('user_company', 'user_company.id_company', '=', 'companies.id')->
         //join('users', 'users.id', '=', 'user_company.id_user')->
-        join('users AS responsable', 'incidents.id_responsable', '=', 'responsable.id')->
+        join('users', 'incidents.id_responsable', '=', 'users.id')->
         join('departments', 'incidents.id_departament', '=', 'departments.id')->
-        where('incidents.id',$id)->
+        where('incidents.slug',$slug)->
         first();
 
-        $comment = Comment::select('comments.*','usars.name AS nombre')->
+        $comment = Comment::select('comments.*','users.name AS nombre')->
         join('incidents', 'incidents.id', '=', 'comments.id_incident')->
         join('users', 'users.id', '=', 'comments.id_user')->
-        where('incidents.id',$id)->
+        where('incidents.slug',$slug)->
         get();
 
-        return view('panel.incidents.details')->with(['Incidents'=> $Incidents,'comment'=>$comment]);
+
+        return view('panel.incidents.details')->with([
+            'Incidents'=> $Incidents,
+            'comment'=> $comment,
+        ]);
+
     }
 
 

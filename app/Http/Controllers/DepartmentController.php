@@ -8,6 +8,7 @@ use App\Models\Type;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\UserDepartment;
+use Illuminate\Validation\Rule;
 use phpDocumentor\Reflection\Types\False_;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -177,27 +178,31 @@ class DepartmentController extends Controller
     {
 
         $rules = [
-            'name' => ['required',  'max:255'],
-            'email' => ['email', 'max:255', 'required'],
-            'description' => [ 'max:3000' ],
+            'name' => [Rule::unique('departments')->ignore($id),  'max:255', 'required'],
+            'email' => [Rule::unique('departments')->ignore($id), 'max:255', 'required'],
+            'description' => [ 'max:3000', 'required' ],
         ];
 
         $request->validate($rules);
         $department = Department::findOrFail($id);
         $department->name = $request->name;
-        $department->telephone = $request->telephone;
+        $department->telephone = $request->has('telephone')? $request->telephone : "";
         $department->email = $request->email;
         $department->schedule_from = $request->has('schedule_from') ? $request->schedule_from  : "";
         $department->schedule_to = $request->has('schedule_to') ? $request->schedule_to  : "";
         $department->description = $request->description;
         $department->save();
-        if(!empty($request->responsable)){
+
+        if( $request->has('responsable') ){
             $user =  User::where('slug', $request->responsable)->first();
-            $userDepartment = UserDepartment::where('id_department', $id)->firstOrFail();
+            $userDepartment = UserDepartment::where('id_department', $id)->first();
             $userDepartment->id_user = $user->id;
             $userDepartment->save();
         }
+
+
         return redirect('department');
+
     }
 
 

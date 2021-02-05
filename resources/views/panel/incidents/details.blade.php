@@ -1,3 +1,4 @@
+
 @extends('app')
 @section('panelTitle', 'Detalle')
 @section('panelHead')

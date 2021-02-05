@@ -73,7 +73,7 @@ class HomeController extends Controller
                 //setear Dpto
                 session(['currentDepartment' => $department[0]->id]);
                 // panel para el departamento
-                return view('vista_panel');
+                return view('/incidents');
             }
 
         }else if($userRol->slug  === 'empleado' && $userType->slug === 'worker' ){ /*Trabajador de departamento empleado de sambil  */
@@ -89,7 +89,7 @@ class HomeController extends Controller
 
             if($department->count() !== 0){
                 session(['currentDepartment' => $department[0]->id]);
-                return view('vista_panel');
+                return redirect('incidents');
             }
         } else if($userRol->slug === 'local' && $userType->slug === 'owner' ){ /*Arrendatario de un local  */
             //preguntar si es tiene mas de una empresa
@@ -102,14 +102,13 @@ class HomeController extends Controller
                                 where('roles.slug',$userRol->slug)-> where('types.slug', $userType->slug )->
                                 where('users.id', auth()->user()->id)->select('companies.*')->get();
 
-            Auth::user()->setTipo($userType->slug);
-            Auth::user()->setRol($userRol->slug);
+
             if($company->count() > 1){
                 return view('misc.chooseCompany')->with(['companies' => $company]);
             }else if($company->count() === 1){
                 session(['currentCompany' => $company[0]->id]); //setear la compañia
 
-                return view('vista_panel');
+                return redirect('incidents');
             }
 
 
@@ -121,12 +120,10 @@ class HomeController extends Controller
             where('roles.slug',$userRol->slug)-> where('types.slug', $userType->slug )->
             where('users.id', auth()->user()->id)->select('companies.*')->first();
 
-            Auth::user()->setTipo($userType->slug);
-            Auth::user()->setRol($userRol->slug);
 
             if($company->count() !== 0) {
                 session(['currentCompany' => $company[0]->id]); //setear la compañia
-                return view('vista_panel');
+                return redirect('incidents');
             }
 
         }else if($userRol->slug === 'local'  && $userType->slug === 'worker_local'  ){ /*Empleado  del depto  */
@@ -138,12 +135,11 @@ class HomeController extends Controller
             where('roles.slug',$userRol->slug)-> where('types.slug', $userType->slug )->
             where('users.id', auth()->user()->id)->select('companies.*')->first();
 
-            Auth::user()->setTipo($userType->slug);
-            Auth::user()->setRol($userRol->slug);
+
 
             if($company->count() !== 0) {
                 session(['currentCompany' => $company[0]->id]); //setear la compañia
-                return view('vista_panel');
+                return view('/incidents');
             }
 
         }

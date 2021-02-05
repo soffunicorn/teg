@@ -19,8 +19,8 @@
             <tbody>
             @if( !empty($Incidents) )
                             @foreach($Incidents as $Incident)
-                               
-                        
+
+
             <tr>
                 <td>{{$Incident->name}}</td>
                 <td>Jhon Snow</td>
@@ -28,12 +28,12 @@
                 <td>En Progreso</td>
                 <td>
                     <div class="rowIncident">
-                       
-                            <a href="{{url('incidents/'.$Incident->id)}}" class="viewMore btn " id="viewMore"  title="Ver más"><i
-                                    class="fas fa-plus"></i></a>
-                       
 
-                        <a href="{{url('incidents/'.$Incident->id.'/edit')}}"
+                            <a href="{{url('incidents/'.$Incident->slug)}}" class="viewMore btn " id="viewMore"  title="Ver más"><i
+                                    class="fas fa-plus"></i></a>
+
+
+                        <a href="{{url('incidents/'.$Incident->slug.'/edit')}}"
                            class="btn btn-sam-blue btn-edit"><i
                                 class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
                                 title="Editar"></i></a>
@@ -54,7 +54,7 @@
                 </td>
             </tr>
 
-        
+
             @endforeach
                         @endif
             </tbody>
