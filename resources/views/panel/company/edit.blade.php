@@ -34,7 +34,15 @@
                 </div>
 
                 <div class="col-md-4 mb-4">
-                    <label for="Córreo Eléctronico">Estado de la empresa </label>
+                    <label for="Estados">Estado de la empresa </label>
+                    <select name="statusCompany" id="statusCompany" class="form-control">
+                        <option value="{{$company->status_id}}"> {{$company->status}}</option>
+                        @if($states->count() !== 0)
+                            @foreach($states as $state)
+                                <option value="{{$state->id}}"> {{$state->state}}</option>
+                            @endforeach
+                        @endif
+                    </select>
 
                 </div>
 
