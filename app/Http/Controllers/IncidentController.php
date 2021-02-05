@@ -7,6 +7,7 @@ use App\Models\Incident;
 use App\Models\Department;
 use App\Models\Local;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
 
 
 class IncidentController extends Controller
@@ -18,6 +19,7 @@ class IncidentController extends Controller
      */
     public function index()
     {
+        session()->get('rol');
         $Incidents = Incident::get();
         return view('panel.incidents.history')->with([
             'Incidents' =>  $Incidents

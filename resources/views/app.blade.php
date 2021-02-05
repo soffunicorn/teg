@@ -48,12 +48,35 @@ Coded by www.creative-tim.com
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li><a href="#"> Notificaciones</a></li>
-          <li><a href=""> Gestionar  Incidencias </a></li>
-          <li><a href=""> Gestionar Departamento</a></li>
-          <li><a href="" class="active"> Gestionar Locales</a></li>
-          <li><a href=""> Gestionar Comapañias</a></li>
-          <li><a href="#"> Reportes </a></li>
+          <li>        <h5>Incidencias</h5>
+              <ul>
+                  <li><a href="{{url('incidents')}}">Ver incidencias </a></li>
+                  <li><a href="{{url('incidents/create')}}">Crear incidencias </a></li>
+              </ul>
+          </li>
+
+            <li>
+              <h5>Departmentos</h5>
+              <ul>
+                  <li><a href="{{url('department')}}"> Ver  Departamentos </a></li>
+                  <li><a href="{{url('department/create')}}">Crear Departamentos </a></li>
+              </ul>
+          </li>
+            <li>
+              <h5>Empresas</h5>
+              <ul>
+                  <li><a href="{{url('company')}}"> Ver Empresas   </a></li>
+                  <li><a href="{{url('company/create')}}">Crear Empresas </a></li>
+              </ul>
+          </li>
+            <li>
+              <h5>Locales</h5>
+              <ul>
+                  <li><a href="{{url('locales')}}"> Ver  Locales </a></li>
+                  <li><a href="{{url('locales/create')}}">Crear Locakes </a></li>
+              </ul>
+          </li>
+
         </ul>
       </div>
     </div>
@@ -91,13 +114,10 @@ Coded by www.creative-tim.com
               <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="nc-icon nc-bell-55"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">{{session()->get('tipo')}}</a>
+                  <a class="dropdown-item" href="#">   {{session()->get('rol')}} </a>
                   <a class="dropdown-item" href="#">Something else here</a>
                 </div>
               </li>

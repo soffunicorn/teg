@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Local;
 use App\Models\State;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class LocalController extends Controller
 {
@@ -14,7 +15,7 @@ class LocalController extends Controller
      */
     public function index()
     {
-        $states = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable'])->get();
+        $states = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable', 'busy'])->get();
         $locales = local::join('states', 'states.id', '=', 'locals.id_state')->
                           whereIn('slug', ['available', 'busy', 'disabled'])->
                           select('locals.*', 'states.slug AS state_slug', 'states.state AS state_name')->get();
@@ -94,8 +95,7 @@ class LocalController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'n_local' => ['required', 'max:255', ' alpha_num'],
-            'status' => ['required', 'in:disponible,ocupado,deshabilitado'],
+            'n_local' => [Rule::unique('companies')->ignore($id), 'max:255', ' alpha_num'],
         ];
         $request->validate($rules);
         $local =  Local::where('id', $id)->first();

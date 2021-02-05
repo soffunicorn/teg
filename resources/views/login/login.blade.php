@@ -53,10 +53,12 @@
 
                     </div>
                     <div class="row px-3 mb-4">
+
                         <div class="custom-control custom-checkbox custom-control-inline">
-                            <input iname="remember" id="remember" {{ old('remember') ? 'checked' : '' }} class="custom-control-input">
-                            <label for="chk1" class="custom-control-label text-sm">Recordarme</label>
+                            <input class="" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
                         </div>
+
                         <a href="{{ route('password.request') }}" class="ml-auto mb-0 text-sm">¿Olvidaste la contraseña?</a>
                     </div>
                     <div class="row mb-3 px-3"> <button type="submit" class="btn  uniform-bg btn-submit text-center">Iniciar sesión</button> </div>

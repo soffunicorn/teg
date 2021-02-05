@@ -35,10 +35,24 @@ class HomeController extends Controller
 
     public function index()
     {
+
         $userRol = Rol::join('users', 'users.id_rol', '=', 'roles.id')->
                         where('users.id', auth()->user()->id)->select('roles.*')->first();
         $userType = Type::join('users', 'users.id_type', '=', 'types.id')->
                         where('users.id', auth()->user()->id)->select('types.*')->first();
+
+
+        session(['tipo' => $userType->slug ]);
+        session(['rol' => $userRol->slug]);
+
+
+
+        if($userRol->slug == 'admin' or  $userRol->slug == 'super_admin'){
+            return redirect('incidents');
+        }
+
+
+
 
         //Preguntar que tipo y rol es
 
@@ -52,11 +66,14 @@ class HomeController extends Controller
                                       where('roles.slug', $userRol->slug )->
                                       where('types.slug', $userType->slug )->select('departments.*')->get();
 
+            Auth::user()->setTipo($userType->slug);
+            Auth::user()->setRol($userRol->slug);
+
             if($department->count() > 1){
                 return view('misc.chooseDepartment')->with(['departments' => $department]);
             }else if($department->count() === 1){
                 //setear Dpto
-                User::setCurrentDepartment($department[0]->id);
+                session(['currentDepartment' => $department[0]->id]);
                 // panel para el departamento
                 return view('vista_panel');
             }
@@ -71,8 +88,9 @@ class HomeController extends Controller
             where('roles.slug', $userRol->slug )->
             where('types.slug', $userType->slug )->select('departments.*')->first();
 
+
             if($department->count() !== 0){
-                User::setCurrentDepartment($department->id); //setear el dpto
+                session(['currentDepartment' => $department[0]->id]);
                 return view('vista_panel');
             }
         } else if($userRol->slug === 'local' && $userType->slug === 'owner' ){ /*Arrendatario de un local  */
@@ -86,10 +104,13 @@ class HomeController extends Controller
                                 where('roles.slug',$userRol->slug)-> where('types.slug', $userType->slug )->
                                 where('users.id', auth()->user()->id)->select('companies.*')->get();
 
+            Auth::user()->setTipo($userType->slug);
+            Auth::user()->setRol($userRol->slug);
             if($company->count() > 1){
                 return view('misc.chooseCompany')->with(['companies' => $company]);
             }else if($company->count() === 1){
-                User::setCurrentDepartment($company[0]->id); //setear el company
+                session(['currentCompany' => $company[0]->id]); //setear la compañia
+
                 return view('vista_panel');
             }
 
@@ -102,8 +123,11 @@ class HomeController extends Controller
             where('roles.slug',$userRol->slug)-> where('types.slug', $userType->slug )->
             where('users.id', auth()->user()->id)->select('companies.*')->first();
 
+            Auth::user()->setTipo($userType->slug);
+            Auth::user()->setRol($userRol->slug);
+
             if($company->count() !== 0) {
-                User::setCurrentCompany($company->id); //setear el company
+                session(['currentCompany' => $company[0]->id]); //setear la compañia
                 return view('vista_panel');
             }
 
@@ -116,31 +140,16 @@ class HomeController extends Controller
             where('roles.slug',$userRol->slug)-> where('types.slug', $userType->slug )->
             where('users.id', auth()->user()->id)->select('companies.*')->first();
 
+            Auth::user()->setTipo($userType->slug);
+            Auth::user()->setRol($userRol->slug);
+
             if($company->count() !== 0) {
-                User::setCurrentCompany($company->id); //setear el company
+                session(['currentCompany' => $company[0]->id]); //setear la compañia
                 return view('vista_panel');
             }
 
-        }else if($userRol->slug === 'admin' && $userType->slug === 'boss' ){
-
-            redirect('incidents');
-        }else{
-            // super_admin
-            redirect('incidents');
         }
 
-
-        return redirect('incidents');
-    }
-
-    public function setCompany($id){
-        User::setCurrentCompany($id); //setear el company
-        return redirect('incidents');
-    }
-
-    public function setDepartment($id){
-        Auth::user()->setCurrentDepartment($id);  //setear el department
-        return redirect('incidents');
     }
 
 
