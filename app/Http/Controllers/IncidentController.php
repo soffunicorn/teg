@@ -101,6 +101,7 @@ class IncidentController extends Controller
 
 
     }
+
     public function store(Request $request)
     {
 
@@ -122,7 +123,7 @@ class IncidentController extends Controller
 
         $validador = \Validator::make($params_array,
             [
-               // 'name'          => '|unique:incidents',
+                'name'          => 'required',
                 'description'   => 'required|string',
                 'priority'      => 'required|string',
                 'id_departament'=> 'required',
@@ -152,7 +153,8 @@ class IncidentController extends Controller
         $Incident->slug             =  str_shuffle($Incident->name.date("Ymd").uniqid());
 
         $Incident->save();
-        return redirect('/incidents');
+        return redirect('incidents');
+
     }
 
     /**
@@ -165,24 +167,27 @@ class IncidentController extends Controller
     {
 
 
-        $Incidents = Incident::select(
+        $incidents = Incident::select(
         'incidents.*',
-        'companies.id AS companiesId',
-        'companies.name AS companiesName',
-        'n_local',
+
+      // 'companies.id AS companiesId',
+       // 'companies.name AS companiesName',
+        'locals.n_local',
         'users.name AS responsable',
         'departments.name AS departmentsName',
         'departments.id AS departmentsId',
         )->
         join('locals', 'locals.id',  '=', 'incidents.id_local')->
-        join('company_locals','company_locals.id_local','=','locals.id')->
-        join('companies', 'companies.id', '=', 'company_locals.id_company')->
-        //join('user_company', 'user_company.id_company', '=', 'companies.id')->
+       //join('company_locals','company_locals.id_local','=','locals.id')->
+       //join('companies', 'companies.id', '=', 'company_locals.id_company')->
+       // join('user_company', 'user_company.id_company', '=', 'companies.id')->
         //join('users', 'users.id', '=', 'user_company.id_user')->
-        join('users', 'incidents.id_responsable', '=', 'users.id')->
-        join('departments', 'incidents.id_departament', '=', 'departments.id')->
+        leftJoin('users', 'users.id','=','incidents.id_responsable' )->
+        join('departments', 'departments.id', '=', 'incidents.id_departament')->
         where('incidents.slug',$slug)->
         first();
+
+
 
         $comment = Comment::select('comments.*','users.name AS nombre')->
         join('incidents', 'incidents.id', '=', 'comments.id_incident')->
@@ -192,7 +197,7 @@ class IncidentController extends Controller
 
 
         return view('panel.incidents.details')->with([
-            'Incidents'=> $Incidents,
+            'Incidents'=> $incidents,
             'comment'=> $comment,
         ]);
 

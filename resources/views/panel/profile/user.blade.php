@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="col-md-12 col-8">
-                        <h3 class="user-name">Sofia Singer</h3>
+                        <h3 class="user-name">{{auth()->user()->name}}  {{ auth()->user()->lastname }}</h3>
                     </div>
                 </div>
             </div>
@@ -25,56 +25,66 @@
         <div class="col-md-8">
             <div class="card card-user">
                 <div class="card-header">
-                    <h5 class="card-title">Editar Perfil</h5>
+                    <h5 class="card-title">Editar Datos Básicos</h5>
                 </div>
                 <div class="card-body">
-                    <form action="" method="POST">
+                    <form action="{{url('change-profile') . auth()->user()->slug}} " method="POST">
                         @csrf
-                        <div class="row">
-                            <div class="col-md-6 pr-1">
-                                <div class="form-group">
-                                    <label>Compañia</label>
-                                    <input type="text" class="form-control" disabled="" placeholder="Company"
-                                           value="Creative Code Inc.">
-                                </div>
-                            </div>
-                            <div class="col-md-6 pl-1">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Correo Electrónico</label>
-                                    <input type="email" class="form-control" placeholder="Email" value="mail@mail.com">
-                                </div>
-                            </div>
-                        </div>
+                        @method('PUT')
                         <div class="row">
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
                                     <label>Nombre</label>
-                                    <input type="text" class="form-control" placeholder="Nombre de usuario"
+                                    <input type="text" class="form-control" placeholder="{{auth()->user()->name}}"
                                            value="" >
                                 </div>
                             </div>
                             <div class="col-md-6 pl-1">
                                 <div class="form-group">
                                     <label>Apellido</label>
-                                    <input type="text" class="form-control" placeholder="Last Name" value="Singer">
+                                    <input type="text" class="form-control" placeholder="Last Name" value="{{auth()->user()->lastname}}">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 pr-1">
+                            <div class="col-md-12 pl-1">
                                 <div class="form-group">
-                                    <label>Contraseña</label>
-                                    <input type="password" class="form-control" placeholder="City" value="Melbourne">
+                                    <label for="exampleInputEmail1">Correo Electrónico</label>
+                                    <input type="email" class="form-control" placeholder="Email" value="{{auth()->user()->email}}">
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="update ml-auto mr-auto">
                                 <button type="submit" class="btn uniform-bg">Actualizar datos</button>
                             </div>
                         </div>
                     </form>
+                    <hr class="mb-4 mt-4">
+                    <h4>Editar la contraseña</h4>
+                    <form action="{{url('reset-password') . auth()->user()->slug}} " method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="row">
+                            <div class="col-md-6 pr-1 ">
+                                <div class="form-group">
+                                    <label>Contraseña</label>
+                                    <input type="password" class="form-control" placeholder="City" value="{{auth()->user()->getAuthPassword()}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <button type="submit" class="btn uniform-bg" style="height: fit-content;">Actualizar Contraseña</button>
+                            </div>
+                        </div>
+                    </form>
+
+
                 </div>
+
+
+
+
             </div>
         </div>
     </div>

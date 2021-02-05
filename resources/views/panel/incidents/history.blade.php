@@ -42,10 +42,10 @@
                               id="formDelete" name="formDelete">
                             @csrf
                             @method('DELETE')
-                            <button type="button" class="btn btn-sam-red btn-delete" data-name=""><i
+                          <!--  <button type="button" class="btn btn-sam-red btn-delete" data-name=""><i
                                     class="fas fa-trash"></i></button>
                             <button type="submit" class="btn-real-submit" data-toggle="tooltip"
-                                    data-placement="bottom" title="Borrar" style="opacity: 0;"></button>
+                                    data-placement="bottom" title="Borrar" style="opacity: 0;"></button> -->
                         </form>
 
 

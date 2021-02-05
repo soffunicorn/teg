@@ -20,6 +20,9 @@
             <div class="col-md-4">
                 <p class="meta-data"><b>Fecha de inicio:</b>  {{$Incidents->created_at}}</p>
             </div>
+            <div class="col-md-4">
+                <p class="meta-data"><b>Local:</b>  {{$Incidents->n_local}}</p>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
