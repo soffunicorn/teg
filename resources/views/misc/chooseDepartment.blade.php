@@ -12,10 +12,10 @@
 <body>
 
 <div class="jumbotron text-center">
-    <img src="{{asset('logincss/image/logo-company.png')}}" class="mb-4" alt="sambil logo">
+    <img src="{{asset('panel/assets/img/barquisimeto.png')}}" class="mb-4" alt="sambil logo">
     <h1>Bienvenido  {{auth()->user()->name}}  {{auth()->user()->lastname}}</h1>
     <h2>Al sistema de Gestión de incidencias SOSAM</h2>
-    <p>Por favor escoge la empresa que vas a gestionar</p>
+    <p>Por favor escoge el departamento  que vas a gestionar</p>
 </div>
 
 <div class="container">

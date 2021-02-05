@@ -106,8 +106,9 @@ class DepartmentController extends Controller
             $userObject->lastname = !empty($request->responsableLastName) ? $request->responsableLastName : "";
             $userObject->email = $request->responsableMail;
             //llenado automatico de campos
-            $password = Str::random(10); //password
-            $userObject->password = $password;
+         //   $password = Str::random(10);
+            $password = "1233445";
+            $userObject->password =  bcrypt($password);
             $userObject->slug = str_shuffle("user" . $request->name . date("Ymd") . uniqid());
             $userObject->id_rol = $userRol->id;
             $userObject->id_type = $userType->id;
@@ -154,8 +155,9 @@ class DepartmentController extends Controller
             ->where('departments.id', $id)->where('types.slug', 'boss')
             ->where('roles.slug', 'empleado')->select('users.*')->first();
 
-        $users = User::join('roles', 'users.id_rol', '=', 'roles.id')->where('roles.slug', 'empleado')
-            ->where('users.id', 'NOT IN', $responsable->id)->select('users.*', 'roles.slug AS rol_slug')->get();
+        $users = User::join('roles', 'roles.id', '=', 'users.id_rol')
+                       ->where('roles.slug', 'empleado')
+                        ->whereNotIn('users.id', [ $responsable->id ])->select('users.*', 'roles.slug AS rol_slug')->get();
 
         return view('panel.department.edit')->with([
             'department' => $department,

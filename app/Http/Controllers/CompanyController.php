@@ -93,9 +93,10 @@ class CompanyController extends Controller
         $company->schedule_from = !empty($request->schedule_from) ? $request->schedule_from : "";
         $company->save();
         //Si la comañia es de un usuario registrado sino lo creo
-        if (!$request->has('local')) {
+        if ( !$request->has('local') ) {
             return false;
         }
+
         $local = local::find($request->local);
         $local->companies()->attach($company);
         //updtear el status del local
@@ -136,6 +137,7 @@ class CompanyController extends Controller
         }
         //lenar la tabla relacional user_company
         $user->Companies()->attach($company);
+
         return redirect('company');
 
     }

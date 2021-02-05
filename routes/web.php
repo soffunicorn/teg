@@ -40,6 +40,11 @@ Route::get('/worker', [UserController::class, 'indexWorkers']);
 Route::get('/worker/create', [UserController::class, 'createWorkers']);
 Route::post('/workers', [UserController::class, 'storeWorkers']);
 
+// ********************************* Al iniciar sesión
+
+Route::get('/setDepartment/{id}', [App\Http\Controllers\HomeController::class, 'setDepartment']);
+Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
+
 
 
 // ********************************INCICENCIAS

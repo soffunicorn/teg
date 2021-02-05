@@ -88,8 +88,8 @@
                 </div>
             </div>
 
-            <div class="row mb-4">
-                <button type="submit" id="localSubmit" class="btn btn-submit uniform-bg mx-auto d-block">Registrar
+            <div class="row mb-4 submit-row">
+                <button type="submit" id="DepartmentSubmit" class="btn btn-submit uniform-bg mx-auto d-block">Registrar
                 </button>
             </div>
         </form>
