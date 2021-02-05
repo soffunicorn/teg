@@ -206,9 +206,43 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+            $params_array = $request->toArray();
+            $validador = \Validator::make($params_array,
+                    [
+                        'name'       => 'alpha',
+                        'lastname'   => 'alpha',
+                        'email'      => 'email|unique:users,email,'.Auth::user()->id,
+                    ]
+                );
+                //Segun la respuesta continuo o no
+                if ($validador->fails())
+                {
+                    $data = array(
+                        'status' => 'error',
+                        'code'   =>  404,
+                        'msj'    => 'El Formulario no a sido llenado correctamente',
+                        'errors' => $validador->errors()
+                    );
+                     return 'error';
+                }
+
+                    // Inicio Logia Login
+                    $user = User::where('id',Auth::user()->id)->first();
+
+                    //  Descartos datos de la db que no quiero actualizar aunque vengan
+                    unset($params_array['id']);
+                    unset($params_array['email_verified_at']);
+                    unset($params_array['password']);
+                    unset($params_array['slug']);
+                    unset($params_array['remember_token']);
+                    unset($params_array['created_at']);
+
+                    $user->update($params_array);
+
+                    return  'correcto';
     }
 
     /**
