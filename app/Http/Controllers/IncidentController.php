@@ -7,6 +7,7 @@ use App\Models\Incident;
 use App\Models\Department;
 use App\Models\Local;
 use App\Models\Comment;
+use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -21,19 +22,22 @@ class IncidentController extends Controller
     {
 
         if(session()->get('rol')=='local'){
-            $compa =  Department::
-            join('locals', 'locals.id',  '=', 'incidents.id_local')->
-            join('company_locals','company_locals.id_local','=','locals.id')->
-            join('companies', 'companies.id', '=', 'company_locals.id_company')->
+            $compa =  Company::
+       //     join('locals', 'locals.id',  '=', 'incidents.id_local')->
+           // join('company_locals','company_locals.id_local','=','locals.id')->
+         //   join('companies', 'companies.id', '=', 'company_locals.id_company')->
             join('user_company', 'user_company.id_company', '=', 'companies.id')->
             join('users', 'users.id', '=', 'user_company.id_user')
-                ->where('users.id',Auth::user()->id)
+                ->where('users.id',Auth::user()->id)->
+                select('companies.id')
                 ->first();
 
             $Incidents = Incident::
-            join('departments', 'incidents.id_departament', '=', 'departments.id')->
-            where('departments',$compa->id)->get();
-
+            join('locals', 'locals.id',  '=', 'incidents.id_local')->
+            join('company_locals','company_locals.id_local','=','locals.id')->
+            join('companies', 'companies.id', '=', 'company_locals.id_company')->
+            select('incidents.*')->
+            where('companies.id',$compa->id)->get();
             return view('panel.incidents.history')->with([
                 'Incidents' =>  $Incidents
             ]);
@@ -72,9 +76,12 @@ class IncidentController extends Controller
         $locals = Local::
         join('company_locals','company_locals.id_local','=','locals.id')->
         join('companies','company_locals.id_company','=','companies.id')->
+
         join('user_company', 'user_company.id_company', '=', 'companies.id')->
         join('users', 'users.id', '=', 'user_company.id_user')->
-        Where('users.id',auth()->user()->id)->
+
+        Where('users.id',auth()->user()->id)
+            ->select('locals.id','locals.n_local')->
         //Where('companies.id',)->
         get();
 
@@ -82,6 +89,7 @@ class IncidentController extends Controller
         return view('panel.incidents.create')->with([
             'departments' => $departments, 'locals' => $locals
         ]);
+
     }
 
     /**
@@ -198,7 +206,7 @@ class IncidentController extends Controller
 
         return view('panel.incidents.details')->with([
             'Incidents'=> $incidents,
-            'comment'=> $comment,
+            'comments'=> $comment,
         ]);
 
     }
@@ -216,6 +224,19 @@ class IncidentController extends Controller
     {
         dd($request);
     }
+
+    public function comentario(Request $request)
+    {
+        $In = Incident::where('slug',$request->input('incidentId'))->first();
+
+        $Comment = new Comment();
+        $Comment->content = $request->input('co');
+        $Comment->id_incident = $In->id;
+        $Comment->id_user = $request->input('userId');
+        $Comment->save();
+        return redirect('/incidents/'.$In->slug);
+    }
+
 
     /**
      * Remove the specified resource from storage.

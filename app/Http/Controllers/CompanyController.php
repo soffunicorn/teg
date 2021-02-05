@@ -117,7 +117,7 @@ class CompanyController extends Controller
 
             $request->validate($userRoles);
             //$password = Str::random(10);
-            $password = "1233445";
+            $password = "1234";
             $type = Type::where('slug', 'owner')->first();
             $rol = Rol::where('slug', 'local')->first();
             //TODO enviar mail con password al usuario

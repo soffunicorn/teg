@@ -54,7 +54,7 @@ Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'set
 
 
 Route::resource('/incidents', IncidentController::class)->middleware('auth');;
-
+Route::post('/comentar', [IncidentController::class,'comentario'])->middleware('auth');;
 //Route::resource('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
 
 Route::get('/profile', function () {
