@@ -105,7 +105,7 @@ class LocalController extends Controller
         $local->n_local = $request->input('n_local', null);
         $local->status = $state->id;
         $local->save();
-        return redirect()->back();
+        return redirect('locales');
     }
 
     /**

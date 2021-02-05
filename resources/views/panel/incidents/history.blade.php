@@ -10,9 +10,9 @@
             <thead>
             <tr>
                 <th>Título</th>
-                <th>Levantada por:</th>
-                <th>Departamento</th>
-                <th>Ver más</th>
+                    <th>Responsable:</th>
+                <th>Local</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>

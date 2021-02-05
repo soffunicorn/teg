@@ -10,7 +10,9 @@
                 <tr>
                     <th>Número de local</th>
                     <th>Estado del local</th>
+                    @if(session()->get('rol') !== 'empleado' )
                     <th colspan="2">Acciones</th>
+                    @endif
                 </tr>
                 </thead>
                 @if( !empty($locals) )
@@ -19,10 +21,12 @@
                         <tr>
                             <td><span class="n_local" data-local="{{$local->n_local}}">{{$local->n_local}}</span></td>
                             <td><span class="status" data-status="{{$local->state_name}}">{{$local->state_name}}</span></td>
+                            @if(session()->get('rol') !== 'empleado' )
                             <td>
                                 <button  data-id="{{$local->id}}" class="btn btn-sam-blue btn-edit"><i
                                         class="fas fa-edit"></i></button>
                             </td>
+
                             <td>
                                 <form method="POST" action="{{url('/locales/' .$local->id)}}"  id="formDelete" name="formDelete">
                                     @csrf
@@ -33,6 +37,7 @@
                                 </form>
 
                             </td>
+                            @endif
                         </tr>
 
                     @endforeach
@@ -48,7 +53,7 @@
 @extends('layouts.modal')
 @section('modalTitle', 'Editando el Local')
 @section('modalBody')
-    <form method="POST"  action="{{url('/locales/')}}" id="formEditLocal" name="formEditLocal">
+    <form method="POST"  action="{{url('/locales/'. $local->id)}}" id="formEditLocal" name="formEditLocal">
         @csrf
         @method('PUT')
         <input type="hidden"  id="index" name="index" value="" required/>
@@ -60,7 +65,9 @@
             <option value="ocupado">Ocupado</option>
             <option value="deshabilitado">Deshabilitado</option>
         </select>
+
         <button type="submit" class="btn uniform-bg"> Editar</button>
+
     </form>
 
 @endsection
