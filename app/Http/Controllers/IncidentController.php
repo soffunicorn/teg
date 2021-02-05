@@ -265,7 +265,7 @@ class IncidentController extends Controller
         return redirect('/incidents');
     }
 
-    public function estado(Request $request)
+    public function estados(Request $request)
     {
         $In = Incident::where('slug',$request->input('incidentId'))->first();
         $In->id_state = $request->input('estado');
