@@ -9,6 +9,7 @@ use App\Models\Type;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\UserDepartment;
+use Auth;
 class HomeController extends Controller
 {
     /**
@@ -139,7 +140,8 @@ class HomeController extends Controller
     }
 
     public function setDepartment($id){
-        User::setCurrentDepartment($id); //setear el company
+        Auth::user()->setCurrentDepartment($id);  //setear el department
+
         return redirect('incidents');
     }
 
