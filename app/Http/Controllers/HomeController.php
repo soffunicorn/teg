@@ -66,8 +66,6 @@ class HomeController extends Controller
                                       where('roles.slug', $userRol->slug )->
                                       where('types.slug', $userType->slug )->select('departments.*')->get();
 
-            Auth::user()->setTipo($userType->slug);
-            Auth::user()->setRol($userRol->slug);
 
             if($department->count() > 1){
                 return view('misc.chooseDepartment')->with(['departments' => $department]);
