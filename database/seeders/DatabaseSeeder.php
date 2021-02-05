@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Rol;
+use App\Models\Type;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +16,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $password = "1234";
+        $type = Type::where('slug', 'boss')->first();
+        $rol = Rol::where('slug', 'admin')->first();
+        $slug = str_shuffle("user" . 'admin' . date("Ymd") . uniqid());
+        $user = new User();
+        $user->name = 'Sofia';
+        $user->lastname = 'Singer';
+        $user->email = 'admin@sambil.com';
+        $user->slug = $slug;
+        $user->password = bcrypt($password);
+        $user->id_rol = $rol->id;
+        $user->id_type = $type->id;
+        $user->save();
     }
 }

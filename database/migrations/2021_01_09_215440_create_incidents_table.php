@@ -13,6 +13,16 @@ class CreateIncidentsTable extends Migration
      */
     public function up()
     {
+        Schema::create('incidents_state', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('descripcion');
+            $table->string('slug');
+            $table->timestamps();
+        });
+
+
+
         Schema::create('incidents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -31,28 +41,54 @@ class CreateIncidentsTable extends Migration
             $table->unsignedBigInteger('id_responsable')->unsigned()
                 ->index()
                 ->nullable();
- $table->unsignedBigInteger('id_state')->unsigned()
+            $table->unsignedBigInteger('id_state')->unsigned()
                 ->index()
                 ->nullable();
 
             //Foreign key
-            $table->foreign('id_departament')
+        $table->foreign('id_departament')
                 ->references('id')
                 ->on('departments');
 
-            $table->foreign('id_local')
+        $table->foreign('id_local')
                 ->references('id')
                 ->on('locals');
-
 
         $table->foreign('id_responsable')
                 ->references('id')
                 ->on('users');
+
         $table->foreign('id_state')
                 ->references('id')
-                ->on('states');
-
+                ->on('incidents_state');
         });
+
+
+
+        DB::table('incidents_state')->insert([
+            [
+                'name'        => 'Por hacer',
+                'slug'        => 'porhacer',
+                'descripcion' => 'Actividad enviada en proceso de espera',
+                'created_at'  =>  new DateTime,
+                'updated_at'  =>  new DateTime
+            ],
+            [
+                'name'        => 'En proceso',
+                'slug'        => 'enproceso',
+                'descripcion' => 'Actividad en proceso',
+                'descripcion' => 'Consumidor',
+                'created_at'  =>  new DateTime,
+                'updated_at'  =>  new DateTime
+            ],
+            [
+                'name'        => 'Finalizada',
+                'slug'        => 'finalizada',
+                'descripcion' => 'Actividad Finalizada',
+                'created_at'  =>  new DateTime,
+                'updated_at'  =>  new DateTime
+            ],
+        ]);
     }
 
     /**

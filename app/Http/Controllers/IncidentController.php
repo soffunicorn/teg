@@ -113,6 +113,7 @@ class IncidentController extends Controller
         //$Incident->status           = 1;
         $Incident->deathline        = '2021-02-01 00:15:58';
         $Incident->slug             =  str_shuffle($Incident->name.date("Ymd").uniqid());
+
         $Incident->save();
         return redirect('/incidents');
     }
