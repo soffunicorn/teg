@@ -23,29 +23,29 @@ use \App\Http\Controllers\HomeController;
 /*Rutas Pagina de inicio o home*/
 Route::get('/', [MainController::class, 'login'])->name('login.index'); //mostrar el login
 /* Locales */
-Route::resource('/locales', LocalController::class);
+Route::resource('/locales', LocalController::class)->middleware('auth')->middleware('auth');
 /* Empresa */
-Route::resource('/company', CompanyController::class);
-Route::get('/companyEdit/{slug}', [CompanyController::class, 'companyEdit']);
-Route::get('/getCompany/{slug}', [CompanyController::class, 'get_company']);
+Route::resource('/company', CompanyController::class)->middleware('auth');
+Route::get('/companyEdit/{slug}', [CompanyController::class, 'companyEdit'])->middleware('auth');
+Route::get('/getCompany/{slug}', [CompanyController::class, 'get_company'])->middleware('auth');
 
 /*Department*/
-Route::resource('/department', DepartmentController::class);
-Route::get('/getdepartment/{id}', [DepartmentController::class, 'getDepartment']);
+Route::resource('/department', DepartmentController::class)->middleware('auth');
+Route::get('/getdepartment/{id}', [DepartmentController::class, 'getDepartment'])->middleware('auth');
 
 /*User*/
-Route::resource('/user', UserController::class);
+Route::resource('/user', UserController::class)->middleware('auth');
 
-Route::put('/password-edit/{slug}', [UserController::class, 'password_edit']); //reset password
+Route::put('/password-edit/{slug}', [UserController::class, 'password_edit'])->middleware('auth'); //reset password
 
-Route::get('/worker', [UserController::class, 'indexWorkers']);
-Route::get('/worker/create', [UserController::class, 'createWorkers']);
-Route::post('/workers', [UserController::class, 'storeWorkers']);
+Route::get('/worker', [UserController::class, 'indexWorkers'])->middleware('auth');
+Route::get('/worker/create', [UserController::class, 'createWorkers'])->middleware('auth');
+Route::post('/workers', [UserController::class, 'storeWorkers'])->middleware('auth');
 
 // ********************************* Al iniciar sesión
 
 Route::get('/setDepartment/{id}', [App\Http\Controllers\HomeController::class, 'setDepartment'])->middleware('auth');
-Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
+Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany'])->middleware('auth');
 
 
 
@@ -54,9 +54,11 @@ Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'set
 
 
 Route::resource('/incidents', IncidentController::class)->middleware('auth');;
-Route::post('/comentar', [IncidentController::class,'comentario'])->middleware('auth');;
+Route::post('/comentar', [IncidentController::class,'comentario'])->middleware('auth');
+Route::post('/elegir', [IncidentController::class,'elegir'])->middleware('auth');
 //Route::resource('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
 
+/*
 Route::get('/profile', function () {
     return view('panel.profile.user');
 })->name('user.profile');
@@ -69,11 +71,9 @@ Route::get('/detalle', function () {
     return view('panel.incidents.detalle');
 });
 
-
 Route::get('/dashboard/local-register', function () {
     return view('panel.register.localRegister');
 });
-
 
 Route::get('/dashboard/empleado', function () {
 
@@ -82,7 +82,7 @@ Route::get('/dashboard/empleado', function () {
 Route::get('/dashboard/department-register', function () {
     return view('panel.register.department');
 });
-
+*/
 
 /*
 Route::get('/test', [MainController::class, 'test'])->name('index.test');

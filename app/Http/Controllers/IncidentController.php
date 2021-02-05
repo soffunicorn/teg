@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Local;
 use App\Models\Comment;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -46,15 +47,21 @@ class IncidentController extends Controller
         if(session()->get('rol')=='empleado'){
            $depa =  Department::join('users_departments', 'users_departments.id_department', '=', 'departments.id')
                 ->join('users', 'users.id', '=', 'users_departments.id_user')
-                ->where('users_departments.id_user',Auth::user()->id)
+                ->where('users_departments.id_user',Auth::user()->id)->
+                 select('departments.*')
                 ->first();
 
-            $Incidents = Incident::
-            join('departments', 'incidents.id_departament', '=', 'departments.id')->
-            where('departments',$depa->id)->get();
+            $Incidents = Incident::where('id_departament',$depa->id)->get();
+
+             // dd($Incidents);
+            $user = User::
+            join('users_departments', 'users_departments.id_user', '=', 'users.id')->
+            join('departments', 'users_departments.id_department', '=', 'departments.id')->
+                select('users.*')->
+            where('departments.id',$depa->id)->get();
 
             return view('panel.incidents.history')->with([
-                'Incidents' =>  $Incidents
+                'Incidents' =>  $Incidents,'users' => $user
             ]);
         }
 
@@ -236,6 +243,17 @@ class IncidentController extends Controller
         $Comment->save();
         return redirect('/incidents/'.$In->slug);
     }
+
+    public function elegir(Request $request)
+    {
+        $In = Incident::where('slug',$request->input('incidentId'))->first();
+        $In->id_responsable = $request->input('responsable');
+        $In->save();
+        return redirect('/incidents');
+    }
+
+
+
 
 
     /**

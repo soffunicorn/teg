@@ -27,31 +27,66 @@
                 <td>Obras Civiles</td>
                 <td>En Progreso</td>
                 <td>
-                    <div class="rowIncident">
-
-                            <a href="{{url('incidents/'.$Incident->slug)}}" class="viewMore btn " id="viewMore"  title="Ver más"><i
-                                    class="fas fa-plus"></i></a>
 
 
-                        <a href="{{url('incidents/'.$Incident->slug.'/edit')}}"
-                           class="btn btn-sam-blue btn-edit"><i
-                                class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
-                                title="Editar"></i></a>
+                        <a href="{{url('incidents/'.$Incident->slug)}}" class="viewMore btn" id="viewMore"  title="Ver más">
+                            <i class="fas fa-plus"> </i></a>
 
-                        <form method="POST" action=""
-                              id="formDelete" name="formDelete">
-                            @csrf
-                            @method('DELETE')
-                          <!--  <button type="button" class="btn btn-sam-red btn-delete" data-name=""><i
-                                    class="fas fa-trash"></i></button>
-                            <button type="submit" class="btn-real-submit" data-toggle="tooltip"
-                                    data-placement="bottom" title="Borrar" style="opacity: 0;"></button> -->
-                        </form>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{$Incident->id}}">
+                        Elegir responsable
+                    </button>
 
+                    <div class="modal" id="myModal{{$Incident->id}}">
+                        <div class="modal-dialog">
+                            <form action="{{url('/elegir')}}" METHOD="POST">
+                                <div class="modal-content">
+                                @csrf
+                                <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Comentario</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
 
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <select name="responsable" class="form-control">
+                                            @if( !empty($users) )
+                                                @foreach($users as $user)
+                                                    <option value="{{$user->id}}"> {{$user->name}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <input type="hidden" id="incidentId" name="incidentId" value="{{$Incident->slug}}">
+                                        <input type="hidden" id="userId" name="userId"  value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-submit" >Enviar</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
+                    <!--    <a href="{{url('incidents/'.$Incident->slug.'/edit')}}"
+                           class="btn btn-sam-blue btn-edit"><i
+                                class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
+                                title="Editar"></i></a>-->
+
+
+
+
+
+
+
+
+
                 </td>
+
+
             </tr>
 
 
@@ -65,7 +100,7 @@
     <script type="text/javascript"
             src="https://cdn.datatables.net/v/bs4/dt-1.10.23/rr-1.2.7/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
     <script>
-        jQuery(document).ready(function () {
+    /*    jQuery(document).ready(function () {
             jQuery('#tableIncidents').DataTable({
                 "order": [[0, "asc"]],
                 searchPanes: {
@@ -96,7 +131,7 @@
                 ]
                 }],
             });
-        });
+        });*/
     </script>
 
 @endsection

@@ -73,7 +73,7 @@ class HomeController extends Controller
                 //setear Dpto
                 session(['currentDepartment' => $department[0]->id]);
                 // panel para el departamento
-                return view('/incidents');
+                return redirect('incidents');
             }
 
         }else if($userRol->slug  === 'empleado' && $userType->slug === 'worker' ){ /*Trabajador de departamento empleado de sambil  */
