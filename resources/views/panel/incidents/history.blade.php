@@ -12,7 +12,6 @@
                 <th>Título</th>
                 <th>Levantada por:</th>
                 <th>Departamento</th>
-                <th>Estado</th>
                 <th>Ver más</th>
             </tr>
             </thead>
@@ -23,9 +22,9 @@
 
             <tr>
                 <td>{{$Incident->name}}</td>
-                <td>Jhon Snow</td>
-                <td>Obras Civiles</td>
-                <td>En Progreso</td>
+                <td>{{$Incident->responsable}}</td>
+                <td>{{$Incident->n_local}}</td>
+
                 <td>
 
 
@@ -35,6 +34,10 @@
                     <?php if(session()->get('rol') == 'empleado' or session()->get('rol') == 'admin'){ ?>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{$Incident->id}}">
                         Elegir responsable
+                    </button>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#estado{{$Incident->id}}">
+                        Cambia de estado
                     </button>
                     <?php } ?>
 
@@ -55,6 +58,42 @@
                                             @if( !empty($users) )
                                                 @foreach($users as $user)
                                                     <option value="{{$user->id}}"> {{$user->name}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <input type="hidden" id="incidentId" name="incidentId" value="{{$Incident->slug}}">
+                                        <input type="hidden" id="userId" name="userId"  value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-submit" >Enviar</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="modal" id="estado{{$Incident->id}}">
+                        <div class="modal-dialog">
+                            <form action="{{url('/estados')}}" METHOD="POST">
+                                <div class="modal-content">
+                                @csrf
+                                <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Estados</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <select name="estado" class="form-control">
+                                            @if( !empty($estados) )
+                                                @foreach($estados as $estado)
+                                                    <option value="{{$estado->id}}"> {{$estado->name}}</option>
                                                 @endforeach
                                             @endif
                                         </select>

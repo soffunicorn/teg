@@ -9,6 +9,7 @@ use App\Models\Local;
 use App\Models\Comment;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\StateIn;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -37,8 +38,13 @@ class IncidentController extends Controller
             join('locals', 'locals.id',  '=', 'incidents.id_local')->
             join('company_locals','company_locals.id_local','=','locals.id')->
             join('companies', 'companies.id', '=', 'company_locals.id_company')->
-            select('incidents.*')->
+            leftJoin('users', 'users.id','=','incidents.id_responsable' )->
+            select('incidents.*','locals.n_local','users.name AS responsable')->
             where('companies.id',$compa->id)->get();
+
+
+
+
             return view('panel.incidents.history')->with([
                 'Incidents' =>  $Incidents
             ]);
@@ -51,7 +57,11 @@ class IncidentController extends Controller
                  select('departments.*')
                 ->first();
 
-            $Incidents = Incident::where('id_departament',$depa->id)->get();
+            $Incidents = Incident::where('id_departament',$depa->id)->
+            join('locals', 'locals.id',  '=', 'incidents.id_local')->
+            leftJoin('users', 'users.id','=','incidents.id_responsable' )->
+            select('incidents.*','locals.n_local','users.name AS responsable')->
+            get();
 
              // dd($Incidents);
             $user = User::
@@ -60,8 +70,10 @@ class IncidentController extends Controller
                 select('users.*')->
             where('departments.id',$depa->id)->get();
 
+            $estados = StateIn::get();
+
             return view('panel.incidents.history')->with([
-                'Incidents' =>  $Incidents,'users' => $user
+                'Incidents' =>  $Incidents,'users' => $user, 'estados' => $estados
             ]);
         }
 
@@ -249,6 +261,14 @@ class IncidentController extends Controller
     {
         $In = Incident::where('slug',$request->input('incidentId'))->first();
         $In->id_responsable = $request->input('responsable');
+        $In->save();
+        return redirect('/incidents');
+    }
+
+    public function estado(Request $request)
+    {
+        $In = Incident::where('slug',$request->input('incidentId'))->first();
+        $In->id_state = $request->input('estado');
         $In->save();
         return redirect('/incidents');
     }
