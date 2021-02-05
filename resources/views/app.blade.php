@@ -87,7 +87,8 @@ Coded by www.creative-tim.com
                   <li><a href="{{url('locales')}}"> Ver  Locales </a></li>
                       <?php } ?>
                       <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
-                  <li><a href="{{url('locales/create')}}">Crear Locakes </a></li>
+                  <li><a href="{{url('locales/create')}}">Crear Locales </a></li>
+                  <li><a href="{{url('locales/create')}}">Crear Locales </a></li>
                   <?php } ?>
               </ul>
           </li>
@@ -132,12 +133,12 @@ Coded by www.creative-tim.com
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                 <a  class="nav-link" href="{{url('profile')}}">Mi perfil</a>
-                  <a class="dropdown-item" href="#">{{session()->get('tipo')}}</a>
-                  <a class="dropdown-item" href="#">   {{session()->get('rol')}} </a>
+                  <a class="dropdown-item" href="#" style="text-transform: uppercase">{{session()->get('tipo')}}</a>
+                  <a class="dropdown-item" href="#" tyle="text-transform: uppercase">   {{session()->get('rol')}} </a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
+                        {{ __('Salir de la sesión') }}
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

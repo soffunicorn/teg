@@ -102,7 +102,7 @@
     <script type="text/javascript"
             src="https://cdn.datatables.net/v/bs4/dt-1.10.23/rr-1.2.7/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
     <script>
-    /*    jQuery(document).ready(function () {
+        jQuery(document).ready(function () {
             jQuery('#tableIncidents').DataTable({
                 "order": [[0, "asc"]],
                 searchPanes: {
@@ -121,19 +121,9 @@
                     },
                     "lengthMenu": "Mostrar _MENU_ resultados por página",
                 },
-                columnDefs: [
-                    searchPanes: {
-                options : [
-                         {
-                        label: 'Estado',
-                        value: function(rowData, rowIdx) {
-                            return rowData[4] < 20;
-                        }
-                    },
-                ]
-                }],
+
             });
-        });*/
+        });
     </script>
 
 @endsection
