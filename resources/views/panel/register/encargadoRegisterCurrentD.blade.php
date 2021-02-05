@@ -25,14 +25,10 @@
                                placeholder="">
                     </div>
 
-                    <div class="col-md-6 mb-4 mt-4">
-                        <label for="Teléfono">Teléfono</label>
-                        <input type="number" class="form-control" name="phone"  id="phone" placeholder="ej: 04145965">
-                    </div>
 
                     <div class="col-md-6 mb-4 mt-4">
                         <label for="Córreo Eléctronico">Córreo Eléctronico</label>
-                        <input type="email" class="form-control" name="mail" id="mail" placeholder="mail@mail.com">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="mail@mail.com">
                     </div>
 
                     <div class="col-md-6 mb-4 mt-4">
@@ -49,7 +45,7 @@
 
                             @if( !empty($department) )
 
-                                <input type="hidden" value="{{$department->slug}}"  name="department" id="department"  />
+                                <input type="hidden" value="{{$department->id}}"  name="department" id="department"  />
                                 <input type="text" value="{{$department->name}}" disabled="" class="form-control"  />
 
                             @endif

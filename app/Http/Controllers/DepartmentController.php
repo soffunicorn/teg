@@ -142,7 +142,7 @@ class DepartmentController extends Controller
 
         $users = User::join('users_departments', 'users_departments.id_user', '=', 'users.id')
         ->join('departments', 'users_departments.id_department', '=', 'departments.id')
-            ->where('departments.id',$id)->get();
+            ->where('departments.id',$id)->select('users.*')->get();
 
         //select * from departments;
         return view ('panel.department.detalle')->with([

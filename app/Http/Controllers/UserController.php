@@ -187,9 +187,10 @@ class UserController extends Controller
         $rules = [
             'name' => ['string', 'max:255', 'required'],
             'lastname' => ['string', 'max:255'],
-            'mail' => ['unique:users,email', 'max:255', 'required'],
+            'email' => ['unique:users,email', 'max:255', 'required'],
         ];
         $request->validate($rules);
+
         $password = "1234" . $request->name;
         $rol = $tipo = "";
         if ($request->has('rol')) {
@@ -212,9 +213,11 @@ class UserController extends Controller
         if (empty($rol) && empty($tipo)) {
             return redirect()->back()->withErrors('fallo', 'Hubo un error con sus datos');
         }
-        if (empty($request->department)) {
+        if (!  $request->has('department')) {
             return redirect()->back()->withErrors('fallo', 'Hubo un error con sus datos');
         }
+
+
         //Búscar el rol y el tipo por slug
         $rolModel = Rol::where('slug', $rol)->first();
         $tipoModel = Type::where('slug', $tipo)->first();
@@ -224,7 +227,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->lastname = !empty($request->lastname) ? $request->lastname : "";
-        $user->email = $request->mail;
+        $user->email = $request->email;
         $user->password = bcrypt($password);
 
         $user->slug = str_shuffle("user" . $request->name . date("Ymd") . uniqid());
@@ -234,7 +237,7 @@ class UserController extends Controller
 
 
         //llenado de la tabla user_department
-        $department = Department::where('slug',$request->department)->first();
+        $department = Department::where('id',$request->department)->first();
 
         $userDepartment = new UserDepartment();
         $userDepartment->id_department = $department->id;
