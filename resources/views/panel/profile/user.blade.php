@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <label>Nombre</label>
                                     <input type="text" class="form-control" placeholder="Nombre de usuario"
-                                           value="Sofia">
+                                           value="" >
                                 </div>
                             </div>
                             <div class="col-md-6 pl-1">
