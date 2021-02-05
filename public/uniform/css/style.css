@@ -1,3 +1,31 @@
+/*NAVS*/
+.sidebar-wrapper ul.nav{
+    padding: 0 10px 0 15px;
+}
+.sidebar-wrapper ul.nav h5{
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px
+}
+.sidebar-wrapper ul.nav > li{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.sidebar-wrapper ul.nav li ul{
+    padding-left: 10px;
+    list-style-type: unset;
+}
+.sidebar-wrapper ul.nav li ul li{
+    list-style-type: unset;
+}
+
+.sidebar-wrapper ul.nav li ul li a{
+    margin: 0 0 10px 0;
+    padding: 0;
+    line-height: 14px;
+}
 .uniform-bg, .uniform-bg:hover{
     background-color:#F16722 !important;
     color:#fff;

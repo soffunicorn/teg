@@ -21,7 +21,7 @@ class LocalController extends Controller
                           select('locals.*', 'states.slug AS state_slug', 'states.state AS state_name')->get();
       return view('panel.local.all')->with([
                  'locals' => $locales,
-                 'states' => $states
+                 'states' => $states,
       ]);
 
     }
@@ -33,9 +33,10 @@ class LocalController extends Controller
      */
     public function create()
     {
-
-
-        return view('panel.register.local');
+        $states = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable', 'busy'])->get();
+        return view('panel.register.local')->with([
+            'states' => $states,
+        ]);
     }
 
     /**
@@ -48,7 +49,7 @@ class LocalController extends Controller
     {
        // dd($request->all());
         $rules = [
-            'n_local' => ['required', 'max:255'],
+            'n_local' => [Rule::unique('locals'), 'max:255'],
             'status' => ['required'],
         ];
         $request->validate($rules);
@@ -60,7 +61,7 @@ class LocalController extends Controller
         $local->save();
 
 
-        return redirect()->back();
+        return redirect('locales');
     }
 
     /**
@@ -95,13 +96,14 @@ class LocalController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'n_local' => [Rule::unique('companies')->ignore($id), 'max:255', ' alpha_num'],
+            'n_local' => [Rule::unique('locals')->ignore($id), 'max:255', ' string'],
         ];
         $request->validate($rules);
-        $local =  Local::where('id', $id)->first();
-
+        $local =  Local::findOrfail($id);
+        // buscar el status para setearlo
+        $state = State::where('slug', 'busy');
         $local->n_local = $request->input('n_local', null);
-        $local->status = $request->input('status', null);
+        $local->status = $state->id;
         $local->save();
         return redirect()->back();
     }

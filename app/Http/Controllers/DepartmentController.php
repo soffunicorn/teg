@@ -179,8 +179,6 @@ class DepartmentController extends Controller
         $rules = [
             'name' => ['required',  'max:255'],
             'email' => ['email', 'max:255', 'required'],
-            'schedule_from' => ['date_format:H:i'],
-            'schedule_to' => ['date_format:H:i', 'after:schedule_from'],
             'description' => [ 'max:3000' ],
         ];
 
@@ -189,8 +187,8 @@ class DepartmentController extends Controller
         $department->name = $request->name;
         $department->telephone = $request->telephone;
         $department->email = $request->email;
-        $department->schedule_from = $request->time_start;
-        $department->schedule_to = $request->time_end;
+        $department->schedule_from = $request->has('schedule_from') ? $request->schedule_from  : "";
+        $department->schedule_to = $request->has('schedule_to') ? $request->schedule_to  : "";
         $department->description = $request->description;
         $department->save();
         if(!empty($request->responsable)){
