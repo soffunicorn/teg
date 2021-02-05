@@ -26,9 +26,13 @@
                                 <div class="rowDepartment">
 
 
-                                            <button class="viewMore btn " id="viewMore" data-id="{{$department->id}}"
+                                 <!-- <button class="viewMore btn " id="viewMore" data-id="{{$department->id}}"
                                                       data-toggle="tooltip" data-placement="bottom" title="Ver más"> <i
-                                                    class="fas fa-plus"></i> </button>
+                                                    class="fas fa-plus"></i> </button>-->
+                                     <a href="{{ url('/department/' .$department->id)  }}"
+                                        class="viewMore btn "><i
+                                             class="fas fa-plus" data-toggle="tooltip" data-placement="bottom"
+                                             title="Editar"></i></a>
 
                                         <a href="{{ url('/department/' .$department->id) . '/edit' }}"
                                            class="btn btn-sam-blue btn-edit"><i
