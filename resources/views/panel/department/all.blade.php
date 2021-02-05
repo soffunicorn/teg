@@ -77,7 +77,7 @@
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
             <script>
                 var modal = jQuery('#modalOpen');
-                jQuery('#viewMore').on('click', function () {
+                jQuery('.viewMore').on('click', function () {
                     let id = jQuery(this).data('id');
                     if(id === null || id === ""){
                         return false;
