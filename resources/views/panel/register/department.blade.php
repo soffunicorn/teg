@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-4">
+            <div class="row mb-4" style="padding: 0 15px">
                 <button type="submit" class="btn btn-submit uniform-bg">Registrar Departamento</button>
             </div>
 

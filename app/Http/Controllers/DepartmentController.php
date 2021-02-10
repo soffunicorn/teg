@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Action;
+use App\Models\Comment;
+use App\Models\Incident;
+use App\Models\Log;
+use App\Models\State;
 use Illuminate\Http\Request;
 use App\Models\Rol;
 use App\Models\Type;
@@ -34,13 +39,15 @@ class DepartmentController extends Controller
         $departments = Department::join('users_departments', 'users_departments.id_department', '=', 'departments.id')
             ->join('users', 'users.id', '=', 'users_departments.id_user')
             ->join('roles', 'roles.id', '=', 'users.id_rol')->join('types', 'types.id', '=', 'users.id_type')->
-            where('roles.slug', 'empleado')->where('types.slug', 'boss')->select('departments.*', 'users.name AS user_name', 'users.id AS user_id' )->get();
+            where('roles.slug', 'empleado')->where('types.slug', 'boss')->
+            where('departments.status', 'Disponible')->select('departments.*', 'users.name AS user_name', 'users.id AS user_id' )->get();
 
 
         //select * from departments;
         return view ('panel.department.all')->with([
             'departments' => $departments,
         ]);
+
     }
 
     /**
@@ -66,7 +73,6 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-
         $rules = [
             'name' => ['required',  'max:255', 'unique:departments'],
             'email' => ['unique:departments,email', 'max:255', 'required'],
@@ -77,7 +83,9 @@ class DepartmentController extends Controller
         ];
         $request->validate($rules);
         $userSlug = $request->responsable;
-        //Creo el departamento
+        $state = State::where('slug', 'available');
+
+        //Validaciones del departamento
         $department = new Department();
         $department->name = $request->name;
         $department->email = $request->email;
@@ -86,7 +94,7 @@ class DepartmentController extends Controller
         $department->schedule_to = $request->schedule_to;
         $department->description = $request->description;
         $department->status = "Disponible";
-        $department->save();
+
         // Si tenemos o no el resposable, sino crearlo
         if($userSlug !== 'createResponsable'){
             /**  Select id from users where slug like %user_slug% **/
@@ -102,6 +110,7 @@ class DepartmentController extends Controller
             //Buscamos las foreign key
             $userType = Type::where('slug', 'boss')->first();
             $userRol = Rol::where('slug', 'empleado')->first();
+
             //procedemos a crear el usuario
             $userObject = new User();
             $userObject->name = $request->responsableName;
@@ -109,17 +118,28 @@ class DepartmentController extends Controller
             $userObject->email = $request->responsableMail;
             //llenado automatico de campos
             //   $password = Str::random(10);
-            $password = "1233445";
+            $password = "12345";
             $userObject->password =  bcrypt($password);
             $userObject->slug = str_shuffle("user" . $request->name . date("Ymd") . uniqid());
             $userObject->id_rol = $userRol->id;
             $userObject->id_type = $userType->id;
-            $userObject->save();
 
         }
         if(empty($userObject)){
             return false;
         }
+
+        //Guardar
+        $userObject->save();
+        $department->save();
+
+        //Actualizar log
+        $action = Action::where('slug', 'new-department')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+
 
         $userObject->Departments()->attach($department);
 
@@ -146,6 +166,9 @@ class DepartmentController extends Controller
             ->where('departments.id',$id)->select('users.*')->get();
 
         //select * from departments;
+
+
+
         return view ('panel.department.detalle')->with([
             'department' => $department,
             'users' => $users,
@@ -176,6 +199,14 @@ class DepartmentController extends Controller
               $users = User::join('roles', 'roles.id', '=', 'users.id_rol')
                        ->where('roles.slug', 'empleado')
                         ->whereNotIn('users.id', [ $responsable->id ])->select('users.*', 'roles.slug AS rol_slug')->get();
+
+        //Actualizar log
+        $action = Action::where('slug', 'edit-department')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+
 
         return view('panel.department.edit')->with([
             'department' => $department,
@@ -228,6 +259,9 @@ class DepartmentController extends Controller
             $userDepartment->save();
         }
 
+        //Actualizado el log
+        $log = new Log();
+        $log->updateLog('update-department');
 
         return redirect('department');
 
@@ -243,6 +277,29 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
+
+        $department =  Department::findOrFail($id);
+
+
+        //Dependiendo del rol del admin borrar fisico o logico
+        if( session()->get('rol') == 'admin' ){
+            $department->status = 'Deshabiliatado';
+            $department->save();
+            $log = new Log();
+            $log->updateLog('delete-department');
+            return response()->json(array('status' => 'ok'), 200);
+
+        }
+
+        //Borrar todos los comentarios asociados
+        if( session()->get('rol') == 'super_admin' ) {
+          //code
+            return response()->json(array('status' => 'error'), 200);
+        }
+
+
+
+        return response()->json(array('status' => 'ok'), 200);
 
     }
 

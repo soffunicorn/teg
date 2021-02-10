@@ -1,3 +1,5 @@
+
+
 @extends('app')
 @section('panelTitle', 'Historial de  Incidencias')
 @section('panelHead')
@@ -18,11 +20,9 @@
             <tbody>
             @if( !empty($Incidents) )
                             @foreach($Incidents as $Incident)
-
-
             <tr>
-                <td>{{$Incident->name}}</td>
-                <td>{{$Incident->responsable}}</td>
+                <td class="td-name">{{$Incident->name}}</td>
+                <td >{{$Incident->responsable}}</td>
                 <td>{{$Incident->n_local}}</td>
 
                 <td>
@@ -40,6 +40,10 @@
                         Cambia de estado
                     </button>
                     <?php } ?>
+
+                    @if(session()->get('rol') == 'admin' || session()->get('rol') === 'super_admin' )
+                        <button type="button" class="btn btn-danger btn-d-incidents text-white" data-id="{{$Incident->id}}"><i class="fas fa-trash"></i> </button>
+                    @endif
 
                     <div class="modal" id="myModal{{$Incident->id}}">
                         <div class="modal-dialog">
@@ -91,7 +95,7 @@
                                     <!-- Modal body -->
                                     <div class="modal-body">
                                         <select name="estado" class="form-control">
-                                            @if( !empty($estados) )
+                                            @if( $estados->count() != 0 )
                                                 @foreach($estados as $estado)
                                                     <option value="{{$estado->id}}"> {{$estado->name}}</option>
                                                 @endforeach
@@ -118,13 +122,6 @@
                                 title="Editar"></i></a>-->
 
 
-
-
-
-
-
-
-
                 </td>
 
 
@@ -138,6 +135,7 @@
     </div>
 @endsection
 @section('panelScript')
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript"
             src="https://cdn.datatables.net/v/bs4/dt-1.10.23/rr-1.2.7/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
     <script>
@@ -162,6 +160,47 @@
                 },
 
             });
+
+            //borrar
+
+            $('.btn-d-incidents').on('click', function (){
+                let id = $(this).data('id');
+                let tr = $(this).closest('tr');
+                let name = $(tr).find('.td-name').html();
+                var _this = $(this);
+
+                swal({
+                    title: "¿Estas seguro que quieres Eliminar la Incidencia. " + name + "?",
+                    text: "Una vez eliminado no hay forma de reestablecerlo",
+                    icon: "warning",
+                    buttons: ["Cancelar", "Aceptar"],
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: '{{url('/incidents')}}' + '/' + id,
+                                dataType : 'JSON',
+                                type: 'DELETE',
+                                success: function (data){
+                                    if(data.status === 'ok'){
+                                        $(tr).remove();
+                                    }
+
+                                }
+                            });
+
+                        }
+                    });
+
+
+
+
+
+            });
+
+
+
         });
     </script>
 

@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="row mb-4">
+        <div class="row mb-4" style="padding:0 15px;">
             <button type="submit" id="localSubmit" class="btn btn-submit uniform-bg mx-auto d-block">Registrar
             </button>
         </div>

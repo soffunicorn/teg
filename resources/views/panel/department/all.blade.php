@@ -17,48 +17,44 @@
                 </tr>
                 </thead>
                 @if( $departments->count() > 0 )
+
                     <tbody>
                     @foreach($departments as $department)
                         <tr>
-                            <td><span>{{$department->name}}</span></td>
+                            <td class="td-name"><span>{{$department->name}}</span></td>
                             <td><span>{{$department->user_name}}</span></td>
                             <td>
                                 <div class="rowDepartment">
 
                                     <?php if(session()->get('rol') == 'local' or session()->get('rol') == 'empleado'){ ?>
-                                  <button class="viewMore btn " id="viewMore" data-id="{{$department->id}}"
-                                                      data-toggle="tooltip" data-placement="bottom" title="Ver más"> <i
-                                                    class="fas fa-plus"></i> </button>
-                                        <?php }?>
+                                    <button class="viewMore btn " id="viewMore" data-id="{{$department->id}}"
+                                            data-toggle="tooltip" data-placement="bottom" title="Ver más"> <i
+                                            class="fas fa-plus"></i> </button>
+                                    <?php }?>
 
-                                     <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
-                                     <a href="{{ url('/department/' .$department->id)  }}"
-                                        class="viewMore btn "><i
-                                             class="fas fa-plus" data-toggle="tooltip" data-placement="bottom"
-                                             title="Editar"></i></a>
+                                    <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
+                                    <a href="{{ url('/department/' .$department->id)  }}"
+                                       class="viewMore btn "><i
+                                            class="fas fa-plus" data-toggle="tooltip" data-placement="bottom"
+                                            title="Editar"></i></a>
 
-                                        <a href="{{ url('/department/' .$department->id) . '/edit' }}"
-                                           class="btn btn-sam-blue btn-edit"><i
-                                                class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
-                                                title="Editar"></i></a>
+                                    <a href="{{ url('/department/' .$department->id) . '/edit' }}"
+                                       class="btn btn-sam-blue btn-edit ml-3"><i
+                                            class="fas fa-edit" data-toggle="tooltip" data-placement="bottom" title="Editar"></i></a>
 
 
-                                        <form method="POST" action="{{url('/department/' .$department->id)}}"
-                                              id="formDelete" name="formDelete">
-                                            @csrf
-                                            @method('DELETE')
-                                          <!--  <button type="button" class="btn btn-sam-red btn-delete" data-name=""><i
-                                                    class="fas fa-trash"></i></button>
-                                            <button type="submit" class="btn-real-submit" data-toggle="tooltip"
-                                                    data-placement="bottom" title="Borrar" style="opacity: 0;"></button>->
-                                        </form>
+                                        <button type="button" class="btn btn-sam-red btn-delete ml-3" data-id="{{$department->id}}"><i
+                                                class="fas fa-trash"></i></button>
+
+                                        <?php } ?>
 
                                 </div>
-                                <?php } ?>
+
                             </td>
                         </tr>
-
                     @endforeach
+
+
                     </tbody>
                 @endif
             </table>
@@ -123,22 +119,35 @@
                 });
                     //delete
                 jQuery('.btn-delete').on('click', function (){
-                    let button = jQuery(this);
-                    let name = jQuery(this).data('name');
+                    let id = jQuery(this).data('id');
+                    let tr = $(this).closest('tr');
+                    let name = $(tr).find('.td-name span').html();
 
                     swal({
-                        title: "¿Estas seguro que quieres Eliminar el dpto. " + name + "?",
+                        title: "¿Estas seguro que quieres Eliminar la Incidencia. " + name + "?",
                         text: "Una vez eliminado no hay forma de reestablecerlo",
                         icon: "warning",
                         buttons: ["Cancelar", "Aceptar"],
                         dangerMode: true,
                     })
-                        /*.then((willDelete) => {
+                        .then((willDelete) => {
                             if (willDelete) {
-                                button.attr('type', 'submit');
-                                button.trigger('click');
+                                $.ajax({
+                                    url: '{{url('/department')}}' + '/' + id,
+                                    dataType : 'JSON',
+                                    type: 'DELETE',
+                                    success: function (data){
+                                        if(data.status === 'ok'){
+                                            $(tr).remove();
+                                        }
+
+                                    }
+                                });
+
                             }
-                        });*/
+                        });
+
+
                 });
 
             </script>

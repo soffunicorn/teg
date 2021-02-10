@@ -26,23 +26,16 @@
                         <td><p>{{$company->user_name}}</p></td>
                         <td>
                             <button class="viewMore btn"  data-id="{{$company->slug}}"
-                                    data-toggle="tooltip" data-placement="bottom" title="Ver más"> <i
-                                    class="fas fa-plus"></i> </button>
+                                    data-toggle="tooltip" data-placement="bottom" title="Ver más">Ver detalle</button>
 
                             <a href="{{ url('/companyEdit/' . $company->slug)}}"
                                class="btn btn-sam-blue btn-edit"><i
                                     class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
                                     title="Editar"></i></a>
 
-                            <form method="POST" action="{{url('/company/' .$company->slug)}}"
-                                  id="formDelete" name="formDelete">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-sam-red btn-delete" data-name="{{$company->slug}}"><i
+                                <button type="button" class="btn btn-sam-red btn-delete" data-id="{{$company->slug}}"><i
                                         class="fas fa-trash"></i></button>
-                                <button type="submit" class="btn-real-submit" data-toggle="tooltip"
-                                        data-placement="bottom" title="Borrar" style="opacity: 0;"></button>
-                            </form>
+
 
                         </td>
 
@@ -82,6 +75,7 @@
 @endsection
 
 @section('panelScript')
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
         jQuery(document).ready(function ($) {
@@ -92,6 +86,7 @@
                     url: '{{url('/getCompany')}}' + '/' +slug,
                     dataType : 'JSON',
                     type: 'GET',
+
                     success: function (data){
                         if(data.status === "ok"){
                             let company = data.content;
@@ -120,6 +115,39 @@
             jQuery('.modalClose').on('click', function () {
                 modal.addClass('fade');
                 modal.css('display', 'none');
+            });
+
+            //delete
+            jQuery('.btn-delete').on('click', function (){
+                let id = jQuery(this).data('id');
+                let tr = $(this).closest('tr');
+                let name = $(tr).find('.td-name span').html();
+
+                swal({
+                    title: "¿Estas seguro que quieres Eliminar la compañia. " + name + "?",
+                    text: "Una vez eliminado no hay forma de reestablecerlo",
+                    icon: "warning",
+                    buttons: ["Cancelar", "Aceptar"],
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: '{{url('/company')}}' + '/' + id,
+                                dataType : 'JSON',
+                                type: 'DELETE',
+                                success: function (data){
+                                    if(data.status === 'ok'){
+                                        $(tr).remove();
+                                    }
+
+                                }
+                            });
+
+                        }
+                    });
+
+
             });
 
         });

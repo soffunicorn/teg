@@ -40,6 +40,11 @@ Route::resource('/user', UserController::class)->middleware('auth');
 Route::put('/password-edit/{slug}', [UserController::class, 'password_edit'])->middleware('auth'); //reset password
 
 
+Route::get('/password-reset/', function (){
+    return view('login.reset-password');
+})->name('passwordReset'); //reset password
+
+
 
 Route::get('/worker', [UserController::class, 'indexWorkers']);
 Route::get('/worker/create', [UserController::class, 'createWorkers']);
@@ -63,14 +68,20 @@ Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'set
 Route::resource('/incidents', IncidentController::class)->middleware('auth');;
 Route::post('/comentar', [IncidentController::class,'comentario'])->middleware('auth');
 Route::post('/elegir', [IncidentController::class,'elegir'])->middleware('auth');
-Route::post('/estados', [IncidentController::class,'estado'])->middleware('auth');
+Route::post('/estados', [IncidentController::class,'estados'])->middleware('auth');
+
+// ***************************++Comentarios
+Route::post('/deleteComment/{id}', [IncidentController::class,'commentDelete'])->middleware('auth');
 //Route::resource('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany']);
 
-/*
+
 Route::get('/profile', function () {
     return view('panel.profile.user');
 })->name('user.profile');
 
+
+
+/*
 Route::get('/incidents/details', function () {
     return view('panel.incidents.details');
 })->name('incidents.details');

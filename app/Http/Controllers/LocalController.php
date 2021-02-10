@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Action;
 use App\Models\Local;
+use App\Models\Log;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -15,10 +17,10 @@ class LocalController extends Controller
      */
     public function index()
     {
-        $states = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable', 'busy'])->get();
+        $states = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable'])->get();
         $locales = local::join('states', 'states.id', '=', 'locals.id_state')->
                           whereIn('slug', ['available', 'busy', 'disabled'])->
-                          select('locals.*', 'states.slug AS state_slug', 'states.state AS state_name')->get();
+                          select('locals.*', 'states.id AS state_id', 'states.state AS state_name')->get();
       return view('panel.local.all')->with([
                  'locals' => $locales,
                  'states' => $states,
@@ -47,7 +49,7 @@ class LocalController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->all());
+
         $rules = [
             'n_local' => [Rule::unique('locals'), 'max:255'],
             'status' => ['required'],
@@ -60,6 +62,12 @@ class LocalController extends Controller
         $local->id_state = $status->id;
         $local->save();
 
+        //Update local
+        $action = Action::where('slug', 'new-local')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
 
         return redirect('locales');
     }
@@ -101,10 +109,15 @@ class LocalController extends Controller
         $request->validate($rules);
         $local =  Local::findOrfail($id);
         // buscar el status para setearlo
-        $state = State::where('slug', 'busy');
+        $state = State::findOrFail($request->status);
         $local->n_local = $request->input('n_local', null);
-        $local->status = $state->id;
+        $local->id_state = $state->id;
         $local->save();
+
+        //Actualizado el log
+       $log = new Log();
+       $log->updateLog('update-local');
+
         return redirect('locales');
     }
 
@@ -117,7 +130,17 @@ class LocalController extends Controller
     public function destroy($id)
     {
         $local = Local::findorFail($id);
-        $local->delete();
+        $status = State::where('slug', 'disabled')->first();
+        $local->id_state = $status->id;
+        $local->save();
+
+        //Actualizado el log
+        $action = Action::where('slug', 'delete-local')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+
         return redirect()->back();
     }
 }

@@ -30,17 +30,18 @@ class IncidentController extends Controller
          //   join('companies', 'companies.id', '=', 'company_locals.id_company')->
             join('user_company', 'user_company.id_company', '=', 'companies.id')->
             join('users', 'users.id', '=', 'user_company.id_user')
-                ->where('users.id',Auth::user()->id)->
-                select('companies.id')
-                ->first();
+                ->where('users.id', Auth::user()->id )->
+                select('companies.id')->first();
 
             $Incidents = Incident::
             join('locals', 'locals.id',  '=', 'incidents.id_local')->
+            join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             join('company_locals','company_locals.id_local','=','locals.id')->
             join('companies', 'companies.id', '=', 'company_locals.id_company')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
             select('incidents.*','locals.n_local','users.name AS responsable')->
-            where('companies.id',$compa->id)->get();
+            where('companies.id',$compa->id)->
+            whereNotIn('incidents_state.slug', ['delete'])->get();
 
 
 
@@ -50,18 +51,23 @@ class IncidentController extends Controller
             ]);
         }
 
-        if(session()->get('rol')=='empleado'){
-           $depa =  Department::join('users_departments', 'users_departments.id_department', '=', 'departments.id')
+        if(session()->get('rol') == 'empleado') {
+
+            $depa = Department::join('users_departments', 'users_departments.id_department', '=', 'departments.id')
                 ->join('users', 'users.id', '=', 'users_departments.id_user')
-                ->where('users_departments.id_user',Auth::user()->id)->
+                ->where('users_departments.id_user', Auth::user()->id)->
+                where('incidents_state.slug', 'delete')->
                  select('departments.*')
                 ->first();
 
             $Incidents = Incident::where('id_departament',$depa->id)->
+            join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             join('locals', 'locals.id',  '=', 'incidents.id_local')->
+            join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
             select('incidents.*','locals.n_local','users.name AS responsable')->
-            get();
+            whereNotIn('incidents_state.slug', ['delete'])->
+            where('incidents_state.slug', 'delete')->get();
 
              // dd($Incidents);
             $user = User::
@@ -73,16 +79,40 @@ class IncidentController extends Controller
             $estados = StateIn::get();
 
             return view('panel.incidents.history')->with([
-                'Incidents' =>  $Incidents,'users' => $user, 'estados' => $estados
+                'Incidents' =>  $Incidents,
+                'users' => $user,
+                'estados' => $estados
+            ]);
+
+  }
+        if(session()->get('rol') == 'admin'){
+            $estados = StateIn::get();
+             $Incidents = Incident::join('locals', 'locals.id',  '=', 'incidents.id_local')->
+            join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
+            leftJoin('users', 'users.id','=','incidents.id_responsable' )->
+             whereNotIn('incidents_state.slug', ['delete'])->
+            select('incidents.*','locals.n_local','users.name AS responsable')->get();
+
+
+            return view('panel.incidents.history')->with([
+                'Incidents' =>  $Incidents,
+                'estados' =>  $estados,
             ]);
         }
 
+        $estados = StateIn::get();
+        $Incidents =  $Incidents = Incident::join('locals', 'locals.id',  '=', 'incidents.id_local')->
+        leftJoin('users', 'users.id','=','incidents.id_responsable' )->
+        select('incidents.*','locals.n_local','users.name AS responsable')->get();
 
-        $Incidents = Incident::get();
+
         return view('panel.incidents.history')->with([
-            'Incidents' =>  $Incidents
+            'Incidents' =>  $Incidents,
+            'estados' =>  $estados,
         ]);
-        }
+
+
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -203,6 +233,7 @@ class IncidentController extends Controller
         'users.name AS responsable',
         'departments.name AS departmentsName',
         'departments.id AS departmentsId',
+         'incidents_state.name AS state'
         )->
         join('locals', 'locals.id',  '=', 'incidents.id_local')->
        //join('company_locals','company_locals.id_local','=','locals.id')->
@@ -211,6 +242,7 @@ class IncidentController extends Controller
         //join('users', 'users.id', '=', 'user_company.id_user')->
         leftJoin('users', 'users.id','=','incidents.id_responsable' )->
         join('departments', 'departments.id', '=', 'incidents.id_departament')->
+        join('incidents_state', 'incidents_state.id', '=', 'incidents.id_state')->
         where('incidents.slug',$slug)->
         first();
 
@@ -242,7 +274,7 @@ class IncidentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request);
+       // dd($request);
     }
 
     public function comentario(Request $request)
@@ -283,8 +315,52 @@ class IncidentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id){
+
+      $incident =  Incident::findOrFail($id);
+      $state =  StateIn::where('slug', 'delete')->first();
+
+      //Dependiendo del rol del admin borrar fisico o logico
+        if( session()->get('rol') == 'admin' ){
+            $incident->id_state = $state->id;
+            $incident->save();
+
+            return response()->json(array('status' => 'ok'), 200);
+        }
+
+      //Borrar todos los comentarios asociados
+        if( session()->get('rol') == 'super_admin' ) {
+            $comments = Comment::where('id_incident', $id)->get();
+
+            //Se borran los comentarios asociados
+            if($comments->count() !== 0){
+                foreach ($comments as $comment){
+                    $comment->delete();
+                }
+            }
+            //Borrar el incidente defenitivamente
+            $incident->delete();
+            return response()->json(array('status' => 'ok'), 200);
+        }
+
+
+        return response()->json(array('status' => 'error'), 200);
+
+
     }
+
+
+    public function commentDelete(Request $request, $id)
+    {
+        if($request->has('id')){
+            $comment = Comment::findOrFail($request->id);
+            $comment->delete();
+            return response()->json(array('status' => 'ok'), 200);
+        }
+        return response()->json(array('status' => 'error'), 200);
+
+    }
+
+
+
 }

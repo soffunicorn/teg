@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
@@ -23,16 +24,22 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        //PARA admin y SUPER ADMIN
         $companies = Company::join('company_locals', 'company_locals.id_company', '=', 'companies.id')->
         join('user_company', 'user_company.id_company', '=', 'companies.id')->
         join('users', 'users.id', '=', 'user_company.id_user')->
         join('roles', 'roles.id', '=', 'users.id_rol')->
         join('types', 'types.id', '=', 'users.id_type')->
         join('locals', 'locals.id', '=', 'company_locals.id_local')->
-        join('states', 'states.id', '=', 'locals.id_state')
-            ->where('roles.slug', 'local')
-            ->where('types.slug', 'owner')->
-            select('companies.*', 'users.name AS user_name', 'users.slug AS user_slug', 'locals.n_local')->get();;
+        join('states AS state_local', 'state_local.id', '=', 'locals.id_state')->
+        join('states AS state_company', 'state_company.id', '=', 'companies.id_state')
+           ->where('roles.slug', 'local')
+            ->where('state_company.slug', 'available')
+            ->where('types.slug', 'owner')
+           ->select('companies.*', 'users.name AS user_name', 'users.slug AS user_slug', 'locals.n_local')->get();;
+
+
+
 
         return view('panel.company.all')->with([
             'companies' => $companies,
@@ -91,19 +98,11 @@ class CompanyController extends Controller
         $company->telephone = $request->telephone;
         $company->schedule_to = !empty($request->schedule_to) ? $request->schedule_to : "";
         $company->schedule_from = !empty($request->schedule_from) ? $request->schedule_from : "";
-        $company->save();
+
         //Si la comañia es de un usuario registrado sino lo creo
         if ( !$request->has('local') ) {
             return false;
         }
-
-        $local = local::find($request->local);
-        $local->companies()->attach($company);
-        //updtear el status del local
-        $state = State::where('slug', 'busy')->first(); //busco el estado ocupado
-        $local->id_state = $state->id; // le seteo el id busy al local
-        $local->save(); //guardo
-
         if ($request->has('registOwner') && $request->registOwner === 'SI') {
             $user_slug = $request->owner_company;
             $user = User::where('slug', $user_slug)->first();
@@ -117,7 +116,7 @@ class CompanyController extends Controller
 
             $request->validate($userRoles);
             //$password = Str::random(10);
-            $password = "1234";
+            $password = "12345";
             $type = Type::where('slug', 'owner')->first();
             $rol = Rol::where('slug', 'local')->first();
             //TODO enviar mail con password al usuario
@@ -130,13 +129,26 @@ class CompanyController extends Controller
             $user->password = bcrypt($password);
             $user->id_rol = $rol->id;
             $user->id_type = $type->id;
-            $user->save();
+
         }
         if (empty($user)) {
             return false;
+
         }
+        //Guardado y Actualizado de datos
+        $company->save();
+        $local = local::find($request->local);
+        $local->companies()->attach($company);
+        //updtear el status del local
+        $state = State::where('slug', 'busy')->first(); //busco el estado ocupado
+        $local->id_state = $state->id; // le seteo el id busy al local
+        $local->save(); //guardo
+        $user->save();
+
         //lenar la tabla relacional user_company
         $user->Companies()->attach($company);
+       //Update company
+
 
         return redirect('company');
 
@@ -230,6 +242,7 @@ class CompanyController extends Controller
 
         $status = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable'])->get();
 
+
         return view('panel.company.edit')->with([
             'company' => $company,
             'users' => $users,
@@ -317,7 +330,7 @@ class CompanyController extends Controller
             $user->Companies()->attach($company);
         }
 
-        //lenar la tabla relacional user_company
+
 
         return redirect('company');
 
@@ -331,7 +344,14 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(empty($id) ){
+           return false;
+        }
+        $status = State::where('slug', 'disabled')->first();
+        $company =  Company::where('slug', $id)->first();
+        $company->id_state = $status->id;
+        $company->save();
+        return response()->json(array('status' => 'ok'), 200);
     }
 
 

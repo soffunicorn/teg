@@ -9,6 +9,9 @@ use App\Models\Type;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\UserDepartment;
+use App\Models\Log;
+use App\Models\Record;
+use App\Models\Action;
 use Auth;
 class HomeController extends Controller
 {
@@ -35,6 +38,12 @@ class HomeController extends Controller
 
     public function index()
     {
+        $action = Action::where('slug', 'log-in')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+
 
         $userRol = Rol::join('users', 'users.id_rol', '=', 'roles.id')->
                         where('users.id', auth()->user()->id)->select('roles.*')->first();
@@ -42,6 +51,7 @@ class HomeController extends Controller
                         where('users.id', auth()->user()->id)->select('types.*')->first();
 
 
+        session(['log' => $log->id ]);
         session(['tipo' => $userType->slug ]);
         session(['rol' => $userRol->slug]);
 

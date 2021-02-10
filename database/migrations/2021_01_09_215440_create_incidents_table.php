@@ -31,6 +31,7 @@ class CreateIncidentsTable extends Migration
             $table->string('priority');
             $table->dateTime('deathline')->nullable();
             $table->timestamps();
+
             //Index
             $table->unsignedBigInteger('id_departament')->unsigned()
                 ->index()
@@ -44,7 +45,6 @@ class CreateIncidentsTable extends Migration
             $table->unsignedBigInteger('id_state')->unsigned()
                 ->index()
                 ->nullable();
-
             //Foreign key
         $table->foreign('id_departament')
                 ->references('id')
@@ -85,6 +85,13 @@ class CreateIncidentsTable extends Migration
                 'name'        => 'Finalizada',
                 'slug'        => 'finalizada',
                 'descripcion' => 'Actividad Finalizada',
+                'created_at'  =>  new DateTime,
+                'updated_at'  =>  new DateTime
+            ],
+            [
+                'name'        => 'Borrada',
+                'slug'        => 'delete',
+                'descripcion' => 'Incidente Borrado',
                 'created_at'  =>  new DateTime,
                 'updated_at'  =>  new DateTime
             ],
