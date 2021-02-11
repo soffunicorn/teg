@@ -25,21 +25,36 @@ class CompanyController extends Controller
     public function index()
     {
         //PARA admin y SUPER ADMIN
-        $companies = Company::join('company_locals', 'company_locals.id_company', '=', 'companies.id')->
-        join('user_company', 'user_company.id_company', '=', 'companies.id')->
-        join('users', 'users.id', '=', 'user_company.id_user')->
-        join('roles', 'roles.id', '=', 'users.id_rol')->
-        join('types', 'types.id', '=', 'users.id_type')->
-        join('locals', 'locals.id', '=', 'company_locals.id_local')->
-        join('states AS state_local', 'state_local.id', '=', 'locals.id_state')->
-        join('states AS state_company', 'state_company.id', '=', 'companies.id_state')
-           ->where('roles.slug', 'local')
-            ->where('state_company.slug', 'available')
-            ->where('types.slug', 'owner')
-           ->select('companies.*', 'users.name AS user_name', 'users.slug AS user_slug', 'locals.n_local')->get();;
-
-
-
+        if(session()->get('rol') !== 'local' || session()->get('rol') !== 'empleado'){
+            $companies = Company::join('company_locals', 'company_locals.id_company', '=', 'companies.id')->
+            join('user_company', 'user_company.id_company', '=', 'companies.id')->
+            join('users', 'users.id', '=', 'user_company.id_user')->
+            join('roles', 'roles.id', '=', 'users.id_rol')->
+            join('types', 'types.id', '=', 'users.id_type')->
+            join('locals', 'locals.id', '=', 'company_locals.id_local')->
+            join('states AS state_local', 'state_local.id', '=', 'locals.id_state')->
+            join('states AS state_company', 'state_company.id', '=', 'companies.id_state')
+                ->where('roles.slug', 'local')
+                ->where('state_company.slug', 'available')
+                ->where('types.slug', 'owner')
+                ->select('companies.*', 'users.name AS user_name', 'users.slug AS user_slug', 'locals.n_local')->get();
+        }
+        //PARA admin y SUPER ADMIN
+        if(session()->get('rol') == 'local'){
+            $companies = Company::join('company_locals', 'company_locals.id_company', '=', 'companies.id')->
+            join('user_company', 'user_company.id_company', '=', 'companies.id')->
+            join('users', 'users.id', '=', 'user_company.id_user')->
+            join('roles', 'roles.id', '=', 'users.id_rol')->
+            join('types', 'types.id', '=', 'users.id_type')->
+            join('locals', 'locals.id', '=', 'company_locals.id_local')->
+            join('states AS state_local', 'state_local.id', '=', 'locals.id_state')->
+            join('states AS state_company', 'state_company.id', '=', 'companies.id_state')
+                ->where('roles.slug', 'local')
+                ->where('state_company.slug', 'available')
+                ->where('types.slug', 'owner')
+                ->where('users.id', auth()->user()->id)
+                ->select('companies.*', 'users.name AS user_name', 'users.slug AS user_slug', 'locals.n_local')->get();
+        }
 
         return view('panel.company.all')->with([
             'companies' => $companies,

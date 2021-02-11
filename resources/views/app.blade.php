@@ -83,7 +83,7 @@ Coded by www.creative-tim.com
                         <li><a href="{{url('locales')}}"> Ver  Locales </a></li>
                         <?php } ?>
                         <?php if(session()->get('rol') == 'super_admin' or session()->get('rol') == 'admin'){ ?>
-                        <li><a href="{{url('locales/create')}}">Crear Locakes </a></li>
+                        <li><a href="{{url('locales/create')}}">Crear Locales </a></li>
                         <?php } ?>
                     </ul>
                 </li>
