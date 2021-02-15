@@ -7,11 +7,13 @@
                 <div class="row mb-3">
                     <div class="col-md-12 col-4">
 
-                        <div class="author">
+                        <div class="author text-center">
                             <div class="circle-img"><img src="{{asset('panel/assets/img/default-avatar.png')}}"
                                                          alt="persona" class="img-user">
                             </div>
-                            <button class="btn btn-change-image">Cambiar foto</button>
+                            <button class="btn btn-change-image" id="changeImage">Cambiar foto</button>
+                            <button class="btn btn-upload-image uniform-bg  hidden" id="uploadImage">Actualizar Foto</button>
+                            <input type="file" id="newImage" name="newImage"  class="hidden" />
                         </div>
                     </div>
 
@@ -93,4 +95,33 @@
             </div>
         </div>
     </div>
+@endsection
+@section('panelScript')
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('#changeImage').on('click', function (){
+                jQuery('#newImage').trigger('click');
+            });
+
+            jQuery('#newImage').on('change', function (e){
+                let tgt = e.target;
+                let files = tgt.files;
+                if (FileReader) {
+                    var fr = new FileReader();
+                    fr.onload = function () {
+                        jQuery('.img-user').attr('src', fr.result);
+                        jQuery('#uploadImage').removeClass('hidden');
+                        jQuery('#changeImage').css('display', 'none ');
+                    }
+                    let url = fr.readAsDataURL(files[0]);
+
+                    console.log(url)
+                }
+
+            });
+
+        });
+        </script>
 @endsection

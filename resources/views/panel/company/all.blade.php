@@ -28,14 +28,16 @@
                             <button class="viewMore btn"  data-id="{{$company->slug}}"
                                     data-toggle="tooltip" data-placement="bottom" title="Ver más">Ver detalle</button>
 
+                            @if(session()->get('rol') === 'admin' || session()->get('rol') === 'super_admin' )
                             <a href="{{ url('/companyEdit/' . $company->slug)}}"
                                class="btn btn-sam-blue btn-edit"><i
                                     class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
                                     title="Editar"></i></a>
 
+
                                 <button type="button" class="btn btn-sam-red btn-delete" data-id="{{$company->slug}}"><i
                                         class="fas fa-trash"></i></button>
-
+                                @endif
 
                         </td>
 

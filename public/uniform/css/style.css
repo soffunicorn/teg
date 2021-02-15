@@ -1,4 +1,7 @@
 /*NAVS*/
+#oldNav  .logonav{
+    max-width:120px;
+}
 .sidebar-wrapper ul.nav{
     padding: 0 10px 0 15px;
 }
@@ -127,7 +130,7 @@ form#formDelete{
 .circle-img img{
     border-radius: 50%;
     width: 150px;
-    height: auto;
+    height: 150px;
     object-fit: cover;
 }
 
@@ -194,4 +197,11 @@ form#formDelete{
 }
 .submit-row{
     padding: 0 15px;
+}
+.card-reset-box{
+    border:unset;
+}
+.card-reset{
+    background-color: #F16722 !important;
+    color: #fff;
 }

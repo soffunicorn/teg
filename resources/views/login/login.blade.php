@@ -59,7 +59,7 @@
 
                         </div>
 
-                       <a href="{{ route('passwordReset') }}" class="ml-auto mb-0 text-sm">¿Olvidaste la contraseña?</a>
+                       <a href="{{ route('password.request') }}" class="ml-auto mb-0 text-sm">¿Olvidaste la contraseña?</a>
                     </div>
                     <div class="row mb-3 px-3"> <button type="submit" class="btn  uniform-bg btn-submit text-center">Iniciar sesión</button> </div>
                     </form>
