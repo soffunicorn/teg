@@ -1,4 +1,7 @@
 @extends('app')
+@section('panelHead')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 @section('panelTitle', '')
 @section('panelContent')
     <div class="row" id="userProfile">
@@ -8,12 +11,17 @@
                     <div class="col-md-12 col-4">
 
                         <div class="author text-center">
-                            <div class="circle-img"><img src="{{asset('panel/assets/img/default-avatar.png')}}"
+                            <div class="circle-img"><img src="{{ empty( auth()->user()->avatar ) ? asset('panel/assets/img/default-avatar.png') : asset('panel/assets/uploads/img/' . auth()->user()->avatar)  }}"
                                                          alt="persona" class="img-user">
                             </div>
                             <button class="btn btn-change-image" id="changeImage">Cambiar foto</button>
                             <button class="btn btn-upload-image uniform-bg  hidden" id="uploadImage">Actualizar Foto</button>
-                            <input type="file" id="newImage" name="newImage"  class="hidden" />
+                            <input type="file" id="newImage" name="newImage"  class="hidden"  data-userId="{{auth()->user()->id}}"/>
+
+                            <div class="alert hidden" id="alertMessage">
+                                <p></p>
+                            </div>
+
                         </div>
                     </div>
 
@@ -109,16 +117,61 @@
                 let tgt = e.target;
                 let files = tgt.files;
                 if (FileReader) {
-                    var fr = new FileReader();
+                    let fr = new FileReader();
                     fr.onload = function () {
                         jQuery('.img-user').attr('src', fr.result);
                         jQuery('#uploadImage').removeClass('hidden');
                         jQuery('#changeImage').css('display', 'none ');
                     }
                     let url = fr.readAsDataURL(files[0]);
-
-                    console.log(url)
                 }
+
+            });
+
+            jQuery('#uploadImage').on('click', function (){
+                let self = jQuery(this);
+                let userId = jQuery('#newImage').data('userid');
+                let media = jQuery('#newImage');
+                let formData = new FormData();
+                let message = jQuery('#alertMessage');
+                formData.append('image', media[0].files[0] );
+                formData.append('userId', userId );
+                jQuery.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                jQuery.ajax({
+                        url : '{{url('/changeImage')}}' + '/' + userId,
+                    processData: false,
+                    enctype: 'multipart/form-data',
+                    contentType: false,
+                        type: 'POST',
+                        data:  formData,
+                        success: function (response){
+                            console.log(response);
+                            if(response.status === 'ok'){
+                                if(message.hasClass('alert-warning')){
+                                    message.removeClass('alert-warning');
+                                }
+                                message.addClass('alert-success');
+                            }else{
+                                if(message.hasClass('alert-success')){
+                                    message.removeClass('alert-sucess');
+                                }
+                                message.addClass('alert-warning');
+                            }
+
+                            self.addClass('hidden');
+                            message.find('p').html(response.content);
+                            message.removeClass('hidden');
+                            setTimeout(function (){
+                                message.addClass('hidden');
+                                jQuery('#changeImage').removeClass('hidden');
+                            }, 3000)
+
+                        }
+                });
 
             });
 

@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Type;
 use App\Models\Department;
 use App\Models\UserDepartment;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -336,6 +336,35 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function change_image(Request $request, $id)
+    {
+        try
+        {
+            $user = User::findOrFail($id);
+
+            if ($request->hasFile('image')) {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
+                ]);
+                $file = $request->file('image');
+                $name = time().$file->getClientOriginalName();
+                $name = str_replace(' ', '', $name);
+                $file->move(public_path().'/panel/assets/uploads/img', $name);
+                $user->avatar = $name;
+                $user->save();
+                return response()->json(array('status' => 'ok', 'content' => 'La imagen fue cambiado satisfactoriamente'), 200);
+            }
+            return response()->json(array('status' => 'error', 'content' => 'La imagen ha fallado al actualizarse, intentelo más tarde'), 200);
+        }
+        catch(ModelNotFoundException $e)
+        {
+            return response()->json(array('status' => 'error', 'content' => 'La imagen ha fallado al actualizarse, intentelo más tarde'), 200);
+        }
+
+
+
     }
 
     function password_edit(Request $request, $slug){

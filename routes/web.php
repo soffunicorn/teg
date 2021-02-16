@@ -37,8 +37,9 @@ Route::get('/midepa', [DepartmentController::class, 'midepa'])->middleware('auth
 /*User*/
 Route::resource('/user', UserController::class)->middleware('auth');
 
-Route::put('/password-edit/{slug}', [UserController::class, 'password_edit'])->middleware('auth'); //reset password
 
+Route::put('/password-edit/{slug}', [UserController::class, 'password_edit'])->middleware('auth'); //reset password
+Route::POST('/changeImage/{id}', [UserController::class, 'change_image'])->middleware('auth'); //change Image
 
 Route::get('/password-reset/', function (){
     return view('login.reset-password');
