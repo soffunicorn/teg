@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Models\StateIn;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 
 class IncidentController extends Controller
@@ -25,9 +26,9 @@ class IncidentController extends Controller
 
         if(session()->get('rol')=='local'){
             $compa =  Company::
-       //     join('locals', 'locals.id',  '=', 'incidents.id_local')->
+           // join('locals', 'locals.id',  '=', 'incidents.id_local')->
            // join('company_locals','company_locals.id_local','=','locals.id')->
-         //   join('companies', 'companies.id', '=', 'company_locals.id_company')->
+           // join('companies', 'companies.id', '=', 'company_locals.id_company')->
             join('user_company', 'user_company.id_company', '=', 'companies.id')->
             join('users', 'users.id', '=', 'user_company.id_user')
                 ->where('users.id', Auth::user()->id )->
@@ -44,12 +45,11 @@ class IncidentController extends Controller
             whereNotIn('incidents_state.slug', ['delete'])->get();
 
 
-
-
             return view('panel.incidents.history')->with([
                 'Incidents' =>  $Incidents
             ]);
         }
+
 
         if(session()->get('rol') == 'empleado') {
 
@@ -360,6 +360,33 @@ class IncidentController extends Controller
         return response()->json(array('status' => 'error'), 200);
 
     }
+
+    public function reportedeincidencia($id)
+    {
+
+
+            $compa = Company::where('id', $id)->
+                select('id','name AS compañia')->first();
+
+            $Incidents = Incident::
+            join('locals', 'locals.id', '=', 'incidents.id_local')->
+            join('incidents_state', 'incidents_state.id', '=', 'incidents.id_state')->
+            join('company_locals', 'company_locals.id_local', '=', 'locals.id')->
+            join('companies', 'companies.id', '=', 'company_locals.id_company')->
+            leftJoin('users', 'users.id', '=', 'incidents.id_responsable')->
+            select('incidents.*', 'locals.n_local', 'users.name AS responsable')->
+            where('companies.id', $compa->id)->
+            whereNotIn('incidents_state.slug', ['delete'])->get();
+       // $data['compa'] = $compa;
+       // $data['Incidents'] = $Incidents;
+        // dd($data);
+
+
+        $pdf = PDF::loadView('panel.incidents.reporte',compact('compa','Incidents'));
+        return $pdf->download('invoice.pdf');
+
+    }
+
 
 
 
