@@ -88,6 +88,17 @@ Coded by www.creative-tim.com
                     </ul>
                 </li>
 
+                 @if(session()->get('rol') === 'admin' || session()->get('rol') === 'super_admin' )
+                    <li>
+                        <h5>Auditorias</h5>
+                        <ul>
+                            <li><a href="{{url('auditorias')}}">Ver auditorias</a></li>
+                            <li><a href="{{url('historial-incidencias')}}">Ver historial de Incidencias</a></li>
+                        </ul>
+                    </li>
+
+                 @endif
+
             </ul>
         </div>
     </div>

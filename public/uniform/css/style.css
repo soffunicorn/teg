@@ -205,3 +205,8 @@ form#formDelete{
     background-color: #F16722 !important;
     color: #fff;
 }
+/*datatable*/
+.dataTables_filter label{ float: right; }
+.dataTables_length{
+    margin-bottom: 30px;
+}

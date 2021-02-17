@@ -7,6 +7,7 @@ use App\Http\Controllers\LocalController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\AuditoriaController;
 use \App\Http\Controllers\HomeController;
 
 /*
@@ -60,13 +61,17 @@ Route::post('/workers', [UserController::class, 'storeWorkers']);
 Route::get('/setDepartment/{id}', [App\Http\Controllers\HomeController::class, 'setDepartment'])->middleware('auth');
 Route::get('/setCompany/{id}', [App\Http\Controllers\HomeController::class, 'setCompany'])->middleware('auth');
 
+// ********************************Auditorias *************************** //
 
+Route::resource('/auditorias', AuditoriaController::class)->middleware('auth');
+Route::get('/historial-incidencias', [AuditoriaController::class, 'index_incidents'])->middleware('auth');
+Route::get('/show-audi-incident/{slug}', [AuditoriaController::class, 'show_incidents'])->middleware('auth');
 
 // ********************************INCICENCIAS
 
 
 
-Route::resource('/incidents', IncidentController::class)->middleware('auth');;
+Route::resource('/incidents', IncidentController::class)->middleware('auth');
 Route::post('/comentar', [IncidentController::class,'comentario'])->middleware('auth');
 Route::post('/elegir', [IncidentController::class,'elegir'])->middleware('auth');
 Route::post('/estados', [IncidentController::class,'estados'])->middleware('auth');

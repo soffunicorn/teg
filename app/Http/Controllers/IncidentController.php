@@ -9,6 +9,9 @@ use App\Models\Local;
 use App\Models\Comment;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\Log;
+use App\Models\Action;
+use App\Models\Record;
 use App\Models\StateIn;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +26,8 @@ class IncidentController extends Controller
     public function index()
     {
 
-        if(session()->get('rol')=='local'){
+        if(session()->get('rol')== 'local'){
+            $estados = StateIn::get();
             $compa =  Company::
        //     join('locals', 'locals.id',  '=', 'incidents.id_local')->
            // join('company_locals','company_locals.id_local','=','locals.id')->
@@ -43,11 +47,9 @@ class IncidentController extends Controller
             where('companies.id',$compa->id)->
             whereNotIn('incidents_state.slug', ['delete'])->get();
 
-
-
-
             return view('panel.incidents.history')->with([
-                'Incidents' =>  $Incidents
+                'Incidents' =>  $Incidents,
+                'estados' =>  $estados
             ]);
         }
 
@@ -87,6 +89,7 @@ class IncidentController extends Controller
   }
         if(session()->get('rol') == 'admin'){
             $estados = StateIn::get();
+
              $Incidents = Incident::join('locals', 'locals.id',  '=', 'incidents.id_local')->
             join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
@@ -198,6 +201,8 @@ class IncidentController extends Controller
             );
             return response()->json($data, $data['code']);
         }
+        //Busco el estado que necesito
+        $status = StateIn::where('slug', 'porhacer')->first();
         //Creo la incidencia
         $Incident = new Incident();
         $Incident->name             = $request->input('name');
@@ -205,11 +210,22 @@ class IncidentController extends Controller
         $Incident->priority         = $request->input('priority');
         $Incident->id_departament   = $request->input('id_departament'); //
         $Incident->id_local         = $request->input('id_local'); //
-        //$Incident->status           = 1;
+        $Incident->id_state           = $status->id; //Por hacer
         $Incident->deathline        = '2021-02-01 00:15:58';
         $Incident->slug             =  str_shuffle($Incident->name.date("Ymd").uniqid());
 
         $Incident->save();
+        //Guardar para el log y los records
+        $action = Action::where('slug', 'new-incident')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+        //guardar el record
+        $record = new Record();
+        $record->id_log = $log->id;
+        $record->id_incident = $Incident->id;
+        $record->save();
         return redirect('incidents');
 
     }
@@ -286,6 +302,20 @@ class IncidentController extends Controller
         $Comment->id_incident = $In->id;
         $Comment->id_user = $request->input('userId');
         $Comment->save();
+
+        //Guardar para el log y los records
+        $action = Action::where('slug', 'new-comment')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+        //guardar el record
+        $record = new Record();
+        $record->id_log = $log->id;
+        $record->id_incident = $In->id;
+        $record->save();
+
+
         return redirect('/incidents/'.$In->slug);
     }
 
@@ -294,6 +324,9 @@ class IncidentController extends Controller
         $In = Incident::where('slug',$request->input('incidentId'))->first();
         $In->id_responsable = $request->input('responsable');
         $In->save();
+
+
+
         return redirect('/incidents');
     }
 
@@ -318,18 +351,15 @@ class IncidentController extends Controller
     public function destroy($id){
 
       $incident =  Incident::findOrFail($id);
-      $state =  StateIn::where('slug', 'delete')->first();
 
       //Dependiendo del rol del admin borrar fisico o logico
         if( session()->get('rol') == 'admin' ){
+            $state =  StateIn::where('slug', 'delete')->first();
             $incident->id_state = $state->id;
             $incident->save();
 
             return response()->json(array('status' => 'ok'), 200);
-        }
-
-      //Borrar todos los comentarios asociados
-        if( session()->get('rol') == 'super_admin' ) {
+        }else if( session()->get('rol') == 'super_admin' ) {
             $comments = Comment::where('id_incident', $id)->get();
 
             //Se borran los comentarios asociados
@@ -357,6 +387,8 @@ class IncidentController extends Controller
             $comment->delete();
             return response()->json(array('status' => 'ok'), 200);
         }
+
+
         return response()->json(array('status' => 'error'), 200);
 
     }
