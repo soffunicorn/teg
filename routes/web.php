@@ -75,6 +75,8 @@ Route::resource('/incidents', IncidentController::class)->middleware('auth');
 Route::post('/comentar', [IncidentController::class,'comentario'])->middleware('auth');
 Route::post('/elegir', [IncidentController::class,'elegir'])->middleware('auth');
 Route::post('/estados', [IncidentController::class,'estados'])->middleware('auth');
+Route::get('/reportedeincidencia/{id}', [IncidentController::class,'reportedeincidencia']);
+
 
 // ***************************++Comentarios
 Route::post('/deleteComment/{id}', [IncidentController::class,'commentDelete'])->middleware('auth');

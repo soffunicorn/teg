@@ -14,6 +14,7 @@ use App\Models\Action;
 use App\Models\Record;
 use App\Models\StateIn;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 
 class IncidentController extends Controller
@@ -89,7 +90,6 @@ class IncidentController extends Controller
   }
         if(session()->get('rol') == 'admin'){
             $estados = StateIn::get();
-
              $Incidents = Incident::join('locals', 'locals.id',  '=', 'incidents.id_local')->
             join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
@@ -324,9 +324,6 @@ class IncidentController extends Controller
         $In = Incident::where('slug',$request->input('incidentId'))->first();
         $In->id_responsable = $request->input('responsable');
         $In->save();
-
-
-
         return redirect('/incidents');
     }
 
@@ -392,6 +389,33 @@ class IncidentController extends Controller
         return response()->json(array('status' => 'error'), 200);
 
     }
+
+    public function reportedeincidencia($id)
+    {
+
+
+            $compa = Company::where('id', $id)->
+                select('id','name AS compañia')->first();
+
+            $Incidents = Incident::
+            join('locals', 'locals.id', '=', 'incidents.id_local')->
+            join('incidents_state', 'incidents_state.id', '=', 'incidents.id_state')->
+            join('company_locals', 'company_locals.id_local', '=', 'locals.id')->
+            join('companies', 'companies.id', '=', 'company_locals.id_company')->
+            leftJoin('users', 'users.id', '=', 'incidents.id_responsable')->
+            select('incidents.*', 'locals.n_local', 'users.name AS responsable')->
+            where('companies.id', $compa->id)->
+            whereNotIn('incidents_state.slug', ['delete'])->get();
+       // $data['compa'] = $compa;
+       // $data['Incidents'] = $Incidents;
+        // dd($data);
+
+
+        $pdf = PDF::loadView('panel.incidents.reporte',compact('compa','Incidents'));
+        return $pdf->download('invoice.pdf');
+
+    }
+
 
 
 
