@@ -45,8 +45,8 @@ class IncidentController extends Controller
             join('companies', 'companies.id', '=', 'company_locals.id_company')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
             select('incidents.*','locals.n_local','users.name AS responsable')->
-            where('companies.id',$compa->id)->
-            whereNotIn('incidents_state.slug', ['delete'])->get();
+            where('companies.id', $compa->id)->
+            whereNotIn('incidents_state.slug', ['delete'] )->get();
 
             return view('panel.incidents.history')->with([
                 'Incidents' =>  $Incidents,
@@ -59,18 +59,17 @@ class IncidentController extends Controller
             $depa = Department::join('users_departments', 'users_departments.id_department', '=', 'departments.id')
                 ->join('users', 'users.id', '=', 'users_departments.id_user')
                 ->where('users_departments.id_user', Auth::user()->id)->
-                where('incidents_state.slug', 'delete')->
+               // whereNotIn('incidents_state.slug', ['delete'])->
                  select('departments.*')
                 ->first();
 
             $Incidents = Incident::where('id_departament',$depa->id)->
-            join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             join('locals', 'locals.id',  '=', 'incidents.id_local')->
             join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
             select('incidents.*','locals.n_local','users.name AS responsable')->
-            whereNotIn('incidents_state.slug', ['delete'])->
-            where('incidents_state.slug', 'delete')->get();
+            whereNotIn('incidents_state.slug', ['delete'])->get();
+         //   where('incidents_state.slug', 'delete')->;
 
              // dd($Incidents);
             $user = User::

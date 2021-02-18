@@ -18,6 +18,7 @@ use Illuminate\Validation\Rule;
 use phpDocumentor\Reflection\Types\False_;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use PDF;
 class DepartmentController extends Controller
 {
     /**
@@ -338,12 +339,12 @@ class DepartmentController extends Controller
                                    select('departments.name AS department_name', 'users.name AS res_name', 'users.lastname AS res_lastname',
                                     'incidents.*', 'incidents_state.name AS state')->get();
 
-             return view('panel.department.incidenciasxDepartment')->with([
+            /* return view('panel.department.incidenciasxDepartment')->with([
                  'incidents' => $incidents,
                  'department' => $department,
-             ]);
-             /*$pdf = PDF::loadView('panel.local.localxIncidencias' ,compact('incidents','local'));
-             return $pdf->download('incidenciasxlocal'.$local->n_local .'.pdf');*/
+             ]);*/
+             $pdf = PDF::loadView('panel.department.incidenciasxDepartment' ,compact('incidents','department'));
+             return $pdf->download('incidenciasxlocal'.$department->name .'.pdf');
 
          }
          catch(ModelNotFoundException $e)

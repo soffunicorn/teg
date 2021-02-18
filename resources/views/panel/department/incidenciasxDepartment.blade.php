@@ -13,6 +13,9 @@
         html{
             margin:0;
         }
+        body{
+            font-family: 'Helvetica';
+        }
     </style>
 
 </head>
@@ -47,7 +50,7 @@
                 <tr>
                     <td>{{$date}}</td>
                     <td>{{$incident->state}}</td>
-                    <td>{{$incident->res_name . " " . $incident->res_lastname}}</td>
+                    <td>{{ !empty($incident->res_name) ? $incident->res_name . " " . $incident->res_lastname : 'No se ha asignado'}}</td>
                     <td>{{$incident->name}}</td>
                     <td>{{$incident->description}}</td>
                 </tr>
