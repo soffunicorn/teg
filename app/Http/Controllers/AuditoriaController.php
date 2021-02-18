@@ -23,10 +23,15 @@ class AuditoriaController extends Controller
     public function index()
     {
         $roles = Rol::whereNotIn('slug', ['super_admin'])->get();
+        $roles_slug = [];
+        foreach ($roles as $role) {
+            $roles_slug[] = $role->slug;
+
+        }
 
         $logs = Log::join('actions', 'actions.id', '=', 'logs.id_action')->
                      join('users', 'users.id', '=', 'logs.id_user')->
-                     join('roles', 'roles.id', '=', 'id_rol')->whereIn('roles.slug', $roles)->
+                     join('roles', 'roles.id', '=', 'id_rol')->whereIn('roles.slug', $roles_slug)->
                      select('logs.id AS log_id', 'logs.created_at AS log_fecha', 'users.name AS user_name',
                     'users.lastname AS user_lastname', 'users.email as user_mail', 'actions.*' )
                      ->orderBy('logs.created_at', 'desc')->get();
@@ -55,6 +60,7 @@ class AuditoriaController extends Controller
         return view ('panel/admin/auditoria-incident')->with([
             'logs' => $logs,
         ]);
+
     }
 
    /* public function  show_incidents($slug){

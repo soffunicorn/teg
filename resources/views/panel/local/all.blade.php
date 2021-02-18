@@ -37,6 +37,7 @@
                                                 class="fas fa-trash"></i></button>
                                         <button type="submit" class="btn-real-submit btn-real-delete"
                                                 style="opacity: 0;"></button>
+                                        <a href="{{url('/local-incidencia/' . $local->id)}}" target="_blank" class="btn btn-primary">Reporte de incidencia por local</a>
                                     </form>
 
                                 </td>

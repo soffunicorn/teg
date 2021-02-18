@@ -325,5 +325,34 @@ class DepartmentController extends Controller
 
 
     }
+     public function incidenciasDepartment($id){
+
+         try
+         {
+             $department = Department::findOrFail($id);
+             $incidents = Department::join('incidents', 'incidents.id_departament', '=', 'departments.id' )->
+                                   leftJoin('users', 'users.id', '=', 'incidents.id_responsable')->
+                                     leftJoin('comments', 'comments.id_incident', '=', 'incidents.id')->
+                                   join('incidents_state', 'incidents_state.id', '=', 'incidents.id_state')->
+                                    where('incidents.id_departament', $id)->
+                                   select('departments.name AS department_name', 'users.name AS res_name', 'users.lastname AS res_lastname',
+                                    'incidents.*', 'incidents_state.name AS state')->get();
+
+             return view('panel.department.incidenciasxDepartment')->with([
+                 'incidents' => $incidents,
+                 'department' => $department,
+             ]);
+             /*$pdf = PDF::loadView('panel.local.localxIncidencias' ,compact('incidents','local'));
+             return $pdf->download('incidenciasxlocal'.$local->n_local .'.pdf');*/
+
+         }
+         catch(ModelNotFoundException $e)
+         {
+
+         }
+
+     }
+
+
 
 }

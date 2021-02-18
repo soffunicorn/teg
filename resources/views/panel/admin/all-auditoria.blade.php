@@ -16,8 +16,9 @@
                 @if($logs->count() !== 0 )
                     <tbody>
                         @foreach($logs as $log)
+                            <?php  $date = date('d M \d\e Y - h:ma', strtotime($log->log_fecha)) ?>
                             <tr>
-                                <td>{{$log->log_fecha}}</td>
+                                <td>{{$date}}</td>
                                 <td>{{$log->title}}</td>
                                 <td>{{$log->user_name}} {{ " " . $log->user_lastname}}</td>
                                 <td>{{$log->user_mail}}</td>
@@ -39,7 +40,7 @@
     <script>
         jQuery(document).ready(function () {
             jQuery('#auditoriasTable').DataTable({
-                "order": [[0, "asc"]],
+                "order": [[0, "desc"]],
                 searchPanes: {
                     viewTotal: true,
                     columns: [3]

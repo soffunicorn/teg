@@ -7,6 +7,7 @@ use App\Models\Log;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use PDF;
 
 class LocalController extends Controller
 {
@@ -143,4 +144,33 @@ class LocalController extends Controller
 
         return redirect()->back();
     }
+
+//reporte
+    public function incidenciasLocal($id){
+
+        $local = Local::findOrfail($id);
+        $incidents = Local::join('incidents', 'incidents.id_local', '=', 'locals.id')->
+        leftJoin('users AS responsable', 'responsable.id', '=', 'incidents.id_responsable')->
+        leftJoin('departments', 'departments.id', 'incidents.id_responsable')->
+        join('incidents_state', 'incidents_state.id', '=', 'incidents.id_state' )->
+        join('company_locals', 'company_locals.id_local', '=', 'locals.id' )->
+        join('companies', 'companies.id', '=', 'company_locals.id_company' )->
+        join('user_company', 'user_company.id_company', '=', 'companies.id' )->
+        join('users AS creador', 'creador.id', '=', 'user_company.id_user' )->
+        where('locals.id', $id)->select('locals.*', 'incidents.name AS incident_name', 'incidents.description AS incident_description',
+            'creador.name AS creador_name', 'creador.lastname AS creador_lastname', 'responsable.name AS res_name',
+            'responsable.lastname AS res_lastname', 'companies.name',  'incidents.created_at AS incident_fecha', 'departments.name AS depart_name',
+            'incidents_state.name AS incident_state')->
+            orderBy('incidents.created_at', 'desc')->get();
+
+
+        return view('panel.local.localxIncidencias')->with([
+            'incidents' => $incidents,
+            'local' => $local,
+        ]);
+        /*$pdf = PDF::loadView('panel.local.localxIncidencias' ,compact('incidents','local'));
+        return $pdf->download('incidenciasxlocal'.$local->n_local .'.pdf');*/
+
+    }
+
 }

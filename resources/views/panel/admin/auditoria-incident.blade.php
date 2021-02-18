@@ -15,11 +15,12 @@
                 <th>Acciones</th>
             </tr>
             @if($logs->count() !== 0 )
+                <?php $i = 0; ?>
                 <tbody>
                 @foreach($logs as $log)
              <?php  $date = date('d M \d\e Y - h:ma', strtotime($log->fecha)) ?>
                     <tr>
-                        <td>{{$date}}</td>
+                        <td data-count="{{$i}}">{{$date}}</td>
                         <td>{{$log->title}}</td>
                         <td>{{$log->creador_name}} {{ " " . $log->creador_lastname}}</td>
                         <td>{{$log->n_local}}</td>
@@ -27,7 +28,7 @@
                         <td><a href="{{url('show-audi-incident/'.$log->incident_id)}}" class="viewMore btn" id="viewMore"  title="Ver más">
                                 <i class="fas fa-plus"> </i></a></td>
                     </tr>
-
+                        <?php $i++; ?>
                 @endforeach
                 </tbody>
                 @endif
@@ -43,7 +44,7 @@
     <script>
         jQuery(document).ready(function () {
             jQuery('#auditoriasInicidentTable').DataTable({
-                "order": [[0, "asc"]],
+                "order": [[1, "desc"]],
                 searchPanes: {
                     viewTotal: true,
                     columns: [3]

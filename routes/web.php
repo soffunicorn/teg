@@ -25,6 +25,9 @@ use \App\Http\Controllers\HomeController;
 Route::get('/', [MainController::class, 'login'])->name('login.index'); //mostrar el login
 /* Locales */
 Route::resource('/locales', LocalController::class)->middleware('auth')->middleware('auth');
+Route::get('/local-incidencia/{id}', [LocalController::class, 'incidenciasLocal'])->middleware('auth')->middleware('auth');
+
+
 /* Empresa */
 Route::resource('/company', CompanyController::class)->middleware('auth');
 Route::get('/companyEdit/{slug}', [CompanyController::class, 'companyEdit'])->middleware('auth');
@@ -34,6 +37,9 @@ Route::get('/getCompany/{slug}', [CompanyController::class, 'get_company'])->mid
 Route::resource('/department', DepartmentController::class)->middleware('auth');
 Route::get('/getdepartment/{id}', [DepartmentController::class, 'getDepartment'])->middleware('auth');
 Route::get('/midepa', [DepartmentController::class, 'midepa'])->middleware('auth');
+Route::get('/department-incidencia/{slug}', [DepartmentController::class, 'incidenciasDepartment'])->middleware('auth');
+
+
 
 /*User*/
 Route::resource('/user', UserController::class)->middleware('auth');
@@ -67,7 +73,7 @@ Route::resource('/auditorias', AuditoriaController::class)->middleware('auth');
 Route::get('/historial-incidencias', [AuditoriaController::class, 'index_incidents'])->middleware('auth');
 Route::get('/show-audi-incident/{slug}', [AuditoriaController::class, 'show_incidents'])->middleware('auth');
 
-// ********************************INCICENCIAS
+// ********************************INCIDENCIAS
 
 
 

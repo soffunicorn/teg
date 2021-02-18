@@ -47,6 +47,9 @@
                                                 class="fas fa-trash"></i></button>
 
                                         <?php } ?>
+                                    @if(session()->get('rol') !== 'local')
+                                            <a href="{{url('/department-incidencia/' .$department->id)}}" class="btn btn-primary btn-reporte" target="_blank">Ver Reporte </a>
+                                    @endif
 
                                 </div>
 

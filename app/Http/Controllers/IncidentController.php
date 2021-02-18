@@ -418,5 +418,4 @@ class IncidentController extends Controller
 
 
 
-
 }
