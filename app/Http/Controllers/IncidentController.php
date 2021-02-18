@@ -44,7 +44,7 @@ class IncidentController extends Controller
             join('company_locals','company_locals.id_local','=','locals.id')->
             join('companies', 'companies.id', '=', 'company_locals.id_company')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
-            select('incidents.*','locals.n_local','users.name AS responsable')->
+            select('incidents.*','locals.n_local','users.name AS responsable', 'incidents_state.name AS state')->
             where('companies.id', $compa->id)->
             whereNotIn('incidents_state.slug', ['delete'] )->get();
 
@@ -67,7 +67,7 @@ class IncidentController extends Controller
             join('locals', 'locals.id',  '=', 'incidents.id_local')->
             join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
-            select('incidents.*','locals.n_local','users.name AS responsable')->
+            select('incidents.*','locals.n_local','users.name AS responsable', 'incidents_state.name AS state')->
             whereNotIn('incidents_state.slug', ['delete'])->get();
          //   where('incidents_state.slug', 'delete')->;
 
@@ -93,7 +93,7 @@ class IncidentController extends Controller
             join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
             leftJoin('users', 'users.id','=','incidents.id_responsable' )->
              whereNotIn('incidents_state.slug', ['delete'])->
-            select('incidents.*','locals.n_local','users.name AS responsable')->get();
+            select('incidents.*','locals.n_local','users.name AS responsable', 'incidents_state.name AS state')->get();
 
 
             return view('panel.incidents.history')->with([
@@ -104,6 +104,7 @@ class IncidentController extends Controller
 
         $estados = StateIn::get();
         $Incidents =  $Incidents = Incident::join('locals', 'locals.id',  '=', 'incidents.id_local')->
+        join('incidents_state', 'incidents_state.id',  '=', 'incidents.id_state')->
         leftJoin('users', 'users.id','=','incidents.id_responsable' )->
         select('incidents.*','locals.n_local','users.name AS responsable')->get();
 
@@ -328,9 +329,16 @@ class IncidentController extends Controller
 
     public function estados(Request $request)
     {
-        $In = Incident::where('slug',$request->input('incidentId'))->first();
+        $slug = $request->input('incidentId'); //estado
+        $In = Incident::where('slug', $slug)->first();
+        $current_state = StateIn::findOrFail($In->id_state);
+        if($current_state->slug === 'finalizada'){
+            return  back()->with('errorState','Despúes que el estado de la incidencia es "Finalizada" no se puede cambiar ');
+        }
+
         $In->id_state = $request->input('estado');
         $In->save();
+
         return redirect('/incidents');
     }
 
