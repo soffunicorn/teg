@@ -9,13 +9,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        html{
+            margin:0;
+        }
+        body{
+            font-family: 'Helvetica';
+        }
+    </style>
+
+
 </head>
 <body>
 
 <div class="jumbotron text-center">
 
-    <h1>Historial de incidencias</h1>
-    <p>Compañia {{$compa->compañia}} fecha: <?php echo date("j, n, Y"); ?> </p>
+    <h1>Incidencia {{$Incidents[0]->name}}</h1>
+    <h4>Empresa {{$compa[0]->name}}  </h4>
+    <h6>fecha del reporte: <span style="color:#a71d2a;"><b><?php echo date("j, n, Y"); ?></b></span></h6>
 </div>
 
 
@@ -23,8 +34,11 @@
     <table class="table table-historial" border="1" id="tableIncidents">
         <thead>
         <tr>
+            <th>Fecha de creación</th>
             <th>Título</th>
+            <th>Descripción</th>
             <th>Responsable:</th>
+            <th>Departamento:</th>
             <th>Local</th>
 
         </tr>
@@ -32,9 +46,13 @@
         <tbody>
         @if( !empty($Incidents) )
             @foreach($Incidents as $Incident)
+                <?php $date = date('d/m/Y h:i a', strtotime($Incident->created_at))   ?>
                 <tr>
+                    <td>{{$date}}</td>
                     <td class="td-name">{{$Incident->name}}</td>
+                    <td>{{$Incident->description}}</td>
                     <td >{{$Incident->responsable}}</td>
+                    <td>{{$Incident->department_name}}</td>
                     <td>{{$Incident->n_local}}</td>
 
 

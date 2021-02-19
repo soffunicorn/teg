@@ -400,26 +400,32 @@ class IncidentController extends Controller
     public function reportedeincidencia($id)
     {
 
+        $compa = Incident::join('records', 'records.id_incident', '=', 'incidents.id')->
+                           join('logs', 'logs.id', '=', 'records.id_log')->
+                            join('users', 'users.id', '=', 'logs.id_user')->
+                            join('user_company', 'user_company.id_user', '=', 'users.id')->
+                            join('companies', 'companies.id', '=', 'user_company.id_company')->
+                            where('incidents.id', $id)->select('companies.*')->get();
 
-            $compa = Company::where('id', $id)->
-                select('id','name AS compañia')->first();
 
             $Incidents = Incident::
             join('locals', 'locals.id', '=', 'incidents.id_local')->
+            join('departments', 'departments.id', '=', 'incidents.id_departament')->
             join('incidents_state', 'incidents_state.id', '=', 'incidents.id_state')->
             join('company_locals', 'company_locals.id_local', '=', 'locals.id')->
             join('companies', 'companies.id', '=', 'company_locals.id_company')->
             leftJoin('users', 'users.id', '=', 'incidents.id_responsable')->
-            select('incidents.*', 'locals.n_local', 'users.name AS responsable')->
-            where('companies.id', $compa->id)->
+            select('incidents.*', 'locals.n_local', 'users.name AS responsable', 'departments.name AS department_name')->
+            where('incidents.id', $id)->
             whereNotIn('incidents_state.slug', ['delete'])->get();
-       // $data['compa'] = $compa;
-       // $data['Incidents'] = $Incidents;
-        // dd($data);
 
+            return view('panel.incidents.reporte')->with([
+                'Incidents' => $Incidents,
+                'compa' => $compa
+            ]);
 
-        $pdf = PDF::loadView('panel.incidents.reporte',compact('compa','Incidents'));
-        return $pdf->download('invoice.pdf');
+      /*  $pdf = PDF::loadView('panel.incidents.reporte',compact('Incidents'));
+        return $pdf->download('invoice.pdf');*/
 
     }
 

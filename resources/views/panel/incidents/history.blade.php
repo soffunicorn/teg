@@ -6,6 +6,19 @@
 @endsection
 @section('panelContent')
     <div id="innerContent">
+        <div class="leyendaWrapper">
+            <p>Leyenda: de Botones de Acción</p>
+            <div class="rowLeyenda mb-5">
+             <button type="button"  class="viewMore btn btn-leyenda">Ver Detalle de la incidencia</button>
+
+                <?php if(session()->get('rol') == 'empleado' or session()->get('rol') == 'admin'){ ?>
+                <button type="button" class="btn btn-primary btn-leyenda">Elegir responsable  <i class="fas fa-user-check"></i></button>
+                <button type="button" class="btn  btn-success btn-leyenda">Cambiar de estado  <i class="fas fa-pencil-alt"></i></button>
+                <?php } ?>
+                <button type="button"  class="btn btn-leyenda btn-reporte">Crear reporte de la Incidencia <i class="fas fa-file-download"></i></button>
+            </div>
+        </div>
+
         <table class="table table-historial" border="1" id="tableIncidents">
             <thead>
             <tr>
@@ -29,7 +42,7 @@
                         <td>{{$Incident->n_local}}</td>
 
                         <td>
-
+                            <div class="d-flex wrapper-button">
 
                             <a href="{{url('incidents/'.$Incident->slug)}}" class="viewMore btn" id="viewMore"
                                title="Ver más">
@@ -38,12 +51,12 @@
                             <?php if(session()->get('rol') == 'empleado' or session()->get('rol') == 'admin'){ ?>
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                     data-target="#myModal{{$Incident->id}}">
-                                Elegir responsable
+                                <i class="fas fa-user-check"></i>
                             </button>
                             @if($Incident->slug !== 'finalizada')
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                <button type="button" class="btn  btn-success" data-toggle="modal"
                                         data-target="#estado{{$Incident->id}}">
-                                    Cambia de estado
+                                    <i class="fas fa-pencil-alt"></i>
                                 </button>
                             @endif
 
@@ -140,7 +153,8 @@
                                 class="fas fa-edit" data-toggle="tooltip" data-placement="bottom"
                                 title="Editar"></i></a>-->
 
-
+                            <a class="btn btn-leyenda btn-reporte" target="_blank" href="{{ url('/reportedeincidencia/' . $Incident->id ) }}"> <i class="fas fa-file-download"></i></a>
+                            </div>
                         </td>
 
 
@@ -158,12 +172,13 @@
 @endsection
 @section('panelScript')
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/8a63346959.js" crossorigin="anonymous"></script>
     <script type="text/javascript"
             src="https://cdn.datatables.net/v/bs4/dt-1.10.23/rr-1.2.7/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
     <script>
         jQuery(document).ready(function () {
             jQuery('#tableIncidents').DataTable({
-                "order": [[0, "asc"]],
+                "order": [[0, "desc"]],
                 searchPanes: {
                     viewTotal: true,
                     columns: [3]

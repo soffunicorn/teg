@@ -55,7 +55,8 @@
                         <div class="inner-comments-box row">
                             <div class="col-md-2">
                                 <div class="comments-image">
-                                    <img src="{{asset('panel/assets/img/default-avatar.png')}}" class="mini-avatar"
+
+                                    <img src="{{ !empty(auth()->user()->avatar) ? asset('panel/assets/uploads/img/' . auth()->user()->avatar) :asset('panel/assets/img/default-avatar.png')}}" class="mini-avatar"
                                          alt="avatar">
                                 </div>
                             </div>

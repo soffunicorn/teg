@@ -8,11 +8,6 @@
                 <div class="card-header card-reset">Recuperar Contraseña</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
                     <form method="POST" action="{{ route('password.email') }}">
                         @csrf
@@ -38,6 +33,11 @@
                                 </button>
                             </div>
                         </div>
+                        @if (session('status'))
+                            <div class="alert alert-success mt-3 mb-4" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>
