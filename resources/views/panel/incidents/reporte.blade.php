@@ -25,18 +25,18 @@
 <div class="jumbotron text-center">
 
     <h1>Incidencia {{$Incidents[0]->name}}</h1>
-    <h4>Empresa {{$compa[0]->name}}  </h4>
-    <h6>fecha del reporte: <span style="color:#a71d2a;"><b><?php echo date("j, n, Y"); ?></b></span></h6>
+    <h4>Empresa: {{$compa[0]->name}}  </h4>
+    <h6>fecha del reporte: <span style="color:#a71d2a;"><b><?php echo date("j/m/Y"); ?></b></span></h6>
 </div>
 
 
-<div id="innerContent">
-    <table class="table table-historial" border="1" id="tableIncidents">
+<div id="innerContent"  style="padding:0 10px">
+    <table class="table table-historial" border="1" id="tableIncidents" >
         <thead>
         <tr>
             <th>Fecha de creación</th>
-            <th>Título</th>
             <th>Descripción</th>
+            <th>Estado</th>
             <th>Responsable:</th>
             <th>Departamento:</th>
             <th>Local</th>
@@ -49,10 +49,10 @@
                 <?php $date = date('d/m/Y h:i a', strtotime($Incident->created_at))   ?>
                 <tr>
                     <td>{{$date}}</td>
-                    <td class="td-name">{{$Incident->name}}</td>
                     <td>{{$Incident->description}}</td>
-                    <td >{{$Incident->responsable}}</td>
-                    <td>{{$Incident->department_name}}</td>
+                    <td>{{$Incident->state}}</td>
+                    <td >{{!empty($Incident->responsable) ? $Incident->responsable :  'No se ha asignado'}}</td>
+                    <td>{{$Incident->department_name}}a
                     <td>{{$Incident->n_local}}</td>
 
 

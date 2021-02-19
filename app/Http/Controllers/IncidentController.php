@@ -324,6 +324,18 @@ class IncidentController extends Controller
         $In = Incident::where('slug',$request->input('incidentId'))->first();
         $In->id_responsable = $request->input('responsable');
         $In->save();
+        //Guardar para el log y los records
+        $action = Action::where('slug', 'choose-responsable')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+        //guardar el record
+        $record = new Record();
+        $record->id_log = $log->id;
+        $record->id_incident = $In->id;
+        $record->save();
+
         return redirect('/incidents');
     }
 
@@ -388,10 +400,23 @@ class IncidentController extends Controller
     {
         if($request->has('id')){
             $comment = Comment::findOrFail($request->id);
+            //Guardar para el log y los records
+            $action = Action::where('slug', 'delete-comment')->first();
+            $log = new Log();
+            $log->id_user = auth()->user()->id;
+            $log->id_action = $action->id;
+            $log->save();
+            //guardar el record
+            $record = new Record();
+            $record->id_log = $log->id;
+            $record->id_incident = $comment->id_incident;
+            //Updetear
             $comment->delete();
+            $record->save();
+
+
             return response()->json(array('status' => 'ok'), 200);
         }
-
 
         return response()->json(array('status' => 'error'), 200);
 
@@ -400,11 +425,9 @@ class IncidentController extends Controller
     public function reportedeincidencia($id)
     {
 
-        $compa = Incident::join('records', 'records.id_incident', '=', 'incidents.id')->
-                           join('logs', 'logs.id', '=', 'records.id_log')->
-                            join('users', 'users.id', '=', 'logs.id_user')->
-                            join('user_company', 'user_company.id_user', '=', 'users.id')->
-                            join('companies', 'companies.id', '=', 'user_company.id_company')->
+        $compa = Company::join('company_locals', 'company_locals.id_company', '=', 'companies.id')->
+                          join('locals', 'locals.id', '=', 'company_locals.id_local')->
+                          join('incidents', 'incidents.id_local', '=', 'locals.id')->
                             where('incidents.id', $id)->select('companies.*')->get();
 
 
@@ -415,17 +438,29 @@ class IncidentController extends Controller
             join('company_locals', 'company_locals.id_local', '=', 'locals.id')->
             join('companies', 'companies.id', '=', 'company_locals.id_company')->
             leftJoin('users', 'users.id', '=', 'incidents.id_responsable')->
-            select('incidents.*', 'locals.n_local', 'users.name AS responsable', 'departments.name AS department_name')->
+            select('incidents.*', 'locals.n_local', 'users.name AS responsable', 'departments.name AS department_name', 'incidents_state.name AS state')->
             where('incidents.id', $id)->
             whereNotIn('incidents_state.slug', ['delete'])->get();
 
-            return view('panel.incidents.reporte')->with([
+           /* return view('panel.incidents.reporte')->with([
                 'Incidents' => $Incidents,
                 'compa' => $compa
-            ]);
+            ]);*/
 
-      /*  $pdf = PDF::loadView('panel.incidents.reporte',compact('Incidents'));
-        return $pdf->download('invoice.pdf');*/
+        //Guardar para el log y los records
+        $action = Action::where('slug', 'new-report')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+        //guardar el record
+        $record = new Record();
+        $record->id_log = $log->id;
+        $record->id_incident = $id;
+        $record->save();
+
+        $pdf = PDF::loadView('panel.incidents.reporte',compact('Incidents', 'compa'));
+        return $pdf->download('incidencia'.date('d/m/y'). '.pdf');
 
     }
 

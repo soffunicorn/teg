@@ -243,6 +243,14 @@ class CreateActionsTable extends Migration
             ],
         ]);
 
+        DB::table('actions')->insert([
+            [
+                'title' => 'Elegido Responsable',
+                'slug' => 'choose-responsable',
+                'description' => 'Se ha elegido encargado para la incidencia',
+            ],
+        ]);
+
 
 
 
