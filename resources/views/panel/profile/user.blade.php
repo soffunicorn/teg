@@ -45,31 +45,31 @@
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
                                     <label>Nombre</label>
-                                    <input type="text" class="form-control" placeholder="{{auth()->user()->name}}"
+                                    <input type="text" disabled class="form-control" placeholder="{{auth()->user()->name}}"
                                            value="" >
                                 </div>
                             </div>
                             <div class="col-md-6 pl-1">
                                 <div class="form-group">
                                     <label>Apellido</label>
-                                    <input type="text" class="form-control" placeholder="Last Name" value="{{auth()->user()->lastname}}">
+                                    <input type="text" disabled class="form-control" placeholder="Last Name" value="{{auth()->user()->lastname}}">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 pl-1">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Correo Electrónico</label>
-                                    <input type="email" class="form-control" placeholder="Email" value="{{auth()->user()->email}}">
+                                    <label for="exampleInputEmail1" disabled="">Correo Electrónico</label>
+                                    <input type="email" class="form-control" disabled placeholder="Email" value="{{auth()->user()->email}}">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
+                       <!-- <div class="row">
                             <div class="update ml-auto mr-auto">
                                 <button type="submit" class="btn uniform-bg">Actualizar datos</button>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                     <hr class="mb-4 mt-4">
                     <h4>Editar la contraseña</h4>
