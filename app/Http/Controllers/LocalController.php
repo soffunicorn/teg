@@ -116,8 +116,11 @@ class LocalController extends Controller
         $local->save();
 
         //Actualizado el log
-       $log = new Log();
-       $log->updateLog('update-local');
+        $action = Action::where('slug', 'update-local')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
 
         return redirect('locales');
     }

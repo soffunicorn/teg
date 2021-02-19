@@ -52,7 +52,8 @@
                     </select>
                 </div>
                  @endif
-
+                <input type="hidden" name="registOwner" id="registOwner" value="NO">
+            <!--
                 <div class="col-md-4 mb-4">
                     <label for="flexCheckDefault">El dueño esta registrado</label>
                     <select class="form-control" name="registOwner" id="registOwner">
@@ -62,6 +63,7 @@
                     </select>
 
                 </div>
+
                 <div class="col-md-12 mb-4 hidden" id="selectOwner">
                     @if($users->count() !== 0)
 
@@ -78,11 +80,11 @@
                             <p>No hay usuarios disponibles </p>
                         </div>
                     @endif
-                </div>
+                </div>-->
             </div>
 
 
-            <div class="hidden mb-4" id="createOwner">
+            <div class=" mb-4" id="createOwner">
                 <h4 class="sub-title">Datos para crear el usuario</h4>
                 <div class="row">
 
