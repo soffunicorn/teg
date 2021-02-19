@@ -260,9 +260,13 @@ class DepartmentController extends Controller
             $userDepartment->save();
         }
 
-        //Actualizado el log
+
+        //Actualizar log
+        $action = Action::where('slug', 'update-department')->first();
         $log = new Log();
-        $log->updateLog('update-department');
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
 
         return redirect('department');
 
@@ -349,7 +353,7 @@ class DepartmentController extends Controller
          }
          catch(ModelNotFoundException $e)
          {
-
+             return $e;
          }
 
      }

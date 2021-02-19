@@ -116,7 +116,7 @@ class CompanyController extends Controller
 
         //Si la comañia es de un usuario registrado sino lo creo
         if ( !$request->has('local') ) {
-            return false;
+            return 'No ha sido agregado ningun local <a href="'.url('/company/create').'">Volver</a>';
         }
         if ($request->has('registOwner') && $request->registOwner === 'SI') {
             $user_slug = $request->owner_company;
@@ -147,7 +147,7 @@ class CompanyController extends Controller
 
         }
         if (empty($user)) {
-            return false;
+            return 'El usuario no ha sido creado <a href="'.url('/company/create').'">Volver</a>';
 
         }
         //Guardado y Actualizado de datos
@@ -291,7 +291,7 @@ class CompanyController extends Controller
         $request->validate($rules);
         //buscar el estado
         if (!$request->has('statusCompany')) {
-            return false;
+            return 'No ha selecionado ningun estado <a href="'.url('/company/create').'">Volver</a>';
         }
 
         $status = State::where('id', $request->statusCompany)->firstOrFail();
