@@ -290,8 +290,12 @@ class DepartmentController extends Controller
         if( session()->get('rol') == 'admin' ){
             $department->status = 'Deshabiliatado';
             $department->save();
+            //Guardar para el log y los records
+            $action = Action::where('slug', 'choose-responsable')->first();
             $log = new Log();
-            $log->updateLog('delete-department');
+            $log->id_user = auth()->user()->id;
+            $log->id_action = $action->id;
+            $log->save();
             return response()->json(array('status' => 'ok'), 200);
 
         }

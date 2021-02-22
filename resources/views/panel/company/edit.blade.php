@@ -1,5 +1,5 @@
 @extends('app')
-@section('panelTitle', 'Registro de Compañia')
+@section('panelTitle', 'Editar de Compañia')
 @section('panelHead')
     <link href="{{asset('panel/assets/css/localregister.css')}}" rel="stylesheet"/>
     <link href="{{asset('uniform/css/style.css')}}" rel="stylesheet"/>
@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <label for="Razón Social">R.I.F</label>e
+                    <label for="Razón Social">R.I.F</label>
                     <input type="text" class="form-control" placeholder="Ej: J-123545-5" name="rif"
                            id="rif" value="{{$company->rif}}" required>
                 </div>
@@ -144,7 +144,7 @@
             </div>
 
             <div class="mb-4">
-                <button type="submit" id="localSubmit" class="btn btn-submit uniform-bg mx-auto d-block">Registrar
+                <button type="submit" id="localSubmit" class="btn btn-submit uniform-bg mx-auto d-block">Editar
                 </button>
             </div>
             @if($errors->any())

@@ -167,12 +167,12 @@ class LocalController extends Controller
             orderBy('incidents.created_at', 'desc')->get();
 
 
-        return view('panel.local.localxIncidencias')->with([
+        /*return view('panel.local.localxIncidencias')->with([
             'incidents' => $incidents,
             'local' => $local,
-        ]);
-        /*$pdf = PDF::loadView('panel.local.localxIncidencias' ,compact('incidents','local'));
-        return $pdf->download('incidenciasxlocal'.$local->n_local .'.pdf');*/
+        ]);*/
+        $pdf = PDF::loadView('panel.local.localxIncidencias' ,compact('incidents','local'));
+        return $pdf->download('incidenciasxlocal'.$local->n_local .'.pdf');
 
     }
 

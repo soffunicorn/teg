@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Action;
 use App\Models\Log;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -165,6 +166,14 @@ class CompanyController extends Controller
        //Update company
 
 
+        //Update logs
+        $action = Action::where('slug', 'new-company')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+
+
         return redirect('company');
 
     }
@@ -258,6 +267,8 @@ class CompanyController extends Controller
         $status = State::whereNotIn('slug', ['todo', 'process', 'done', 'unavailable'])->get();
 
 
+
+
         return view('panel.company.edit')->with([
             'company' => $company,
             'users' => $users,
@@ -344,7 +355,12 @@ class CompanyController extends Controller
             $user->save();
             $user->Companies()->attach($company);
         }
-
+            //Update logs
+            $action = Action::where('slug', 'edit-company')->first();
+            $log = new Log();
+            $log->id_user = auth()->user()->id;
+            $log->id_action = $action->id;
+            $log->save();
 
 
         return redirect('company');
@@ -366,6 +382,15 @@ class CompanyController extends Controller
         $company =  Company::where('slug', $id)->first();
         $company->id_state = $status->id;
         $company->save();
+
+        //Update logs
+        $action = Action::where('slug', 'delete-company')->first();
+        $log = new Log();
+        $log->id_user = auth()->user()->id;
+        $log->id_action = $action->id;
+        $log->save();
+
+
         return response()->json(array('status' => 'ok'), 200);
     }
 

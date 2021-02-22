@@ -13,9 +13,6 @@
 <body>
 <div class="jumbotron text-center">
 
-    <?php $img_path = '\panel\assets\img\barquisimeto.png'; ?>
-                    <img src="{{  public_path() . $img_path }}" width="100px" height="auto"  class="mb-3" alt="SOSAM SYSTEM">
-
     <h1>Historial de incidencias por local</h1>
     <h4>Local {{$local->n_local}}, fecha: <?php echo date("j/d/Y"); ?> </h4>
     <p>Total de Incidencias:  <span style="color:#E72C2E"><b>{{$incidents->count()}} </b></span></p>

@@ -12,7 +12,7 @@
                 <th>Creador</th>
                 <th>Local</th>
                 <th>Descripción</th>
-                <th>Acciones</th>
+{{--                <th>Acciones</th>--}}
             </tr>
             @if($logs->count() !== 0 )
                 <?php $i = 0; ?>
@@ -25,8 +25,8 @@
                         <td>{{$log->creador_name}} {{ " " . $log->creador_lastname}}</td>
                         <td>{{$log->n_local}}</td>
                         <td>{{$log->description}}</td>
-                        <td><a href="{{url('show-audi-incident/'.$log->incident_id)}}" class="viewMore btn" id="viewMore"  title="Ver más">
-                                <i class="fas fa-plus"> </i></a></td>
+{{--                        <td><a href="{{url('show-audi-incident/'.$log->incident_id)}}" class="viewMore btn" id="viewMore"  title="Ver más">--}}
+{{--                                <i class="fas fa-plus"> </i></a></td>--}}
                     </tr>
                         <?php $i++; ?>
                 @endforeach

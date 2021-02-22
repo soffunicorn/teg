@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 pl-1">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1" disabled="">Correo Electrónico</label>
                                     <input type="email" class="form-control" disabled placeholder="Email" value="{{auth()->user()->email}}">
